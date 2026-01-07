@@ -16,7 +16,12 @@ This Bible App provides fast access to Scripture with a clean, distraction-free 
 
 ### Mobile App
 
-[Download Android APK](MyBibleApp.apk) - direct install if accessing from an Android device.
+Download [Android APK](MyBibleApp.apk) - direct install if accessing from an Android device.
+
+Download [Android AAB](MyBibleApp.aab) - direct install if accessing from an Android device.
+
+Download [Android DEBUG APK](MyBibleApp-debug.apk) - direct install if accessing from an Android device.
+
 
 ### Progressive Web App
 
