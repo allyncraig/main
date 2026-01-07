@@ -277,6 +277,11 @@ async function initializeApp() {
 	// }
 	// console.log('================================');
 
+	// iOS debug panel
+	if (!window.cordova && /iPad|iPhone|iPod/.test(navigator.userAgent)) {
+		createIosDebugPanel();
+	}
+
 	const rect = document.getElementById('chapterSelect').getBoundingClientRect();
 	document.getElementById('prevChapter').style.height = rect.height + 'px';
 	document.getElementById('nextChapter').style.height = rect.height + 'px';
@@ -385,6 +390,69 @@ async function initializeApp() {
 
 	// Update display
 	updateDisplay();
+}
+
+function createIosDebugPanel() {
+	const panel = document.createElement('div');
+	panel.id = 'debug-panel';
+	panel.style.cssText = `
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		max-height: 200px;
+		overflow-y: auto;
+		background: rgba(0,0,0,0.9);
+		color: #0f0;
+		font-size: 10px;
+		padding: 10px;
+		z-index: 99999;
+		font-family: monospace;
+	`;
+	document.body.appendChild(panel);
+
+	// Capture console logs
+	const originalLog = console.log;
+	const originalError = console.error;
+	const originalWarn = console.warn;
+
+	function addToPanel(type, ...args) {
+		const msg = document.createElement('div');
+		msg.style.cssText = `
+			margin: 2px 0;
+			padding: 2px;
+			border-left: 3px solid ${type === 'error' ? '#f00' : type === 'warn' ? '#ff0' : '#0f0'};
+		`;
+		msg.textContent = `[${type}] ${args.map(a => 
+			typeof a === 'object' ? JSON.stringify(a) : a
+		).join(' ')}`;
+		panel.appendChild(msg);
+		panel.scrollTop = panel.scrollHeight;
+	}
+
+	console.log = function(...args) {
+		addToPanel('log', ...args);
+		originalLog.apply(console, args);
+	};
+	console.error = function(...args) {
+		addToPanel('error', ...args);
+		originalError.apply(console, args);
+	};
+	console.warn = function(...args) {
+		addToPanel('warn', ...args);
+		originalWarn.apply(console, args);
+	};
+
+	// Capture unhandled errors
+	window.addEventListener('error', (e) => {
+		addToPanel('error', `Uncaught: ${e.message} at ${e.filename}:${e.lineno}`);
+	});
+
+	window.addEventListener('unhandledrejection', (e) => {
+		addToPanel('error', `Unhandled Promise: ${e.reason}`);
+	});
+
+	console.log('Debug panel initialized');
 }
 
 async function initializeDatabase() {
