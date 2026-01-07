@@ -428,10 +428,11 @@ class ContentRenderer {
 
 		// Clear content area
 		this.contentElement.innerHTML = '';
+		const displayBookName = getBookName(bookId);
 
 		// Render interlinear header with dynamic version name
 		Template.render('chapterHeaderTemplate', 'bibleHeader', {
-			bookName: bookName,
+			bookName: displayBookName,
 			chapter: chapter,
 			versionName: `${versionAbbr || 'BSB'} / ABT`
 		}, false);
