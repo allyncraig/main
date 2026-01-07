@@ -26,7 +26,7 @@ class ContentRenderer {
 		// Render verses
 		const versesData = [];
 		const versesList = verses.rows || verses;
-	    const verseCount = verses.rows ? verses.rows.length : verses.length;
+		const verseCount = verses.rows ? verses.rows.length : verses.length;
 		for (let i = 0; i < verseCount; i++) {
 			const verse = versesList.item ? versesList.item(i) : versesList[i];
 			versesData.push({
@@ -40,6 +40,15 @@ class ContentRenderer {
 
 		Template.render('verseTemplate', 'bibleText', versesData, true);
 		document.getElementById('mainPlaceholder').classList.add('hidden');
+
+		// Add RTL class if needed
+		const version = app.versionManager.getVersion(app.navigationManager.getCurrentVersion());
+		const bibleTextEl = document.getElementById('bibleText');
+		if (this.isRTLVersion(version)) {
+			bibleTextEl.classList.add('rtl-text');
+		} else {
+			bibleTextEl.classList.remove('rtl-text');
+		}
 
 		this.scrollToTop();
 		this.attachVerseListeners();
@@ -56,7 +65,6 @@ class ContentRenderer {
 		Template.render('chapterHeaderTemplate', 'bibleHeader', {
 			bookName: bookName,
 			chapter: chapter,
-
 		}, false);
 
 		// Parse API content and extract verses
@@ -65,6 +73,15 @@ class ContentRenderer {
 		// Render verses
 		Template.render('verseTemplate', 'bibleText', versesData, true);
 		document.getElementById('mainPlaceholder').classList.add('hidden');
+
+		// Add RTL class if needed
+		const version = app.versionManager.getVersion(app.navigationManager.getCurrentVersion());
+		const bibleTextEl = document.getElementById('bibleText');
+		if (this.isRTLVersion(version)) {
+			bibleTextEl.classList.add('rtl-text');
+		} else {
+			bibleTextEl.classList.remove('rtl-text');
+		}
 
 		this.scrollToTop();
 		this.attachVerseListeners();
@@ -527,7 +544,29 @@ class ContentRenderer {
 
 		Template.render('interlinearVerseTemplate', 'bibleText', versePairsData, true);
 		document.getElementById('mainPlaceholder').classList.add('hidden');
+
+		// Add RTL class if needed (check primary version)
+		const primaryVersionAbbr = app.configManager.getValue('interlinearPrimaryVersion') || 'BSB';
+		const primaryVersion = app.versionManager.getVersion(primaryVersionAbbr);
+		const bibleTextEl = document.getElementById('bibleText');
+		if (this.isRTLVersion(primaryVersion)) {
+			bibleTextEl.classList.add('rtl-text');
+		} else {
+			bibleTextEl.classList.remove('rtl-text');
+		}
+
 		this.scrollToTop();
 		this.attachVerseListeners();
+	}
+
+	isRTLVersion(version) {
+		if (!version) return false;
+
+		// Check for explicit textDirection property (future-proofing)
+		if (version.textDirection === 'rtl') return true;
+
+		// Check for RTL language codes
+		const rtlLanguages = ['he', 'ar'];
+		return rtlLanguages.includes(version.languageCode);
 	}
 }

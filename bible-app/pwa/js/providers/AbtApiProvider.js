@@ -61,14 +61,14 @@ class AbtApiProvider extends BaseProvider {
 
 		const results = data.results.map(result => {
 			// Use BOOK_DATA helper function
-			const bookAbbr = getBookAbbr(result.book);
+			const bookAbbr = window.getBookAbbr(result.book);
 
 			return {
 				bookAbbr: bookAbbr,
 				chapter: result.chapter.toString(),
 				verse: result.verse.toString(),
 				reference: `${bookAbbr} ${result.chapter}:${result.verse}`,
-				text: result.text.replace(/<\/?mark>/g, '')
+				text: result.text.replace(/<\/?mark>/g, '').replace(/>|\[p\]/g, ' ').replace(/\s+/g, ' ').trim()
 			};
 		});
 

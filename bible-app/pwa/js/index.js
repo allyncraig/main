@@ -252,6 +252,30 @@ function onDeviceReady() {
 		})();
 	}
 
+	const _openToast = window.openToast;
+	window.openToast = function (arg, options = {}) {
+		// Case 1: openToast("message")
+		if (typeof arg === "string") {
+			return _openToast({
+				message: arg,
+				position: "center",
+				...options
+			});
+		}
+
+		// Case 2: openToast({ message, ... })
+		if (arg && typeof arg === "object") {
+			return _openToast({
+				position: "center",
+				...arg
+			});
+		}
+
+		// Fallback (just in case)
+		return _openToast(arg, options);
+	};
+
+
 	// console.log('Cordova is ready');
 	initializeApp();
 }
@@ -276,11 +300,6 @@ async function initializeApp() {
 	// 	});
 	// }
 	// console.log('================================');
-
-	// iOS debug panel
-	if (!window.cordova && /iPad|iPhone|iPod/.test(navigator.userAgent)) {
-		createIosDebugPanel();
-	}
 
 	const rect = document.getElementById('chapterSelect').getBoundingClientRect();
 	document.getElementById('prevChapter').style.height = rect.height + 'px';
@@ -361,13 +380,6 @@ async function initializeApp() {
 	// Load font size from ConfigManager
 	app.fontSize = app.configManager.getValue('fontSize');
 
-	app.dailyReadingManager = new DailyReadingManager(
-		app.storageManager,
-		app.navigationManager
-	);
-
-	await app.dailyReadingManager.initialize();
-
 	// Update interlinear menu text on startup
 	updateInterlinearMenuText();
 
@@ -385,74 +397,18 @@ async function initializeApp() {
 	// Initialize database
 	await initializeDatabase();
 
+	app.dailyReadingManager = new DailyReadingManager(
+		app.storageManager,
+		app.navigationManager
+	);
+
+	await app.dailyReadingManager.initialize();
+
 	// Set up event listeners
 	setupEventListeners();
 
 	// Update display
 	updateDisplay();
-}
-
-function createIosDebugPanel() {
-	const panel = document.createElement('div');
-	panel.id = 'debug-panel';
-	panel.style.cssText = `
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		max-height: 200px;
-		overflow-y: auto;
-		background: rgba(0,0,0,0.9);
-		color: #0f0;
-		font-size: 10px;
-		padding: 10px;
-		z-index: 99999;
-		font-family: monospace;
-	`;
-	document.body.appendChild(panel);
-
-	// Capture console logs
-	const originalLog = console.log;
-	const originalError = console.error;
-	const originalWarn = console.warn;
-
-	function addToPanel(type, ...args) {
-		const msg = document.createElement('div');
-		msg.style.cssText = `
-			margin: 2px 0;
-			padding: 2px;
-			border-left: 3px solid ${type === 'error' ? '#f00' : type === 'warn' ? '#ff0' : '#0f0'};
-		`;
-		msg.textContent = `[${type}] ${args.map(a => 
-			typeof a === 'object' ? JSON.stringify(a) : a
-		).join(' ')}`;
-		panel.appendChild(msg);
-		panel.scrollTop = panel.scrollHeight;
-	}
-
-	console.log = function(...args) {
-		addToPanel('log', ...args);
-		originalLog.apply(console, args);
-	};
-	console.error = function(...args) {
-		addToPanel('error', ...args);
-		originalError.apply(console, args);
-	};
-	console.warn = function(...args) {
-		addToPanel('warn', ...args);
-		originalWarn.apply(console, args);
-	};
-
-	// Capture unhandled errors
-	window.addEventListener('error', (e) => {
-		addToPanel('error', `Uncaught: ${e.message} at ${e.filename}:${e.lineno}`);
-	});
-
-	window.addEventListener('unhandledrejection', (e) => {
-		addToPanel('error', `Unhandled Promise: ${e.reason}`);
-	});
-
-	console.log('Debug panel initialized');
 }
 
 async function initializeDatabase() {
@@ -1999,7 +1955,7 @@ async function noteSave() {
 		await sendSuggestion(bookId, chapter, verse, text);
 		app.noteDialogMode = 'note';  // Reset mode after suggestion
 	} else {
-		// Handle note saving (existing logic)
+		// Handle note saving
 		if (!text || !text.trim()) {
 			app.storageManager.clearNote(bookId, chapter, verse);
 			closeModal(MODAL.NOTE);
@@ -2010,17 +1966,35 @@ async function noteSave() {
 			openToast('Note saved successfully');
 		}
 
-		// Reload chapter to show/hide note icon
-		loadCurrentChapter();
+		// Check if we're editing from the All Notes list
+		const isFromAllNotesList = app.modalManager.isVisible(MODAL.ALLNOTES);
 
-		// Scroll to the verse after reload completes
-		setTimeout(() => {
-			app.contentRenderer.scrollToVerse(verse);
-		}, APP.TIMEOUT);
+		if (isFromAllNotesList) {
+			// Check if this note is from the currently viewed chapter
+			const currentBookId = app.navigationManager.getCurrentBook();
+			const currentChapter = app.navigationManager.getCurrentChapter();
+			const isCurrentChapter = (bookId === currentBookId && chapter === currentChapter);
+
+			if (isCurrentChapter) {
+				// Reload the chapter to update the note icon
+				await loadCurrentChapter();
+			}
+
+			// Refresh the All Notes list to show updated text
+			showAllNotes();
+		} else {
+			// Normal note editing from chapter view - reload and highlight
+			await loadCurrentChapter();
+
+			// Scroll to the verse after reload completes
+			setTimeout(() => {
+				app.contentRenderer.scrollToVerse(verse);
+			}, APP.TIMEOUT);
+		}
 	}
 }
 
-function noteCancel() {
+async function noteCancel() {
 	if (!app.selectedVerse) return;
 
 	if (app.noteDialogMode === 'suggestion') {
@@ -2048,17 +2022,18 @@ function noteCancel() {
 		// Check if this note is from the currently viewed chapter
 		const currentBookId = app.navigationManager.getCurrentBook();
 		const currentChapter = app.navigationManager.getCurrentChapter();
+		const isCurrentChapter = (bookId === currentBookId && chapter === currentChapter);
 
-		if (bookId === currentBookId && chapter === currentChapter) {
+		if (isCurrentChapter) {
 			// Reload the chapter to remove the note icon
-			loadCurrentChapter();
+			await loadCurrentChapter();
 		}
 
 		// Refresh the All Notes list
 		showAllNotes();
 	} else {
-		// Reload chapter to hide note icon
-		loadCurrentChapter();
+		// Normal note deletion from chapter view - reload and highlight
+		await loadCurrentChapter();
 
 		// Scroll to the verse after reload completes
 		setTimeout(() => {
@@ -2252,6 +2227,17 @@ function exitDailyReadingMode() {
 
 	// Disable scroll detection
 	app.contentRenderer.disableScrollDetection();
+
+	// Remove dimming from all verses
+	const dimmedVerses = document.querySelectorAll('.verse.dimmed');
+	dimmedVerses.forEach(v => v.classList.remove('dimmed'));
+
+	// Remove all "View Full Chapter" buttons
+	const buttons = document.querySelectorAll('.view-full-chapter-btn');
+	buttons.forEach(btn => btn.remove());
+
+	// Clear reading context
+	app.currentReading = null;
 
 	updateHeaderForDailyMode(false);
 	document.body.classList.remove('reading-mode');

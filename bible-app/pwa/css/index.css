@@ -413,6 +413,31 @@ To adjust the dark mode background color, change background-color: #2a2a2a; in b
 	transition: var(--transition-opacity);
 }
 
+/* RTL Text Support */
+.rtl-text .verse {
+	direction: rtl;
+	text-align: right;
+}
+
+.rtl-text .verse-number {
+	float: right;
+	margin-left: 0.5em;
+	margin-right: 0;
+}
+
+/* Keep verse-primary and verse-secondary styling but add RTL support */
+.rtl-text .verse-primary,
+.rtl-text .verse-secondary {
+	direction: rtl;
+	text-align: right;
+}
+
+/* Note icons should also be on the right for RTL */
+.rtl-text .note-icon {
+	margin-left: 0.25em;
+	margin-right: 0;
+}
+
 .accent{accent-color:var(--color-accent)}
 .align-items-start{align-items:start}
 .block{display:block}

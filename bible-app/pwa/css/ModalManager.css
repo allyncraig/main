@@ -378,8 +378,8 @@
 
 .search-pagination-container {
 	padding: 0px 4px;
-	background: var(--background-color);
-	border-bottom: 1px solid var(--border-color);
+	background: var(--color-bg-main);
+	border-bottom: var(--border);
 }
 
 .search-pagination {
@@ -392,10 +392,10 @@
 
 .page-nav-btn {
 	padding: 6px 2px;
-	border: 1px solid var(--border-color);
-	background: var(--opaque-brighter);
-	color: var(--text-color);
-	border-radius: 4px;
+	border: 1px solid var(--color-border);
+	background: var(--color-bg-2);
+	color: var(--text-txt-1);
+	border-radius: var(--radius-sm);
 	cursor: pointer;
 	font-size: 14px;
 	min-width: 36px;
@@ -413,8 +413,9 @@
 	font-weight: normal;
 	&.current {
 		font-weight: bold;
-		background: var(--primary-color);
+		background: var(--color-bg-blue);
 		color: white;
+		border-color: var(--color-bg-blue);
 		cursor: default;
 	}
 	&.current:disabled {
@@ -425,7 +426,7 @@
 .search-showing {
 	text-align: center;
 	font-size: 13px;
-	color: var(--text-secondary);
+	color: var(--text-txt-2);
 	margin-top: 4px;
 }
 
