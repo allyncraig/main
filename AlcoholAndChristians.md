@@ -1,6 +1,6 @@
 # Biblical Perspectives on Alcohol Consumption
 
-[Projects Page](README.md)
+[Projects Page](index.md)
 
 ## Stop Drinking Only Water
 

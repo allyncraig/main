@@ -1,6 +1,6 @@
 # Aramaic Primacy - The Original Language(s) of the New Testament
 
-[Projects Home](README.md) | [Aramaic Primacy](AramaicPrimacy.md)
+[Projects Home](index.md) | [Aramaic Primacy](AramaicPrimacy.md)
 
 ## Introduction
 

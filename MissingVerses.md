@@ -1,6 +1,6 @@
 # Examining the So-Called “Missing Verses”
 
-[Projects Page](README.md)
+[Projects Page](index.md)
 
 KJV-Onlyists make a big deal over the "Missing Verses" in modern Bible translations. The real question is this: are these verses "Missing" or "Added"? In other words, were they in the original manuscripts, and removed later, or were they added later?
 

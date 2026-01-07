@@ -1,6 +1,6 @@
 # The Role of Women in the Church
 
-[Projects Page](README.md)
+[Projects Page](index.md)
 
 ## The Problem
 
@@ -9,10 +9,10 @@ I have been following the issue of Women’s Role in the Church for many years. 
 On the one hand, when I listened to sermons or read articles by those advocating for allowing women to fill all roles in the church, I was never able to accept their position for multiple reasons:
 
 * Different presenters provided contrasting, often contradictory evidence to support their positions;
-* Or they would use extra-biblical “evidence” to support their position, in contradiction to SDA Fundamental Belief #1 and the principle of *Sola Scriptura*;
-* Or they would cite false information, such as that the verses are a reference to churches being segregated because that was the Jewish practice, early Christians followed Jewish customs, and women would have a question about the sermon so they would stand up and shout to their husbands across the aisle asking for an explanation - an obviously false idea because the Jews didn’t start segregating their synagogues until the 7th Century AD, 600+ years after Paul wrote these instructions;
-* Or they would quote misapplied scriptural references, such as Gal 3:28 which is about the universality of the Gospel (SDA fundamental belief #7), while the context of 1 Cor 14 is spiritual gifts (SDA fundamental belief #17), two completely separate topics, which if you attempt to apply them together would create a contradiction in the Bible;
-* Or they would tear down the Bible and say that we can ignore these verses completely, as did one “Adventist” pastor in a sermon when he said that Paul was schizophrenic when he wrote 1 Cor 14:34,35 and that we can, therefore ignore what he wrote, obviously in contradiction to 2 Tim 3:16, “for all scripture is inspired by God and is useful for doctrine, for reproof, for correction, for instruction in righteousness.” If Paul was schizophrenic, then how could we trust anything he wrote, and how could it be true that all scripture is inspired by God? And if we can discard this piece of scripture, then what else can we discard from the Bible just because we don’t agree with it?
+* Or they would use extra-biblical “evidence” to support their position[^1];
+* Or they would cite false information[^2];
+* Or they would quote misapplied scriptural references[^3];
+* Or they would tear down the Bible and say that we can ignore these verses completely[^4].
 
 However, when I listened to sermons or read articles by those supporting the traditional view that women should not be pastors and elders, something was missing.
 
@@ -24,23 +24,17 @@ If it’s not a matter of salvation, then why should we care? But if the Bible s
 
 ## Looking for a Solution
 
-For a long time, I didn't care much either way. I figured, "If nobody has found an answer so far, then maybe there isn't really an answer, and, like everyone says, It's not that important."
+For a long time, I didn't care much either way. I figured, "If nobody has found an answer so far, then maybe there isn't really an answer, and, like everyone says, maybe it's not that important."
 
 But at one point I became dissatisfied with that answer. I thought, "Maybe there really is something in the Bible that can tell us either way. I can at least look." To be honest, I didn't expect to find anything definitive.
 
-But after searching, I did find something. It turns out that there is an answer. You see, everyone has been so hyper-focused on verses 34,35 of 1 Corinthians chapter 14, and verses 11,12 of 1 Timothy chapter 2 that we missed the context - the surrounding verses, and it is in these surrounding verses where we can find the answers to why the role of women in the church is so important.
+But after searching, I did find something. It turns out that there is an answer. You see, everyone has been so hyper-focused on verses 34,35 of 1 Corinthians chapter 14, and verses 11,12 of 1 Timothy chapter 2 that we missed the context: the surrounding verses. And it is in these surrounding verses where we can find the answers to why the role of women in the church is so important.
 
-Before I discuss the answer, I want to point out there are three important questions to answer here:
-
-1. What do the verses of 1 Corinthians 14:34,35 and 1 Timothy 2:11,2 really mean as far as what women can and cannot do?
-2. Is this a matter of Divine Instruction or Cultural Preferences?
-3. Is this really important enough to be an issue of salvation?
-
-I believe that a 100% *Sola Scriptura* answer can be provided for all three questions.
+I believe that a 100% *Sola Scriptura* answer can be provided for this issue. No extra-biblical explanations needed. No tearing down the Bible.
 
 ## The Solution
 
-It is always important, when reading the Bible, to make sure that you're not taking verses out of context. So the first thing to do is to take a step back from just verses 34, 35 of 1 Corinthians chapter 14, and look at the overall context of chapter 14 and possibly surrounding chapters.
+It is always important, when reading the Bible, to make sure that you're not taking verses out of context. So the first thing to do is to take a step back from just verses 34, 35 of 1 Corinthians chapter 14, and look at the overall context of chapter 14 and surrounding chapters.
 
 In fact, let's start in chapter 12 of 1 Corinthians. Chapter 12 is all about Spiritual Gifts.
 
@@ -55,13 +49,13 @@ So 1 Corinthians chapters 12, 13 and 14 are all about Spiritual Gifts:
 * Chapter 13 says that we must use our Spiritual Gifts in loving service to God and Man, else they are wasted;
 * Chapter 14 is instructions about the proper use of Spiritual Gifts in the church.
 
-So, since the entirety of 1 Corinthians chapter 14 is about spiritual gifts, and the proper use of spiritual gifts in church services, **if an interpretation does not take this into account**, and does not look at verses 34,35 in this context, then that understanding has missed the point, it is taking the verses out of context, and **it must necessarily be false**.
+So, since the entirety of 1 Corinthians chapter 14 is about spiritual gifts, and the proper use of spiritual gifts in church services, **if an interpretation of verses 34, 35 does not take** ___Spiritual Gifts___ **into account**, then that understanding has missed the point, it is taking the verses out of context, and **it must necessarily be false**.
 
-Since the vast majority of interpretations of these verses do not take this into account, we can easily dismiss them and focus only on the one interpretations that does look at these verses in the context of Spiritual Gifts: that they relate to restrictions on the Spiritual Gift roles that women may hold in the church.
+Since the vast majority of interpretations of these verses do not take this into account, we can easily dismiss them as false, and focus only on the one interpretations that does look at these verses in the context of Spiritual Gifts: that they relate to restrictions on the Spiritual Gift roles that women may hold in the church.
 
 The roles of pastor and elder are spiritual gifts (see Ephesians 4:11 and Romans 12:8), so Paul forbidding these roles to women would fit in the context. And it is the ***only*** interpretation that fits in the context.
 
-And while this is a key detail that helps understand these verses, it is not the only detail. Not only should we look at the larger context (chapters 12 through 14), we should also look at the verses surrounding 1 Cor 14:34,35 and 1 Tim 2:11,12.
+And while this is a key detail that helps understand these verses, it is not the only detail. Not only should we look at the larger context (chapters 12 through 14), we should also look for additional context in the verses near 1 Cor 14:34,35 and 1 Tim 2:11,12.
 
 With that in mind, in 1 Cor 14 let's expand from only looking at verses 34,35 to also look at verses 33 through 38. Similarly, let's add verse 13 to 1 Timothy 2:11,12. I'll add some emphasis to point out a few key elements:
 
@@ -101,6 +95,7 @@ Could this be why it is so important for us, as a church, to keep this commandme
 
 It may seem like it’s a small matter to allow women to fill all roles in the church, but remember that the Bible is filled with stories showing that even small matters can make a big difference:
 
+* It was a small matter for Cain to bring an offering as God required it, but his disobedience had severe consequences.
 * It was a small matter for Moses to speak to the rock instead of striking it, and his mistake cost him dearly.
 * It was a small matter for Achan to hide a cloth, along with some gold and silver, but his disobedience cost him not only his life but also the lives of his entire family.
 * It was a small matter for David to refrain from killing Saul in the cave, but he would rather suffer more years of hardship than kill the Lord’s anointed. And what blessings did he gain by his obedience?
@@ -120,3 +115,15 @@ And how much more tragic will it be for you and me, now at the end of earth’s 
 So do we follow God’s commandment regarding roles in the church? Or do we, like Adam and Eve, rebel against God’s explicit instructions and thus risk our eternal salvation over such a simple matter?
 
 Think about it: is it really that difficult to obey this one simple rule, especially when the Bible shows that rule to be a matter of salvation?
+
+---
+
+## Footnotes
+
+[^1]: Contrary to SDA Fundamental Belief #1 and the principle of *Sola Scriptura*.
+
+[^2]: One example of this I heard is that the verses are a reference to churches being segregated with a divider down the middle, men sitting on one side and women on the other. Supposedly this was done because that was the standard Jewish practice (many early Christians having been Jews before converting), so early Christians in Corinth had followed the Jewish custom. The problem, supposedly was that when women would have a question about the sermon, they would stand up and shout to their husbands across the divider asking for an explanation. While seemingly plausible, this is an obviously false idea because the Jews didn’t start segregating their synagogues by gender until the 7th Century AD, 600+ years after Paul wrote these instructions, with the first synagogue with dividers not being built until the 11th Century in Worms, Germany - and that Synagogue had the women seated in the balcony. The first synagogue with side-by-side division was not built until the 1800s.
+
+[^3]: Such as Gal 3:28. Putting Gal 3:28 with 1 Cor 14:34,35 together is akin to putting Genesis 4:8 "And Cain rose up and slew his brother Abel" with Luke 10:27 "Jesus said, 'Go, thou, and do likewise'". There are three specific reasons why Gen 4:8 doesn't go with Luk 10:27: (a) they're two different topics; (b) putting them together creates a contradiction; and (c) the contradiction goes against a commandment (Exo 20:13). Putting Gal 3:28 with 1 Cor 14:34,35 is wrong for the same 3 reasons. Gal 3:28 is about the universality of the Gospel (SDA fundamental belief #7), while the context of 1 Cor 14 is spiritual gifts (SDA fundamental belief #17). These are two completely separate topics. Putting them together also creates a contradiction: how could Paul allow something in one place, then disallow it in another? Which do you follow? And to the third point, I'll show later in this article that 1 Cor 14:34,35 is a Commandment.
+
+[^4]: As did one “Adventist” pastor in a sermon when he said that Paul was schizophrenic when he wrote 1 Cor 14:34,35 and that we can, therefore ignore what he wrote, obviously in contradiction to 2 Tim 3:16, “for all scripture is inspired by God and is useful for doctrine, for reproof, for correction, for instruction in righteousness.” If Paul was schizophrenic, then how could we trust anything he wrote, and how could it be true that all scripture is inspired by God? And if we can discard this piece of scripture, then what else can we discard from the Bible just because we don’t agree with it? If you tear down 1 Cor 14:34,35 you not only disregard the principle of *Sola Scriptura*, you also tear down the entire Bible in the process.

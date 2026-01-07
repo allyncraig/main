@@ -1,6 +1,6 @@
 # Aramaic Primacy - Josephus
 
-[Projects Home](README.md) | [Aramaic Primacy](AramaicPrimacy.md)
+[Projects Home](index.md) | [Aramaic Primacy](AramaicPrimacy.md)
 
 ---
 

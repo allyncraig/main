@@ -2,8 +2,8 @@
 
 ## **Projects I'm Working On**
 
-- [Allyn's Bible Translation](bible/ABT.md) : My own translation of the Bible
-- [Bible App](bible-app/BibleApp.md) : Native Android App; and PWA for iOS and Web Brosers
+- [Allyn's Bible Translation](bible/index.md) : My own translation of the Bible
+- [Bible App](bible-app/index.md) : Native Android App; and PWA for iOS and Web Brosers
 - Workout Tracker
 - Walk Tracker
 - Tabata Workout Tool

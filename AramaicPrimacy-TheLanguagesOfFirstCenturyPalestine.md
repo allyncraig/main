@@ -1,6 +1,6 @@
 # Aramaic Primacy - The Languages of First Century Palestine
 
-[Projects Home](README.md) | [Aramaic Primacy](AramaicPrimacy.md)
+[Projects Home](index.md) | [Aramaic Primacy](AramaicPrimacy.md)
 
 ---
 

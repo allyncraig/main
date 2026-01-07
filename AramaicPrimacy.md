@@ -1,6 +1,6 @@
 # Aramaic Primacy Notes
 
-[Projects Page](README.md)
+[Projects Page](index.md)
 
 Aramaic Primacy is the theory that the New Testament was originally written in Aramaic instead of Greek. It is based on the false idea that Aramaic was the only language commonly spoken by the Jews in Judea and Galilee during the time of Jesus and the early apostles.
 

@@ -1,6 +1,6 @@
 # Destroying KJV-Onlyism
 
-[Projects Page](README.md)
+[Projects Page](index.md)
 
 What Follows is a bunch of disjointed notes that I have collected from various sources.
 
