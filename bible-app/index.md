@@ -20,7 +20,7 @@ This Bible App provides fast access to Scripture with a clean, distraction-free 
 
 ### Progressive Web App
 
-<a class="action-link" href="https://your-pwa-url.example.com" target="_blank" rel="noopener">PWA</a> : Progressive Web App - Installable in supported browsers
+<a class="action-link" href="./pwa/" target="_blank" rel="noopener">PWA</a> : Progressive Web App - Installable in supported browsers
 
 
 To install a Progressive Web App (PWA) on an iOS device, you must use the Safari browser, as iOS only supports PWA installation through Safari. The process is straightforward and involves the following steps:
@@ -49,7 +49,7 @@ Once installed, the PWA will appear on your home screen and can be launched like
 - Verse of the Day
 - Yearly "read through the while Bible" reading plan
 - Multiple translations in different versions
-- Ability to send me comments regarding specific verses in the <a href="../bible/index.md">ABT Bible Translation</a>
+- Ability to send me comments regarding specific verses in the <a href="../bible/">ABT Bible Translation</a>
 
 ---
 
