@@ -243,7 +243,7 @@ class ContentRenderer {
 		}
 	}
 
-	scrollToVerse(verseNumber) {
+	scrollToVerse(verseNumber, instant = false) {
 		const verseElements = document.querySelectorAll('.verse-number');
 		let targetVerse = null;
 
@@ -258,15 +258,18 @@ class ContentRenderer {
 		if (targetVerse) {
 			const verseParagraph = targetVerse.closest('.verse') || targetVerse.parentElement;
 
-			verseParagraph.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
+			// Add highlight class
 			verseParagraph.classList.add('verse-highlight');
-
 			setTimeout(() => {
 				verseParagraph.classList.remove('verse-highlight');
-			}, 3000);
+			}, 2000);
+
+			// Scroll with or without animation
+			verseParagraph.scrollIntoView({ 
+				behavior: instant ? 'auto' : 'smooth', 
+				block: 'center' 
+			});
 		} else {
-			// console.log(`Verse ${verseNumber} not found, scrolling to top`);
 			this.scrollToTop();
 		}
 	}

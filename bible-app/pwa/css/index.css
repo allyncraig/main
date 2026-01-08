@@ -414,6 +414,10 @@ To adjust the dark mode background color, change background-color: #2a2a2a; in b
 }
 
 /* RTL Text Support */
+.rtl-text {
+	font-size: 1.3em !important; /* 25% larger for better Hebrew readability */
+}
+
 .rtl-text .verse {
 	direction: rtl;
 	text-align: right;
@@ -423,6 +427,7 @@ To adjust the dark mode background color, change background-color: #2a2a2a; in b
 	float: right;
 	margin-left: 0.5em;
 	margin-right: 0;
+	font-size: 0.7em;
 }
 
 /* Keep verse-primary and verse-secondary styling but add RTL support */

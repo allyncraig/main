@@ -41,7 +41,7 @@ class AbtApiProvider extends BaseProvider {
 		// Transform to HTML
 		let html = '';
 		verses.forEach(verseObj => {
-			const text = verseObj.text;
+			const text = this.standardizeText(verseObj.text);
 			html += `<p class="verse"><span class="verse-number">${verseObj.verse}</span>&nbsp;${text}</p>`;
 		});
 
@@ -68,7 +68,7 @@ class AbtApiProvider extends BaseProvider {
 				chapter: result.chapter.toString(),
 				verse: result.verse.toString(),
 				reference: `${bookAbbr} ${result.chapter}:${result.verse}`,
-				text: result.text.replace(/<\/?mark>/g, '').replace(/>|\[p\]/g, ' ').replace(/\s+/g, ' ').trim()
+				text: this.standardizeText(result.text.replace(/<\/?mark>/g, ''))
 			};
 		});
 
@@ -78,6 +78,13 @@ class AbtApiProvider extends BaseProvider {
 			pages: data.pages,
 			page: data.page
 		};
+	}
+
+	standardizeText(text) {
+		return (text ?? '')
+			.replace(/>|\[p\]/g, ' ')
+			.replace(/\s+/g, ' ')
+			.trim();
 	}
 }
 

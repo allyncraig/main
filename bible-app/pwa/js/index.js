@@ -115,8 +115,12 @@ const CONFIG_DEFINITION = [
 		label: 'Interlinear Primary Version:',
 		type: 'select',
 		default_value: 'BSB',
-		values: VERSION_CONFIG.filter(v => v.abbreviation !== 'ABT').map(v => v.abbreviation),
-		display_values: VERSION_CONFIG.filter(v => v.abbreviation !== 'ABT').map(v => `${v.abbreviation} - ${v.name}`),
+		values: VERSION_CONFIG
+			.filter(v => v.abbreviation !== 'ABT' && isCompleteVersion(v.abbreviation))
+			.map(v => v.abbreviation),
+		display_values: VERSION_CONFIG
+			.filter(v => v.abbreviation !== 'ABT' && isCompleteVersion(v.abbreviation))
+			.map(v => `${v.abbreviation} - ${v.name}`),
 		help: 'Select the Bible version to display alongside ABT in interlinear mode.',
 		onChange: (value) => {
 			// If interlinear mode is active, reload to show new version
@@ -1201,7 +1205,7 @@ window.navigateSearchPage = async function(page) {
 };
 
 // Global function for search result clicks
-app.handleSearchResultClick = function(bookAbbr, chapter, verse) {
+app.handleSearchResultClick = async function(bookAbbr, chapter, verse) {
 	// Disable interlinear mode when navigating from search
 	if (app.configManager.getValue('interlinearMode')) {
 		app.configManager.setValue('interlinearMode', false);
@@ -1209,22 +1213,28 @@ app.handleSearchResultClick = function(bookAbbr, chapter, verse) {
 	}
 
 	const verseNum = app.navigationManager.navigateToSearchResult(bookAbbr, chapter, verse);
-	const chapterButton = document.getElementById(UI.CHAPTERSELECT);
-	const currentBook = app.versionManager.findBookById(app.navigationManager.getCurrentBook());
-	const bookDisplay = currentBook ? currentBook.abbreviation : app.navigationManager.getCurrentBook();
-	chapterButton.textContent = bookDisplay + ' ' + app.navigationManager.getCurrentChapter();
-
-	// Update version button to reflect single version mode
+	
+	// Update display first
 	updateDisplay();
+
+	// Close modal before navigation
+	closeModal(MODAL.SEARCH);
+	loading('Navigating to selected verse...');
+
+	// Wait for chapter to load and render
+	await loadCurrentChapter();
+
+	// Animate after content is loaded
 	animateContentTransition('right');
 
-	closeModal(MODAL.SEARCH);
-
+	// Now scroll to verse - content is guaranteed to be ready
 	if (verseNum) {
-		setTimeout(() => {
-			app.contentRenderer.scrollToVerse(verseNum);
-		}, APP.TIMEOUT);
+		// Small delay to ensure animation doesn't interfere
+		requestAnimationFrame(() => {
+			app.contentRenderer.scrollToVerse(verseNum, true);
+		});
 	}
+	closeLoading();
 };
 
 /*** Modal ***/
@@ -1661,6 +1671,14 @@ async function toggleInterlinearFromVersionSelector() {
 	loadCurrentChapter();
 	updateDisplay();
 	animateContentTransition('right');
+}
+
+function isCompleteVersion(versionAbbr) {
+	// List of known incomplete versions
+	const otOnly = ['WLC', 'LXX']; // Hebrew OT, Greek OT
+	const ntOnly = ['SBL', 'NTGT', 'TR']; // Greek NT versions
+	
+	return !otOnly.includes(versionAbbr) && !ntOnly.includes(versionAbbr);
 }
 
 // Long-click menu options
@@ -2458,10 +2476,10 @@ function showYearRolloverMessage(stats) {
 	showAboutModal('Year Complete!', message);
 }
 
-function scrollToVerseAndDim(verseStart, verseEnd) {
+function scrollToVerseAndDim(verseStart, verseEnd, shouldHighlight = false) {
 	const verses = document.querySelectorAll('.verse[data-verse]');
 	let hasPartialChapter = false;
-	const transitionPoints = []; // Store indices where transitions occur
+	const transitionPoints = [];
 	let previousWasDimmed = null;
 
 	verses.forEach((verseEl, index) => {
@@ -2479,7 +2497,7 @@ function scrollToVerseAndDim(verseStart, verseEnd) {
 
 			// Detect transitions
 			if (previousWasDimmed !== null && previousWasDimmed !== shouldDim) {
-				transitionPoints.push(index); // Transition happens at this verse
+				transitionPoints.push(index);
 			}
 			previousWasDimmed = shouldDim;
 		}
@@ -2510,8 +2528,29 @@ function scrollToVerseAndDim(verseStart, verseEnd) {
 		}
 	}
 
-	// Scroll to starting verse
-	app.contentRenderer.scrollToVerse(verseStart);
+	// Scroll to starting verse (with optional highlighting)
+	if (shouldHighlight) {
+		app.contentRenderer.scrollToVerse(verseStart);
+	} else {
+		// Scroll without highlighting
+		const verseElements = document.querySelectorAll('.verse-number');
+		let targetVerse = null;
+
+		for (let i = 0; i < verseElements.length; i++) {
+			const verseNum = parseInt(verseElements[i].textContent.trim());
+			if (verseNum === verseStart) {
+				targetVerse = verseElements[i];
+				break;
+			}
+		}
+
+		if (targetVerse) {
+			const verseParagraph = targetVerse.closest('.verse') || targetVerse.parentElement;
+			verseParagraph.scrollIntoView({ behavior: 'smooth', block: 'center' });
+		} else {
+			app.contentRenderer.scrollToTop();
+		}
+	}
 }
 
 function createViewFullChapterButton() {
@@ -2561,17 +2600,26 @@ async function loadDailyReading() {
 		return;
 	}
 
+	// Check if book exists in current version, switch to KJV if needed
+	const canProceed = await checkVersionForReading(parsed.book, parsed.chapter);
+	if (!canProceed) {
+		exitDailyReadingMode();
+		return;
+	}
+
 	const books = app.versionManager.getBooks();
 	const book = app.versionManager.findBookByName(parsed.book, books);
 
 	if (!book) {
 		openToast(`Book "${parsed.book}" not found`);
+		exitDailyReadingMode();
 		return;
 	}
 
 	// Validate chapter
 	if (parsed.chapter > book.chapters) {
 		openToast(`${book.name} only has ${book.chapters} chapters`);
+		exitDailyReadingMode();
 		return;
 	}
 
@@ -2594,12 +2642,65 @@ async function loadDailyReading() {
 	// If verse range specified, scroll and dim
 	if (parsed.verseStart !== null) {
 		setTimeout(() => {
-			scrollToVerseAndDim(parsed.verseStart, parsed.verseEnd);
+			scrollToVerseAndDim(parsed.verseStart, parsed.verseEnd, false);
 		}, 500);
-
-		// Show context toast
-		const verseRange = parsed.verseEnd ? `${parsed.verseStart}-${parsed.verseEnd}` : parsed.verseStart;
 	}
+}
+
+async function checkVersionForReading(bookName, chapter) {
+	const books = app.versionManager.getBooks();
+	const book = app.versionManager.findBookByName(bookName, books);
+	
+	if (!book) {
+		// Book doesn't exist in current version
+		const currentVersion = app.navigationManager.getCurrentVersion();
+		const bookId = getBookIndexByName(bookName);
+		const testament = bookId ? getBookTestament(bookId) : null;
+		
+		let message = `${bookName} is not available in ${currentVersion}.`;
+		
+		if (testament === 'OT') {
+			message += '\n\nThis is an Old Testament book. Switching to KJV.';
+		} else if (testament === 'NT') {
+			message += '\n\nThis is a New Testament book. Switching to KJV.';
+		} else {
+			message += '\n\nSwitching to KJV.';
+		}
+		
+		if (!confirm(message)) {
+			return false; // User cancelled
+		}
+		
+		// Switch to KJV
+		const kjvVersion = app.versionManager.getVersion('KJV');
+		if (!kjvVersion) {
+			openToast('KJV version not available');
+			return false;
+		}
+		
+		// Disable interlinear mode when switching
+		if (app.configManager.getValue('interlinearMode')) {
+			app.configManager.setValue('interlinearMode', false);
+			updateInterlinearMenuText();
+		}
+		
+		loading('Switching to KJV...');
+		
+		try {
+			await app.versionManager.loadBooksForVersion(kjvVersion);
+			app.navigationManager.setCurrentVersion('KJV');
+			app.navigationManager.saveSettings();
+			updateDisplay();
+			closeLoading();
+			return true; // Successfully switched
+		} catch (error) {
+			closeLoading();
+			openToast('Error switching to KJV: ' + error.message);
+			return false;
+		}
+	}
+	
+	return true; // Book exists in current version
 }
 
 function navigateToReading(reference, day, index) {
