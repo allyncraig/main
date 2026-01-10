@@ -62,4 +62,4 @@ The Android APK can be installed directly on compatible devices. You may need to
 
 ---
 
-(c) 2025,2026 by Allyn Craigs
+(c) 2025,2026 by Allyn Craig

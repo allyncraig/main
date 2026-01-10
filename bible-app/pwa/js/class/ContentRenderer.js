@@ -427,14 +427,11 @@ class ContentRenderer {
 			}
 		}
 
-		// Show completion notification
-		openToast('Reading marked complete! ✓');
-
 		// Check if day is complete
 		if (app.dailyReadingManager.isDayComplete(reading.day)) {
 			// Disable scroll detection temporarily to prevent double-triggers
 			this.scrollCheckEnabled = false;
-			showDayCompleteDialog(reading.day);
+			openToast(`Day ${reading.day} Daily Reading Complete!`);
 			// Re-enable after dialog
 			setTimeout(() => {
 				this.scrollCheckEnabled = true;
@@ -454,7 +451,7 @@ class ContentRenderer {
 		Template.render('chapterHeaderTemplate', 'bibleHeader', {
 			bookName: displayBookName,
 			chapter: chapter,
-			versionName: `${versionAbbr || 'BSB'} / ABT`
+			versionName: `${versionAbbr || APP.INTERLINEAR_FALLBACK_PRIMARY} / ABT`
 		}, false);
 
 		// Convert both to uniform format
@@ -549,7 +546,7 @@ class ContentRenderer {
 		document.getElementById('mainPlaceholder').classList.add('hidden');
 
 		// Add RTL class if needed (check primary version)
-		const primaryVersionAbbr = app.configManager.getValue('interlinearPrimaryVersion') || 'BSB';
+		const primaryVersionAbbr = app.configManager.getValue('interlinearPrimaryVersion') || APP.INTERLINEAR_FALLBACK_PRIMARY;
 		const primaryVersion = app.versionManager.getVersion(primaryVersionAbbr);
 		const bibleTextEl = document.getElementById('bibleText');
 		if (this.isRTLVersion(primaryVersion)) {

@@ -37,6 +37,7 @@ const APP = Object.freeze({
 	GOOGLE_FORM_FIELD_CONTACT_MESSAGE: 'entry.2113617686',
 	SEARCH_RESULTS_PER_PAGE: 25,
 	SEARCH_MAX_PAGE_BUTTONS: 4, // Show up to 4 page number buttons
+	INTERLINEAR_FALLBACK_PRIMARY: 'ESV',
 });
 
 const TEXT = Object.freeze({
@@ -112,16 +113,16 @@ const UI = Object.freeze({
 const CONFIG_DEFINITION = [
 	{
 		key: 'interlinearPrimaryVersion',
-		label: 'Interlinear Primary Version:',
+		label: 'Interlinear Default Primary Version:',
 		type: 'select',
-		default_value: 'BSB',
+		default_value: APP.INTERLINEAR_FALLBACK_PRIMARY,
 		values: VERSION_CONFIG
 			.filter(v => v.abbreviation !== 'ABT' && isCompleteVersion(v.abbreviation))
 			.map(v => v.abbreviation),
 		display_values: VERSION_CONFIG
 			.filter(v => v.abbreviation !== 'ABT' && isCompleteVersion(v.abbreviation))
 			.map(v => `${v.abbreviation} - ${v.name}`),
-		help: 'Select the Bible version to display alongside ABT in interlinear mode.',
+		help: 'Select the default Bible version to display alongside ABT in interlinear mode in case the currently viewed version cannot be used.',
 		onChange: (value) => {
 			// If interlinear mode is active, reload to show new version
 			if (app.configManager.getValue('interlinearMode')) {
@@ -681,7 +682,9 @@ async function loadChapterContent(version) {
 	try {
 		// Check if interlinear mode is enabled
 		if (isInterlinear) {
-			const primaryVersionAbbr = app.configManager.getValue('interlinearPrimaryVersion') || 'BSB';
+			const primaryVersionAbbr = app.interlinearPrimaryVersion
+				|| app.configManager.getValue('interlinearPrimaryVersion')
+				|| APP.INTERLINEAR_FALLBACK_PRIMARY;
 			const versionA = app.versionManager.getVersion(primaryVersionAbbr);
 			const versionB = app.versionManager.getVersion('ABT');
 
@@ -839,7 +842,7 @@ function updateDisplay() {
 	// Update version button to show interlinear mode
 	const isInterlinear = app.configManager.getValue('interlinearMode');
 	if (isInterlinear) {
-		const primaryVersion = app.configManager.getValue('interlinearPrimaryVersion') || 'BSB';
+		const primaryVersion = app.configManager.getValue('interlinearPrimaryVersion') || APP.INTERLINEAR_FALLBACK_PRIMARY;
 		versionButton.textContent = `${primaryVersion}/ABT`;
 	} else {
 		versionButton.textContent = app.navigationManager.getCurrentVersion();
@@ -1059,17 +1062,14 @@ async function showVersionSelector() {
 	}
 
 	// Check if both required versions are available
-	const primaryVersionAbbr = app.configManager.getValue('interlinearPrimaryVersion') || 'BSB';
+	const primaryVersionAbbr = app.configManager.getValue('interlinearPrimaryVersion') || APP.INTERLINEAR_FALLBACK_PRIMARY;
 	const versionList = await getAvailableVersions();
 	const hasPrimary = versionList.some(v => v.abbreviation === primaryVersionAbbr);
 	const hasABT = versionList.some(v => v.abbreviation === 'ABT');
 	const interlinearAvailable = hasPrimary && hasABT;
 
 	// Update interlinear button text
-	const interlinearText = document.getElementById('interlinearVersionText');
-	if (interlinearText) {
-		interlinearText.textContent = `Compare ${primaryVersionAbbr} with ABT`;
-	}
+	updateInterlinearButtonText();
 
 	// Show/hide interlinear button based on availability
 	const interlinearButton = document.getElementById('versionInterlinearButton');
@@ -1104,8 +1104,7 @@ async function selectVersion(element) {
 
 	// Disable interlinear mode when switching versions
 	if (app.configManager.getValue('interlinearMode')) {
-		app.configManager.setValue('interlinearMode', false);
-		updateInterlinearMenuText();
+		disableInterlinear();
 	}
 
 	const version = app.versionManager.getVersion(versionAbbr);
@@ -1137,6 +1136,7 @@ async function selectVersion(element) {
 		}
 
 		updateDisplay();
+		updateInterlinearButtonText();
 		animateContentTransition('right');
 		await loadChapterContent(version);
 		if (isApi) closeLoading();
@@ -1208,8 +1208,7 @@ window.navigateSearchPage = async function(page) {
 app.handleSearchResultClick = async function(bookAbbr, chapter, verse) {
 	// Disable interlinear mode when navigating from search
 	if (app.configManager.getValue('interlinearMode')) {
-		app.configManager.setValue('interlinearMode', false);
-		updateInterlinearMenuText();
+		disableInterlinear();
 	}
 
 	const verseNum = app.navigationManager.navigateToSearchResult(bookAbbr, chapter, verse);
@@ -1482,6 +1481,9 @@ function showAboutModal(title, message) {
 	app.modalManager.show(MODAL.ABOUT);
 }
 
+/* Verse of the Day Functions */
+// Commented out for now, but will re-implement later
+
 // async function showVotD(reload = false) {
 // 	closeModal(MODAL.MENU);
 
@@ -1510,99 +1512,104 @@ function showAboutModal(title, message) {
 // 	showAboutModal(TEXT.VOTD_TITLE, message);
 // }
 
-function parseLBOHtml(htmlString, today) {
-	let bodyContent = htmlString;
+// function parseLBOHtml(htmlString, today) {
+// 	let bodyContent = htmlString;
 
-	// Extract ALL <b>...</b> references
-	const refMatches = [...bodyContent.matchAll(/<b>\s*([^<]+?)\s*<\/b>/gi)];
-	if (refMatches.length === 0) {
-		throw new Error("No <b>Book Chapter:Verse</b> reference found.");
-	}
+// 	// Extract ALL <b>...</b> references
+// 	const refMatches = [...bodyContent.matchAll(/<b>\s*([^<]+?)\s*<\/b>/gi)];
+// 	if (refMatches.length === 0) {
+// 		throw new Error("No <b>Book Chapter:Verse</b> reference found.");
+// 	}
 
-	// Parse first reference for book and chapter
-	const firstRef = refMatches[0][1].trim();
-	const lastSpace = firstRef.lastIndexOf(" ");
-	if (lastSpace === -1) {
-		throw new Error("Reference format invalid: " + firstRef);
-	}
+// 	// Parse first reference for book and chapter
+// 	const firstRef = refMatches[0][1].trim();
+// 	const lastSpace = firstRef.lastIndexOf(" ");
+// 	if (lastSpace === -1) {
+// 		throw new Error("Reference format invalid: " + firstRef);
+// 	}
 
-	const book = firstRef.slice(0, lastSpace).trim();
-	const chapVerse = firstRef.slice(lastSpace + 1).trim();
-	const [chapter, firstVerse] = chapVerse.split(":");
+// 	const book = firstRef.slice(0, lastSpace).trim();
+// 	const chapVerse = firstRef.slice(lastSpace + 1).trim();
+// 	const [chapter, firstVerse] = chapVerse.split(":");
 
-	// Collect all verse numbers
-	const verses = [parseInt(firstVerse)];
-	for (let i = 1; i < refMatches.length; i++) {
-		const ref = refMatches[i][1].trim();
-		const verseNum = parseInt(ref.split(" ").pop());
-		verses.push(verseNum);
-	}
+// 	// Collect all verse numbers
+// 	const verses = [parseInt(firstVerse)];
+// 	for (let i = 1; i < refMatches.length; i++) {
+// 		const ref = refMatches[i][1].trim();
+// 		const verseNum = parseInt(ref.split(" ").pop());
+// 		verses.push(verseNum);
+// 	}
 
-	// Determine verse format
-	let verse;
-	if (verses.length === 1) {
-		verse = firstVerse;
-	} else {
-		// Check if consecutive
-		const isConsecutive = verses.every((v, i) => i === 0 || v === verses[i - 1] + 1);
-		if (isConsecutive) {
-			verse = `${verses[0]}-${verses[verses.length - 1]}`;
-		} else {
-			verse = verses.join(',');
-		}
-	}
+// 	// Determine verse format
+// 	let verse;
+// 	if (verses.length === 1) {
+// 		verse = firstVerse;
+// 	} else {
+// 		// Check if consecutive
+// 		const isConsecutive = verses.every((v, i) => i === 0 || v === verses[i - 1] + 1);
+// 		if (isConsecutive) {
+// 			verse = `${verses[0]}-${verses[verses.length - 1]}`;
+// 		} else {
+// 			verse = verses.join(',');
+// 		}
+// 	}
 
-	// Extract text: remove all <b> tags and clean up
-	let text = bodyContent.replace(/<b>[\s\S]*?<\/b>/gi, "");
-	text = text.replace(/^[\s\n\r]+/, "").replace(/[\s\n\r]+$/, "");
+// 	// Extract text: remove all <b> tags and clean up
+// 	let text = bodyContent.replace(/<b>[\s\S]*?<\/b>/gi, "");
+// 	text = text.replace(/^[\s\n\r]+/, "").replace(/[\s\n\r]+$/, "");
 
-	return {
-		book,
-		chapter,
-		verse,
-		text,
-		today
-	};
-}
+// 	return {
+// 		book,
+// 		chapter,
+// 		verse,
+// 		text,
+// 		today
+// 	};
+// }
 
-function votdGoToChapter(bookName, chapter, verse) {
-	closeModal(MODAL.ABOUT);
+// function votdGoToChapter(bookName, chapter, verse) {
+// 	closeModal(MODAL.ABOUT);
 
-	// get a list of books
-	const books = app.versionManager.getBooks();
-	if (books.length === 0) {
-		// console.log('No books loaded');
-		openToast('Unable to navigate to selected chapter. Books not loaded.');
-		return;
-	}
-	// find the specific book
-	const book = app.versionManager.findBookByName(bookName, books);
-	if (!book) {
-		// console.log('Book not found: ', bookName);
-		openToast(`Book ${bookName} not found in current version.`);
-		return;
-	}
-	// get the chapter number
-	const chapterNum = parseInt(chapter);
-	if (chapterNum < 1 || chapterNum > book.chapters) {
-		// console.log(`Invalid chapter ${chapterNum} for ${book.name}`);
-		openToast(`Invalid chapter ${chapterNum} for ${book.name}`);
-		return;
-	}
-	// navigate to the book and chapter
-	app.navigationManager.navigateToChapter(book.id, chapterNum);
-	updateDisplay();
-	animateContentTransition('right');
-	// highlight the verse
-	setTimeout(() => {
-		app.contentRenderer.scrollToVerse(parseInt(verse));
-	}, APP.TIMEOUT);
-}
+// 	// get a list of books
+// 	const books = app.versionManager.getBooks();
+// 	if (books.length === 0) {
+// 		// console.log('No books loaded');
+// 		openToast('Unable to navigate to selected chapter. Books not loaded.');
+// 		return;
+// 	}
+// 	// find the specific book
+// 	const book = app.versionManager.findBookByName(bookName, books);
+// 	if (!book) {
+// 		// console.log('Book not found: ', bookName);
+// 		openToast(`Book ${bookName} not found in current version.`);
+// 		return;
+// 	}
+// 	// get the chapter number
+// 	const chapterNum = parseInt(chapter);
+// 	if (chapterNum < 1 || chapterNum > book.chapters) {
+// 		// console.log(`Invalid chapter ${chapterNum} for ${book.name}`);
+// 		openToast(`Invalid chapter ${chapterNum} for ${book.name}`);
+// 		return;
+// 	}
+// 	// navigate to the book and chapter
+// 	app.navigationManager.navigateToChapter(book.id, chapterNum);
+// 	updateDisplay();
+// 	animateContentTransition('right');
+// 	// highlight the verse
+// 	setTimeout(() => {
+// 		app.contentRenderer.scrollToVerse(parseInt(verse));
+// 	}, APP.TIMEOUT);
+// }
 
 // Interlinear-related functions
 
 function toggleInterlinearMode() {
 	const currentValue = app.configManager.getValue('interlinearMode');
+
+	if (!currentValue) {
+		delete app.interlinearPrimaryVersion;
+	}
+
 	app.configManager.setValue('interlinearMode', !currentValue);
 
 	// Update menu text
@@ -1618,6 +1625,12 @@ function toggleInterlinearMode() {
 	updateDisplay();
 }
 
+function disableInterlinear() {
+	app.configManager.setValue('interlinearMode', false);
+	delete app.interlinearPrimaryVersion;
+	updateInterlinearMenuText();
+}
+
 function updateInterlinearMenuText() {
 	const isEnabled = app.configManager.getValue('interlinearMode');
 	const menuText = document.getElementById('interlinearMenuText');
@@ -1631,7 +1644,10 @@ async function toggleInterlinearFromVersionSelector() {
 
 	if (!currentValue) {
 		// Enabling interlinear - check if both versions exist in config
-		const primaryVersionAbbr = app.configManager.getValue('interlinearPrimaryVersion') || 'BSB';
+		const currentVersion = app.navigationManager.getCurrentVersion();
+		const primaryVersionAbbr = (isCompleteVersion(currentVersion) && currentVersion !== 'ABT')
+			? currentVersion
+			: app.configManager.getValue('interlinearPrimaryVersion') || APP.INTERLINEAR_FALLBACK_PRIMARY;
 		const versionA = app.versionManager.getVersion(primaryVersionAbbr);
 		const versionB = app.versionManager.getVersion('ABT');
 
@@ -1641,26 +1657,27 @@ async function toggleInterlinearFromVersionSelector() {
 		}
 
 		if (!versionA) {
-			// Fall back to BSB if configured version not found
-			console.warn(`Configured version ${primaryVersionAbbr} not found, falling back to BSB`);
-			app.configManager.setValue('interlinearPrimaryVersion', 'BSB');
-			const fallbackVersion = app.versionManager.getVersion('BSB');
+			// Fall back to ESV if configured version not found
+			console.warn(`Configured version ${primaryVersionAbbr} not found, falling back to ${APP.INTERLINEAR_FALLBACK_PRIMARY}`);
+			app.configManager.setValue('interlinearPrimaryVersion', APP.INTERLINEAR_FALLBACK_PRIMARY);
+			const fallbackVersion = app.versionManager.getVersion(APP.INTERLINEAR_FALLBACK_PRIMARY);
 
 			if (!fallbackVersion) {
-				app.modalManager.showError('Interlinear mode requires BSB or another configured version.');
+				app.modalManager.showError(`Interlinear mode requires ${APP.INTERLINEAR_FALLBACK_PRIMARY} or another configured version.`);
 				return;
 			}
 		}
 
 		// Check if at least one source is available for each
 		try {
-			const versionToCheck = versionA || app.versionManager.getVersion('BSB');
+			const versionToCheck = versionA || app.versionManager.getVersion(APP.INTERLINEAR_FALLBACK_PRIMARY);
 			await app.versionManager.resolveVersionSource(versionToCheck);
 			await app.versionManager.resolveVersionSource(versionB);
 		} catch (error) {
 			app.modalManager.showError('Error: One or both versions are not available.<br><br>' + error.message);
 			return;
 		}
+		app.interlinearPrimaryVersion = primaryVersionAbbr;
 	}
 
 	app.configManager.setValue('interlinearMode', !currentValue);
@@ -1671,6 +1688,18 @@ async function toggleInterlinearFromVersionSelector() {
 	loadCurrentChapter();
 	updateDisplay();
 	animateContentTransition('right');
+}
+
+function updateInterlinearButtonText() {
+	const interlinearText = document.getElementById('interlinearVersionText');
+	if (!interlinearText) return;
+
+	const currentVersion = app.navigationManager.getCurrentVersion();
+	const primaryVersionAbbr = (isCompleteVersion(currentVersion) && currentVersion !== 'ABT')
+		? currentVersion
+		: app.configManager.getValue('interlinearPrimaryVersion') || APP.INTERLINEAR_FALLBACK_PRIMARY;
+
+	interlinearText.textContent = `Compare ${primaryVersionAbbr} with ABT`;
 }
 
 function isCompleteVersion(versionAbbr) {
@@ -1844,8 +1873,7 @@ async function noteGoToVerse() {
 
 		// Disable interlinear mode when navigating
 		if (app.configManager.getValue('interlinearMode')) {
-			app.configManager.setValue('interlinearMode', false);
-			updateInterlinearMenuText();
+			disableInterlinear();
 		}
 
 		// Switch to ABT
@@ -1874,8 +1902,7 @@ async function noteGoToVerse() {
 	} else {
 		// Disable interlinear mode when navigating
 		if (app.configManager.getValue('interlinearMode')) {
-			app.configManager.setValue('interlinearMode', false);
-			updateInterlinearMenuText();
+			disableInterlinear();
 		}
 	}
 
@@ -1890,20 +1917,6 @@ async function noteGoToVerse() {
 	setTimeout(() => {
 		app.contentRenderer.scrollToVerse(verse);
 	}, APP.TIMEOUT);
-}
-
-function editVerse() {
-	if (!app.selectedVerse) return;
-
-	const currentVersion = app.navigationManager.getCurrentVersion();
-	if (currentVersion !== 'ABT') {
-		openToast('Edit is only available for ABT version');
-		return;
-	}
-
-	// console.log('Edit verse:', app.selectedVerse);
-	openToast('Verse editor coming soon!');
-	closeModal(MODAL.VERSEMENU);
 }
 
 // Bookmark functions
@@ -1946,8 +1959,7 @@ function gotoBookmark() {
 
 	// Disable interlinear mode when navigating from bookmark
 	if (app.configManager.getValue('interlinearMode')) {
-		app.configManager.setValue('interlinearMode', false);
-		updateInterlinearMenuText();
+		disableInterlinear();
 	}
 
 	// Navigate to the bookmarked position
@@ -2133,7 +2145,6 @@ function copyVerseText() {
 
 	// Replace textarea content
 	document.getElementById('noteText').value = app.selectedVerseText;
-	openToast('Verse text copied to editor');
 }
 
 async function sendSuggestion(bookId, chapter, verse, suggestionText) {
@@ -2426,7 +2437,7 @@ function toggleReadingComplete(el) {
 
 	// Check if day is now complete
 	if (isComplete && app.dailyReadingManager.isDayComplete(dayNum)) {
-		showDayCompleteDialog(dayNum);
+		openToast(`Day ${dayNum} Daily Reading Complete!`);
 	}
 }
 
@@ -2680,8 +2691,7 @@ async function checkVersionForReading(bookName, chapter) {
 		
 		// Disable interlinear mode when switching
 		if (app.configManager.getValue('interlinearMode')) {
-			app.configManager.setValue('interlinearMode', false);
-			updateInterlinearMenuText();
+			disableInterlinear();
 		}
 		
 		loading('Switching to KJV...');
@@ -2732,26 +2742,6 @@ function handleDailyReadingNext() {
 	} else {
 		openToast('Already at last reading for this day');
 	}
-}
-
-// Day Complete Dialog Handlers
-
-function showDayCompleteDialog(dayNumber) {
-	document.getElementById('completedDayNumber').textContent = dayNumber;
-	app.modalManager.show(MODAL.DAYCOMPLETE);
-}
-
-function dayCompleteOK() {
-	app.modalManager.hide(MODAL.DAYCOMPLETE);
-	if (!app.modalManager.isVisible(MODAL.READINGPLAN)) {
-		showReadingPlan();
-	}
-	// Stay in daily reading mode
-}
-
-function dayCompleteReturnToBible() {
-	app.modalManager.hide(MODAL.DAYCOMPLETE);
-	exitDailyReadingMode();
 }
 
 // Render day cards dynamically

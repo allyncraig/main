@@ -675,33 +675,6 @@
 	box-shadow: var(--shadow-1);
 }
 
-/* Day Complete Modal */
-
-.daycomplete-message {
-	font-size: 16px;
-	font-weight: bold;
-	padding: var(--padding-sm);
-}
-
-.daycomplete-button-row {
-	display: flex;
-	flex-direction: row;
-	margin-top: 10px;
-	gap: 8px;
-	padding: var(--padding-sm);
-}
-
-.daycomplete-button {
-	font-size: 14px;
-	color: var(--color-txt-emphasize);
-	border-radius: var(--radius-sm);
-	box-shadow: var(--shadow-1);
-	line-height: unset !important;
-	min-height: unset !important;
-	height: 40px;
-	flex: 1;
-}
-
 /* VotD Styles in About Modal */
 
 .votd-area {
