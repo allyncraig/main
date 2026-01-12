@@ -27,13 +27,13 @@ Download [Android APK](MyBibleApp.apk) - direct install if accessing from an And
 To install a Progressive Web App (PWA) on an iOS device, you must use the Safari browser, as iOS only supports PWA installation through Safari. The process is straightforward and involves the following steps:
 
 - Open the Safari browser on your iPhone or iPad.
-- Navigate to the website of the PWA you wish to install.
+- Navigate to the <a class="action-link" href="./pwa/" target="_blank" rel="noopener">PWA Website</a>.
 - Tap the share icon (a square with an upward arrow) located at the bottom of the screen.
 - From the share menu, select "Add to Home Screen".
-- Optionally, you can rename the app shortcut to a preferred name before adding it.
+  - Optionally, you can rename the app shortcut to a preferred name before adding it.
 - Tap "Add" to confirm the installation.
 
-Once installed, the PWA will appear on your home screen and can be launched like a native app. This method works on iOS 16.3 and later, with support available from Safari, Chrome, Edge, Firefox, and Orion browsers on iOS 16.4 and newer.
+Once installed, the PWA will appear as an icon on your home screen and can be launched like a native app. This method works on iOS 16.3 and later.
 
 
 ---
