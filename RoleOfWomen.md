@@ -27,10 +27,10 @@ Scripture teaches that *“the wages of sin is death”* (Rom 6:23), and that *�
 
 In 1 Corinthians 14:34, Paul explicitly grounds his instruction in “the Law.” The surrounding context strengthens this claim:
 
-> *“As in all the churches of the saints…”* (v. 33)
-> *“just as the law also says.”* (v. 34)
-> *“The things I am writing to you are a commandment of the Lord.”* (v. 37)
-> *“If anyone does not recognize this, he is not recognized.”* (v. 38)[^3]
+> *“As in all the churches of the saints…”* (v. 33)  
+> *“just as the law also says.”* (v. 34)  
+> *“The things I am writing to you are a commandment of the Lord.”* (v. 37)  
+> *“If anyone ignores this, he is to be ignored.”* (v. 38)[^3]
 
 Likewise, Paul roots his instruction in 1 Timothy 2 not in culture, but in creation itself:
 
@@ -49,9 +49,9 @@ If breaking God’s law constitutes sin (1 John 3:4), and sin leads to death (Ro
 
 ## Do Other Scriptures Contradict This?
 
-Some appeal to Galatians 3:28 (*“there is neither male nor female”*) as a counterargument. However, this text addresses **equal access to salvation**, not church authority or spiritual gifts. Combining it with 1 Corinthians 14 creates a contradiction only if the passages are forced into the same category.
+Some appeal to Galatians 3:28 (*“there is neither male nor female”*) as a counterargument. However, this text addresses **equal access to salvation**, not church authority or spiritual gifts. Combining it with 1 Corinthians 14 creates a contradiction if the passages are forced into the same category.
 
-This is similar to combining Genesis 4:8 (*Cain killed his brother, Abel*) with Luke 10:37 (*“Jesus said, Go and do likewise!”*). Context determines meaning. Galatians 3 concerns justification and unity in Christ (Fundamental Belief #7); 1 Corinthians 14 concerns **church order and spiritual gifts** (Fundamental Belief #17). Scripture does not present these as competing ideas.
+This is similar to combining Genesis 4:8 (*Cain killed his brother, Abel*) with Luke 10:37 (*“Jesus said, Go and do likewise!”*). Context determines meaning. Galatians 3 concerns justification and unity in Christ (SDA Fundamental Belief #7); 1 Corinthians 14 concerns **church order and spiritual gifts** (SDA Fundamental Belief #17). Scripture does not present these as competing ideas.
 
 Notably, no biblical text overturns Paul’s declaration that these instructions are commandments of the Lord.
 

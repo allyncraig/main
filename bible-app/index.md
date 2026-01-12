@@ -16,15 +16,13 @@ This Bible App provides fast access to Scripture with a clean, distraction-free 
 
 ### Mobile App
 
-Download [Android APK](MyBibleApp.apk) - direct install if accessing from an Android device.
+Download [Android APK](MyBibleApp.apk) - direct install if accessing from an Android device. Current Version: 0.7.59.
 
-Download [Android DEBUG APK](MyBibleApp-debug.apk) - direct install if accessing from an Android device.
-
+<!-- Download [Android DEBUG APK](MyBibleApp-debug.apk) - direct install if accessing from an Android device. -->
 
 ### Progressive Web App
 
 <a class="action-link" href="./pwa/" target="_blank" rel="noopener">PWA</a> : Progressive Web App - Installable in supported browsers
-
 
 To install a Progressive Web App (PWA) on an iOS device, you must use the Safari browser, as iOS only supports PWA installation through Safari. The process is straightforward and involves the following steps:
 

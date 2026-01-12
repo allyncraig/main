@@ -803,6 +803,8 @@ async function loadChapterContent(version) {
 				verses
 			);
 		} else if (resolvedVersion.source === 'api') {
+			// SHOW SPINNER for API load
+			loading(`Loading ${resolvedVersion.version}...`);
 			const content = await app.apiClient.fetchChapter(
 				resolvedVersion,
 				currentBook.apiId,
@@ -814,8 +816,11 @@ async function loadChapterContent(version) {
 				app.navigationManager.getCurrentChapter(),
 				content
 			);
+			// HIDE SPINNER after render
+			closeLoading();
 		}
 	} catch (error) {
+		closeLoading();
 		console.error('Error loading chapter:', error);
 		app.contentRenderer.renderError('Error loading chapter: ' + error.message);
 	}
@@ -1112,11 +1117,8 @@ async function selectVersion(element) {
 		console.error('Version not found:', versionAbbr);
 		return;
 	}
-	const isApi = (version.source === 'api');
 
 	closeModal(MODAL.VERSION);
-
-	if (isApi) loading('Loading ' + version.name + '...');
 
 	const currentBook = app.versionManager.findBookById(app.navigationManager.getCurrentBook());
 	const result = await app.versionManager.switchVersionSafely(
@@ -1137,19 +1139,17 @@ async function selectVersion(element) {
 
 		updateDisplay();
 		updateInterlinearButtonText();
-		animateContentTransition('right');
 		await loadChapterContent(version);
-		if (isApi) closeLoading();
+		animateContentTransition('right');
 	} else {
-		if (isApi) closeLoading();
 		app.modalManager.showError(
 			'Failed to load ' + version.name + ': ' + result.error + '<br><br>Reverting to KJV.',
 			() => {
 				app.navigationManager.setCurrentVersion('KJV');
 				app.navigationManager.saveSettings();
 				updateDisplay();
-				animateContentTransition('right');
 				loadCurrentChapter();
+				animateContentTransition('right');
 			}
 		);
 	}
