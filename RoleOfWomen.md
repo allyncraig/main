@@ -2,128 +2,131 @@
 
 [Projects Page](index.md)
 
-## The Problem
+## Is This a Matter of Sin?
 
-I have been following the issue of Women’s Role in the Church for many years. And for quite a while I did not take a particular stance on either side of the issue.
+This discussion examines the role of women in the church using a *Sola Scriptura* approach. Too often, arguments on this topic rely on cultural assumptions or extra-biblical reasoning. Instead, this paper seeks to determine what conclusions—if any—can be drawn **solely from Scripture**, particularly from:
 
-On the one hand, when I listened to sermons or read articles by those advocating for allowing women to fill all roles in the church, I was never able to accept their position for multiple reasons:
+* 1 Corinthians 14:34–35
+* 1 Timothy 2:11–12
 
-* Different presenters provided contrasting, often contradictory evidence to support their positions;
-* Or they would use extra-biblical “evidence” to support their position[^1];
-* Or they would cite false information[^2];
-* Or they would quote misapplied scriptural references[^3];
-* Or they would tear down the Bible and say that we can ignore these verses completely[^4].
+> *“Let the women keep silent in the churches…”* (1 Cor 14:34–35)[^1]  
+> *“I do not permit a woman to teach or to exercise authority over a man…”* (1 Tim 2:11–12)[^2]
 
-However, when I listened to sermons or read articles by those supporting the traditional view that women should not be pastors and elders, something was missing.
+At first glance, two foundational questions arise:
 
-In fact, a common response I would hear from many Adventists when asked about this topic, was “It’s not that important. There are more important issues. Show me where in the Bible it says that we will lose our salvation if we allow women to be pastors or elders. If you can't, then the issue is not important and I’m not going to worry about it.”
+1. **How important are these passages?** Are they merely cultural guidance, or do they affect salvation?
+2. **What do they mean in practice?** How do we move from Paul’s instructions to concrete church roles such as pastors and elders?
 
-This is a critical question that nobody seemed to be addressing! Will we lose our salvation if we allow women to be pastors and elders?
+These questions must be addressed carefully and biblically.
 
-If it’s not a matter of salvation, then why should we care? But if the Bible says that it is a matter of salvation, then we should do our utmost to make sure that we are following the Bible’s instructions.
+---
 
-## Looking for a Solution
+## How Important Are These Passages?
 
-For a long time, I didn't care much either way. I figured, "If nobody has found an answer so far, then maybe there isn't really an answer, and, like everyone says, maybe it's not that important."
+Scripture teaches that *“the wages of sin is death”* (Rom 6:23), and that *“sin is the transgression of the law”* (1 John 3:4). If disobedience to God’s law results in sin, then determining whether these passages constitute “law” is critical.
 
-But at one point I became dissatisfied with that answer. I thought, "Maybe there really is something in the Bible that can tell us either way. I can at least look." To be honest, I didn't expect to find anything definitive.
+In 1 Corinthians 14:34, Paul explicitly grounds his instruction in “the Law.” The surrounding context strengthens this claim:
 
-But after searching, I did find something. It turns out that there is an answer. You see, everyone has been so hyper-focused on verses 34,35 of 1 Corinthians chapter 14, and verses 11,12 of 1 Timothy chapter 2 that we missed the context: the surrounding verses. And it is in these surrounding verses where we can find the answers to why the role of women in the church is so important.
+> *“As in all the churches of the saints…”* (v. 33)
+> *“just as the law also says.”* (v. 34)
+> *“The things I am writing to you are a commandment of the Lord.”* (v. 37)
+> *“If anyone does not recognize this, he is not recognized.”* (v. 38)[^3]
 
-I believe that a 100% *Sola Scriptura* answer can be provided for this issue. No extra-biblical explanations needed. No tearing down the Bible.
+Likewise, Paul roots his instruction in 1 Timothy 2 not in culture, but in creation itself:
 
-## The Solution
+> *“For Adam was created first, then Eve.”* (1 Tim 2:13)
 
-It is always important, when reading the Bible, to make sure that you're not taking verses out of context. So the first thing to do is to take a step back from just verses 34, 35 of 1 Corinthians chapter 14, and look at the overall context of chapter 14 and surrounding chapters.
+From the text itself, several conclusions follow:
 
-In fact, let's start in chapter 12 of 1 Corinthians. Chapter 12 is all about Spiritual Gifts.
+* These instructions apply to **all churches**, not a single congregation.
+* Paul explicitly calls them **the law** and **a commandment of the Lord**.
+* Disregard for them carries **church-level consequences**.
+* Their grounding in creation places them **prior to sin**, not within a cultural moment.
 
-Moving on to Chapter 13, it's widely known as "The Love Chapter of the Bible." But if you look closely at the subtext, you will find that this chapter, also, is about Spiritual Gifts\!
+If breaking God’s law constitutes sin (1 John 3:4), and sin leads to death (Rom 6:23), then Scripture itself frames this issue as spiritually significant. This conclusion relies entirely on biblical premises.
 
-Notice all of the Spiritual Gifts references: "If I ***speak in the tongues*** of men and angels..." (v1), "If I have the ***gift of prophecy***, and can ***fathom all mysteries*** and ***all knowledge***... ***absolute faith***" (v2), "If all I have I ***give to the poor***, ... ***surrender my body (martyrdom)***..." (v3), "... ***prophecies*** ... ***tongues*** ... ***knowledge*** ..." (v8), "... ***know***... ***prophesy*** ..." (v9). ALL OF THESE ARE SPIRITUAL GIFTS\!
+---
 
-Next, in Chapter 14, we see that it starts and ends with references to Spiritual Gifts: "Earnestly pursue love and eagerly desire spiritual gifts, especially the gift of prophecy." (v1) and "So, my brothers, be eager to prophesy, and do not forbid speaking in tongues." (v30).
+## Do Other Scriptures Contradict This?
 
-So 1 Corinthians chapters 12, 13 and 14 are all about Spiritual Gifts:
-* Chapter 12 is an overview of Spiritual Gifts;
-* Chapter 13 says that we must use our Spiritual Gifts in loving service to God and Man, else they are wasted;
-* Chapter 14 is instructions about the proper use of Spiritual Gifts in the church.
+Some appeal to Galatians 3:28 (*“there is neither male nor female”*) as a counterargument. However, this text addresses **equal access to salvation**, not church authority or spiritual gifts. Combining it with 1 Corinthians 14 creates a contradiction only if the passages are forced into the same category.
 
-So, since the entirety of 1 Corinthians chapter 14 is about spiritual gifts, and the proper use of spiritual gifts in church services, **if an interpretation of verses 34, 35 does not take** ___Spiritual Gifts___ **into account**, then that understanding has missed the point, it is taking the verses out of context, and **it must necessarily be false**.
+This is similar to combining Genesis 4:8 (*Cain killed his brother, Abel*) with Luke 10:37 (*“Jesus said, Go and do likewise!”*). Context determines meaning. Galatians 3 concerns justification and unity in Christ (Fundamental Belief #7); 1 Corinthians 14 concerns **church order and spiritual gifts** (Fundamental Belief #17). Scripture does not present these as competing ideas.
 
-Since the vast majority of interpretations of these verses do not take this into account, we can easily dismiss them as false, and focus only on the one interpretations that does look at these verses in the context of Spiritual Gifts: that they relate to restrictions on the Spiritual Gift roles that women may hold in the church.
+Notably, no biblical text overturns Paul’s declaration that these instructions are commandments of the Lord.
 
-The roles of pastor and elder are spiritual gifts (see Ephesians 4:11 and Romans 12:8), so Paul forbidding these roles to women would fit in the context. And it is the ***only*** interpretation that fits in the context.
+---
 
-And while this is a key detail that helps understand these verses, it is not the only detail. Not only should we look at the larger context (chapters 12 through 14), we should also look for additional context in the verses near 1 Cor 14:34,35 and 1 Tim 2:11,12.
+## What Do These Verses Mean?
 
-With that in mind, in 1 Cor 14 let's expand from only looking at verses 34,35 to also look at verses 33 through 38. Similarly, let's add verse 13 to 1 Timothy 2:11,12. I'll add some emphasis to point out a few key elements:
+The passages do not explicitly mention “pastors” or “elders.” To understand their application, Scripture must interpret Scripture.
 
-> “<sup>33</sup> since God is not a God of disorder but of peace. ***As in all the churches of the saints***, <sup>34</sup> the women should be silent in the churches, for they are not permitted to speak, but are to submit themselves, ***as the law also says***. <sup>35</sup> If they want to learn something, let them ask their own husbands at home, since it is disgraceful for a woman to speak in the church. <sup>36</sup> Or did the word of God originate from you, or did it come to you only? <sup>37</sup> If anyone thinks he is a prophet or spiritual, he should recognize that ***what I write to you is the Lord's commandment***. <sup>38</sup> ***If anyone ignores this, he should be ignored***.”
-* 1 Cor 14:33-38
+The broader context of 1 Corinthians 14 (and indeed chapters 12–14) is **spiritual gifts**, particularly those involving public speaking and authority within the congregation. Any interpretation of verses 33–38 that ignores this context fails the *Sola Scriptura* test (and must also be incompatible with SDA Fundamental Belief #1).
 
-> “<sup>11</sup> A woman is to learn quietly with full submission. <sup>12</sup> I do not allow a woman to teach or to have authority over a man; instead, she is to remain quiet. <sup>13</sup> ***For Adam was created first, then Eve***.”
-* 1 Tim 2:11-13
+Two specific restrictions appear:
 
-Notice the additional details that these extra verses bring to the overall context:
+1. **Speaking** (1 Cor 14:34)
+2. **Teaching and exercising authority** (1 Tim 2:12)
 
-- This is for all the churches of the saints, not just the local Corinthian church;
-- This is the law, and therefore a matter of salvation;
-- This is the law, ***AND*** a commandment from God;
-- Those who ignore this commandment should be ignored, or kicked out of the church;
-- This law/commandment was established when “Adam was created first,” and thus has been in effect since before sin.
+The Greek term translated “speak” consistently refers to **public proclamation or preaching**, not casual conversation. Within a chapter devoted to regulating public worship and spiritual gifts, the most reasonable conclusion is that Paul is restricting **authoritative, public speaking Spiritual Gift roles**.
 
-Note that Paul says that this is the Law and a Commandment from God.
+Pastors and elders, as described in Ephesians 4:11 and Romans 12:8, are spiritual gifts roles associated with preaching and authority. Therefore, restricting these roles to men aligns naturally with Paul’s instructions. No alternative modern practice satisfies all the biblical constraints simultaneously.
 
-Reasoning from scripture, if we break this one law, we break the whole law (James 2:10), sin is the transgression of the law (1 John 3:4), and the wages of sin is death (Romans 6:23). In other words, the Bible itself tells us that this matter is such a big deal that our salvation is affected.
+---
 
-## What does it all mean?
+## Is This a Sin?
 
-But that’s not all. I eventually realized that there’s more to it than just that. After all, why should this be a law and a matter of salvation? Why should we pay attention to this ritual that seems to push women down?
+If pastoral and elder roles are spiritual gifts involving preaching and authority, and if Scripture presents their restriction as a universal commandment established at creation, then allowing women to occupy these roles constitutes disobedience to that command.
 
-Consider for a moment some other strange rituals that we diligently observe in the Adventist Church: the Sabbath, Baptism, Communion and Tithing. These are all important elements of our faith, but they are also a bit strange. Strange, that is, until you look at them in the context that they are symbols of different aspects of our relationship with Jesus.
+By biblical definition, disobedience to God’s law is sin.
 
-Could it be that the male-only headship in the church is also a symbol of yet another aspect of our relationship with Jesus Christ? Isn’t the Bible full of symbols where God portrays himself as the man, husband, pastor or shepherd and his people as the woman, wife, congregation or flock? “For the husband is the head of the wife as Christ is the head of the church, his body, and is himself its Savior.” Ephesians 5:23.
+---
 
-Every Sabbath we inconvenience ourselves to cease our normal activities and rest to symbolically recognize Jesus as our creator. Similarly, when we inconvenience ourselves to appoint men only as pastors and elders, we symbolically recognize Jesus as the head of the church. Instead of looking at this ritual as pushing women down, we should look at it as lifting Jesus up as the rightful head of the church and portraying women as the beautiful and pure bride of Christ.
+## Why Would God Command This?
 
-Consider also, that since women symbolize the people, appointing a woman as pastor or elder would be portraying the people as leading the church and is the equivalent to saying that we, the church, don’t need Jesus, and we can save ourselves. Wouldn't that be spiritual treason?
+Many biblical practices—Sabbath, baptism, communion, tithing—appear inconvenient or even strange until their symbolic meaning is understood. Each symbolizes different aspects of our relationship with Jesus Christ.
 
-Could this be why it is so important for us, as a church, to keep this commandment and not allow women to fill the roles of pastor and elder?
+Scripture repeatedly portrays God as husband, shepherd, or head, and His people as bride, flock, or body (Eph 5:23; Rev 19:7–9; Hosea; Isaiah 54:5). Male headship in the church functions as a **symbolic affirmation of Christ’s headship** over His people.
 
-## Such a Small Matter
+Seen this way, restricting pastoral headship to men is not about diminishing women, but about **exalting Christ**. Reversing the symbol risks portraying the church as self-led rather than Christ-led.
 
-It may seem like it’s a small matter to allow women to fill all roles in the church, but remember that the Bible is filled with stories showing that even small matters can make a big difference:
+---
 
-* It was a small matter for Cain to bring an offering as God required it, but his disobedience had severe consequences.
-* It was a small matter for Moses to speak to the rock instead of striking it, and his mistake cost him dearly.
-* It was a small matter for Achan to hide a cloth, along with some gold and silver, but his disobedience cost him not only his life but also the lives of his entire family.
-* It was a small matter for David to refrain from killing Saul in the cave, but he would rather suffer more years of hardship than kill the Lord’s anointed. And what blessings did he gain by his obedience?
-* It was a small matter for Daniel’s three friends to bow down when instructed.
-* It was a small matter for Naaman to dip three times in the Jordan River.
+## “Such a Small Matter”
 
-So many stories hinging around obedience to God in even small matters. Even Jesus told a parable about the good and faithful servant who was faithful in little things.
+Scripture repeatedly shows that “small” acts of disobedience carry great consequences:
 
-And the smallest and most tragic matter of all? In the beginning of this world’s history, Adam and Eve were given one small command from God. It was so easy! Ignore one fruit tree out of how many dozens, hundreds or even thousands! And yet how much pain, misery, suffering and death came about because of a couple of bites of fruit. It was such a small thing! It wasn’t even in the Ten Commandments!
+* Cain’s improper offering
+* Moses striking the rock
+* Achan’s hidden garment
+* Adam and Eve’s forbidden fruit
 
-*But it wasn’t about the fruit\!*
+In each case, the issue was not the act itself, but obedience.
 
-***It was about obedience to God.***
+Jesus Himself taught that faithfulness in small things reveals faithfulness in great ones.
 
-And how much more tragic will it be for you and me, now at the end of earth’s history, if we eat of this fruit that God has forbidden: "Don’t do this one little thing. It’s such a small thing! My yoke is easy! All other roles are available. There are so many ways that women can be involved in serving the church, in spreading the gospel."
+---
 
-So do we follow God’s commandment regarding roles in the church? Or do we, like Adam and Eve, rebel against God’s explicit instructions and thus risk our eternal salvation over such a simple matter?
+## Conclusion
 
-Think about it: is it really that difficult to obey this one simple rule, especially when the Bible shows that rule to be a matter of salvation?
+The question is not whether this command is difficult to obey, but whether obedience matters. Scripture consistently teaches that it does.
+
+If God has clearly spoken, and if His command concerns church order, symbolism, and obedience, then the choice before us mirrors that faced throughout biblical history:
+
+Will we submit to God’s instruction, or redefine it according to our preferences?
+
+According to Scripture, the stakes are not small.
 
 ---
 
 ## Footnotes
 
-[^1]: Contrary to SDA Fundamental Belief #1 and the principle of *Sola Scriptura*.
+[^1] Full Quote:  
+> 34 *Let the women keep silent in the churches, for they are not permitted to speak, but must be in submission, just as the Law also says.* 35 *If they want to learn anything, let them ask their own husbands at home, for it is shameful for a woman to speak in church.* (1 Cor 14:34,35)
 
-[^2]: One example of this I heard is that the verses are a reference to churches being segregated with a divider down the middle, men sitting on one side and women on the other. Supposedly this was done because that was the standard Jewish practice (many early Christians having been Jews before converting), so early Christians in Corinth had followed the Jewish custom. The problem, supposedly was that when women would have a question about the sermon, they would stand up and shout to their husbands across the divider asking for an explanation. While seemingly plausible, this is an obviously false idea because the Jews didn’t start segregating their synagogues by gender until the 7th Century AD, 600+ years after Paul wrote these instructions, with the first synagogue with dividers not being built until the 11th Century in Worms, Germany - and that Synagogue had the women seated in the balcony. The first synagogue with side-by-side division was not built until the 1800s.
+[^2] Full Quote:  
+> *11 A woman should learn in quietness and full submission. 12 I do not permit a woman to teach or to assume authority over a man; she must be quiet, 13 **because Adam was created first, then Eve**.* (1 Tim 2:11-13)
 
-[^3]: Such as Gal 3:28. Putting Gal 3:28 with 1 Cor 14:34,35 together is akin to putting Genesis 4:8 "And Cain rose up and slew his brother Abel" with Luke 10:27 "Jesus said, 'Go, thou, and do likewise'". There are three specific reasons why Gen 4:8 doesn't go with Luk 10:27: (a) they're two different topics; (b) putting them together creates a contradiction; and (c) the contradiction goes against a commandment (Exo 20:13). Putting Gal 3:28 with 1 Cor 14:34,35 is wrong for the same 3 reasons. Gal 3:28 is about the universality of the Gospel (SDA fundamental belief #7), while the context of 1 Cor 14 is spiritual gifts (SDA fundamental belief #17). These are two completely separate topics. Putting them together also creates a contradiction: how could Paul allow something in one place, then disallow it in another? Which do you follow? And to the third point, I'll show later in this article that 1 Cor 14:34,35 is a Commandment.
 
-[^4]: As did one “Adventist” pastor in a sermon when he said that Paul was schizophrenic when he wrote 1 Cor 14:34,35 and that we can, therefore ignore what he wrote, obviously in contradiction to 2 Tim 3:16, “for all scripture is inspired by God and is useful for doctrine, for reproof, for correction, for instruction in righteousness.” If Paul was schizophrenic, then how could we trust anything he wrote, and how could it be true that all scripture is inspired by God? And if we can discard this piece of scripture, then what else can we discard from the Bible just because we don’t agree with it? If you tear down 1 Cor 14:34,35 you not only disregard the principle of *Sola Scriptura*, you also tear down the entire Bible in the process.
+[^3] Full Quote (with emphasis added):  
+> 33 *For God is not a God of confusion but of peace, **as in all the churches of the saints**.* 34 *Let the women keep silent in the churches, for they are not permitted to speak, but must be in submission, **just as the Law also says**.* 35 *If they want to learn anything, let them ask their own husbands at home, for it is shameful for a woman to speak in church.* 36 *Or was it from you that the word of God came? Or are you the only ones it has reached?* 37 *If anyone thinks that he is a prophet or spiritual, let him recognize that **the things I am writing to you are a commandment of the Lord**.* 38 *But **if anyone ignores this, he is to be ignored**.* (1 Cor 14:33-38)
