@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABT Bible Reader</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #f5f0e8;
+    --bg-secondary: #ede6d6;
+    --bg-sidebar: #2c2416;
+    --bg-sidebar-hover: #3d3220;
+    --bg-sidebar-active: #5c4a2a;
+    --bg-header: #1e1a12;
+    --text-primary: #1a1208;
+    --text-secondary: #4a3c22;
+    --text-muted: #7a6a4a;
+    --text-sidebar: #d4c9a8;
+    --text-sidebar-active: #f5e9c8;
+    --text-header: #f5e9c8;
+    --accent: #8b6914;
+    --accent-light: #c49a2a;
+    --accent-glow: rgba(196, 154, 42, 0.2);
+    --border: rgba(139, 105, 20, 0.25);
+    --border-sidebar: rgba(212, 201, 168, 0.1);
+    --shadow: rgba(0,0,0,0.15);
+    --verse-num: #9b7e2a;
+    --chapter-active-bg: rgba(139, 105, 20, 0.25);
+    --scroll-thumb: #8b6914;
+    --scroll-track: #ede6d6;
+  }
+
+  [data-theme="dark"] {
+    --bg-primary: #0f0d09;
+    --bg-secondary: #1a1710;
+    --bg-sidebar: #0a0805;
+    --bg-sidebar-hover: #1c1810;
+    --bg-sidebar-active: #2e2510;
+    --bg-header: #070604;
+    --text-primary: #e8dfc8;
+    --text-secondary: #c4b890;
+    --text-muted: #7a6a4a;
+    --text-sidebar: #b0a480;
+    --text-sidebar-active: #f0e4c0;
+    --text-header: #f0e4c0;
+    --accent: #c49a2a;
+    --accent-light: #e8c050;
+    --accent-glow: rgba(196, 154, 42, 0.15);
+    --border: rgba(196, 154, 42, 0.2);
+    --border-sidebar: rgba(176, 164, 128, 0.08);
+    --shadow: rgba(0,0,0,0.5);
+    --verse-num: #c49a2a;
+    --chapter-active-bg: rgba(196, 154, 42, 0.2);
+    --scroll-thumb: #4a3c22;
+    --scroll-track: #1a1710;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    font-family: 'EB Garamond', Georgia, serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background 0.3s, color 0.3s;
+  }
+
+  /* ── LAYOUT ── */
+  .app {
+    display: grid;
+    grid-template-rows: 52px 1fr;
+    grid-template-columns: 260px 1fr;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    grid-column: 1 / -1;
+    background: var(--bg-header);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 16px;
+    border-bottom: 1px solid rgba(196, 154, 42, 0.3);
+    box-shadow: 0 2px 12px var(--shadow);
+    z-index: 10;
+  }
+
+  .header-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent-light);
+    text-transform: uppercase;
+    flex: 1;
+  }
+
+  .header-title span {
+    font-weight: 400;
+    color: var(--text-header);
+    opacity: 0.6;
+    font-size: 0.85rem;
+    margin-left: 8px;
+    letter-spacing: 0.06em;
+  }
+
+  .header-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .ctrl-btn {
+    background: rgba(196, 154, 42, 0.12);
+    border: 1px solid rgba(196, 154, 42, 0.25);
+    color: var(--accent-light);
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-family: 'EB Garamond', serif;
+    font-size: 1rem;
+    line-height: 1;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    user-select: none;
+  }
+
+  .ctrl-btn:hover {
+    background: rgba(196, 154, 42, 0.22);
+    border-color: rgba(196, 154, 42, 0.5);
+  }
+
+  .ctrl-btn.theme-btn {
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.06em;
+  }
+
+  .font-size-display {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.04em;
+    min-width: 32px;
+    text-align: center;
+    opacity: 0.8;
+  }
+
+  /* ── SIDEBAR ── */
+  aside {
+    background: var(--bg-sidebar);
+    border-right: 1px solid rgba(196, 154, 42, 0.2);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #4a3822 #0a0805;
+  }
+
+  aside::-webkit-scrollbar { width: 5px; }
+  aside::-webkit-scrollbar-track { background: #0a0805; }
+  aside::-webkit-scrollbar-thumb { background: #4a3822; border-radius: 3px; }
+
+  .sidebar-section-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(196, 154, 42, 0.5);
+    padding: 14px 16px 6px;
+    border-bottom: 1px solid var(--border-sidebar);
+  }
+
+  .sidebar-section-label:not(:first-child) {
+    margin-top: 4px;
+  }
+
+  /* Book row */
+  .book-item {
+    border-bottom: 1px solid var(--border-sidebar);
+  }
+
+  .book-header {
+    display: flex;
+    align-items: center;
+    padding: 9px 14px 9px 16px;
+    cursor: pointer;
+    color: var(--text-sidebar);
+    font-size: 0.92rem;
+    transition: background 0.15s, color 0.15s;
+    user-select: none;
+    gap: 8px;
+  }
+
+  .book-header:hover {
+    background: var(--bg-sidebar-hover);
+    color: var(--text-sidebar-active);
+  }
+
+  .book-header.active {
+    color: var(--accent-light);
+    background: var(--bg-sidebar-hover);
+  }
+
+  .book-abbr {
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    color: rgba(196, 154, 42, 0.5);
+    min-width: 26px;
+  }
+
+  .book-name {
+    flex: 1;
+    line-height: 1.3;
+  }
+
+  .book-chevron {
+    font-size: 0.6rem;
+    color: rgba(196, 154, 42, 0.4);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .book-item.expanded .book-chevron { transform: rotate(90deg); }
+  .book-item.expanded .book-header { color: var(--accent-light); }
+
+  /* Chapter grid */
+  .chapter-list {
+    display: none;
+    padding: 6px 10px 10px 14px;
+    background: rgba(0,0,0,0.2);
+  }
+
+  .book-item.expanded .chapter-list { display: flex; flex-wrap: wrap; gap: 4px; }
+
+  .ch-btn {
+    width: 30px;
+    height: 26px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(196, 154, 42, 0.15);
+    border-radius: 3px;
+    color: var(--text-sidebar);
+    font-family: 'EB Garamond', serif;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+
+  .ch-btn:hover {
+    background: rgba(196, 154, 42, 0.15);
+    color: var(--text-sidebar-active);
+    border-color: rgba(196, 154, 42, 0.35);
+  }
+
+  .ch-btn.active {
+    background: var(--chapter-active-bg);
+    border-color: var(--accent);
+    color: var(--accent-light);
+    font-weight: 500;
+  }
+
+  /* ── MAIN CONTENT ── */
+  main {
+    background: var(--bg-primary);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scroll-thumb) var(--scroll-track);
+    display: flex;
+    flex-direction: column;
+  }
+
+  main::-webkit-scrollbar { width: 7px; }
+  main::-webkit-scrollbar-track { background: var(--scroll-track); }
+  main::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius: 4px; }
+
+  .reader-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 40px 80px;
+    flex: 1;
+    width: 100%;
+  }
+
+  /* Chapter heading */
+  .chapter-heading {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .chapter-heading::after {
+    content: '✦';
+    position: absolute;
+    bottom: -11px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-primary);
+    padding: 0 10px;
+    color: var(--accent);
+    font-size: 0.8rem;
+  }
+
+  .chapter-book-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+
+  .chapter-number {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+
+  /* Verses */
+  .chapter-body {
+    line-height: 1.95;
+    color: var(--text-primary);
+  }
+
+  .verse-paragraph {
+    margin-bottom: 1.2em;
+    text-align: justify;
+    text-indent: 1.5em;
+  }
+
+  .verse-paragraph.poetry-block {
+    text-align: left;
+    text-indent: 0;
+    padding-left: 1.5em;
+    border-left: 2px solid var(--border);
+    margin-left: 0.5em;
+    font-style: italic;
+    color: var(--text-secondary);
+  }
+
+  .verse-num {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65em;
+    color: var(--verse-num);
+    vertical-align: super;
+    margin-right: 3px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    user-select: none;
+  }
+
+  .poetry-line {
+    display: block;
+    padding-left: 1.6em;
+    line-height: 1.8;
+  }
+
+  .poetry-line:first-child {
+    padding-left: 0;
+  }
+
+  /* Navigation bar at bottom */
+  .nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px 36px;
+    max-width: 720px;
+    margin: 0 auto;
+    width: 100%;
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+    gap: 16px;
+  }
+
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'EB Garamond', serif;
+    font-size: 1rem;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    min-width: 120px;
+  }
+
+  .nav-btn:hover {
+    background: var(--accent-glow);
+    border-color: var(--accent);
+    color: var(--text-primary);
+  }
+
+  .nav-btn .nav-arrow { font-size: 1.1rem; color: var(--accent); }
+  .nav-btn .nav-label { font-size: 0.78rem; font-family: 'Cinzel', serif; letter-spacing: 0.06em; text-transform: uppercase; }
+  .nav-btn .nav-ref { font-size: 0.9rem; opacity: 0.7; }
+  .nav-btn-prev { flex-direction: row; text-align: left; }
+  .nav-btn-next { flex-direction: row-reverse; text-align: right; }
+
+  .nav-center {
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    text-align: center;
+    opacity: 0.7;
+  }
+
+  /* Loading / error */
+  .loading-state {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 1.1rem;
+  }
+
+  .loading-cross {
+    font-size: 2rem;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 16px;
+    opacity: 0.4;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+  }
+
+  .error-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #c0614a;
+    font-style: italic;
+  }
+
+  /* Decorative top border on sidebar */
+  .sidebar-top {
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.4;
+  }
+
+  /* Fade-in for content */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reader-inner.loaded {
+    animation: fadeIn 0.35s ease forwards;
+  }
+
+  /* Testament divider in sidebar */
+  .testament-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(196,154,42,0.3), transparent);
+    margin: 4px 0;
+  }
+
+  @media (max-width: 640px) {
+    .app {
+      grid-template-columns: 200px 1fr;
+    }
+    .reader-inner { padding: 32px 20px 60px; }
+    .nav-bar { padding: 16px 20px 28px; }
+  }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-title">
+      ABT <span>Allyn's Bible Translation</span>
+    </div>
+    <div class="header-controls">
+      <button class="ctrl-btn" id="fontDown" title="Decrease font size">A−</button>
+      <span class="font-size-display" id="fontSizeLabel">18</span>
+      <button class="ctrl-btn" id="fontUp" title="Increase font size">A+</button>
+      <button class="ctrl-btn theme-btn" id="themeToggle" title="Toggle dark/light mode">☽ Dark</button>
+    </div>
+  </header>
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar">
+    <div class="sidebar-top"></div>
+    <div id="bookList">
+      <div class="loading-state" style="padding:30px 16px; text-align:left; font-size:0.9rem;">
+        Loading books…
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main id="main">
+    <div class="reader-inner" id="readerInner">
+      <div class="loading-state">
+        <span class="loading-cross">✦</span>
+        Loading Scripture…
+      </div>
+    </div>
+    <div class="nav-bar" id="navBar" style="display:none;"></div>
+  </main>
+
+</div>
+
+<script>
+const API_BASE = 'https://bible-api.bible-api.workers.dev/v1';
+const VERSION = 'ABT';
+
+// State
+let books = [];
+let currentBookId = 1;
+let currentChapter = 1;
+let fontSize = 18;
+let isDark = false;
+
+// ── DOM refs ──
+const bookListEl   = document.getElementById('bookList');
+const readerInner  = document.getElementById('readerInner');
+const navBar       = document.getElementById('navBar');
+const fontUpBtn    = document.getElementById('fontUp');
+const fontDownBtn  = document.getElementById('fontDown');
+const fontLabel    = document.getElementById('fontSizeLabel');
+const themeBtn     = document.getElementById('themeToggle');
+
+// ── INIT ──
+async function init() {
+  applyFontSize();
+  try {
+    const res = await fetch(`${API_BASE}/books/${VERSION}`);
+    books = await res.json();
+    renderSidebar();
+    loadChapter(1, 1);
+  } catch(e) {
+    bookListEl.innerHTML = `<div class="error-state">Failed to load books.<br>${e.message}</div>`;
+  }
+}
+
+// ── SIDEBAR ──
+const OT_END = 39; // bookid 1-39 = Old Testament
+
+function renderSidebar() {
+  let html = '';
+  let inNT = false;
+
+  books.forEach(book => {
+    if (book.bookid === OT_END + 1 && !inNT) {
+      inNT = true;
+      html += `<div class="testament-divider"></div>
+               <div class="sidebar-section-label">New Testament</div>`;
+    } else if (book.bookid === 1) {
+      html += `<div class="sidebar-section-label">Old Testament</div>`;
+    }
+
+    let chapHtml = '';
+    for (let c = 1; c <= book.chapters; c++) {
+      chapHtml += `<button class="ch-btn" data-book="${book.bookid}" data-ch="${c}">${c}</button>`;
+    }
+
+    html += `
+      <div class="book-item" id="book-item-${book.bookid}">
+        <div class="book-header" data-bookid="${book.bookid}">
+          <span class="book-abbr">${book.abbreviation}</span>
+          <span class="book-name">${book.name}</span>
+          <span class="book-chevron">▶</span>
+        </div>
+        <div class="chapter-list">${chapHtml}</div>
+      </div>`;
+  });
+
+  bookListEl.innerHTML = html;
+
+  // Book header click — expand/collapse
+  bookListEl.querySelectorAll('.book-header').forEach(el => {
+    el.addEventListener('click', () => {
+      const bookId = parseInt(el.dataset.bookid);
+      toggleBook(bookId);
+    });
+  });
+
+  // Chapter button click
+  bookListEl.querySelectorAll('.ch-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const b = parseInt(btn.dataset.book);
+      const c = parseInt(btn.dataset.ch);
+      loadChapter(b, c);
+    });
+  });
+}
+
+function toggleBook(bookId) {
+  // Collapse all others, expand this one (unless already expanded)
+  const clickedItem = document.getElementById(`book-item-${bookId}`);
+  const isExpanded = clickedItem.classList.contains('expanded');
+
+  document.querySelectorAll('.book-item.expanded').forEach(el => el.classList.remove('expanded'));
+
+  if (!isExpanded) {
+    clickedItem.classList.add('expanded');
+    // Scroll it into view gently
+    setTimeout(() => clickedItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' }), 50);
+  }
+}
+
+function updateSidebarHighlight(bookId, chapter) {
+  // Remove old active states
+  document.querySelectorAll('.book-header.active').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.ch-btn.active').forEach(el => el.classList.remove('active'));
+
+  // Expand the correct book
+  document.querySelectorAll('.book-item.expanded').forEach(el => el.classList.remove('expanded'));
+  const bookItem = document.getElementById(`book-item-${bookId}`);
+  if (bookItem) {
+    bookItem.classList.add('expanded');
+    const header = bookItem.querySelector('.book-header');
+    if (header) header.classList.add('active');
+    // Highlight the chapter
+    const chBtn = bookItem.querySelector(`.ch-btn[data-book="${bookId}"][data-ch="${chapter}"]`);
+    if (chBtn) {
+      chBtn.classList.add('active');
+      setTimeout(() => {
+        chBtn.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        bookItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }, 60);
+    }
+  }
+}
+
+// ── LOAD CHAPTER ──
+async function loadChapter(bookId, chapter) {
+  currentBookId = bookId;
+  currentChapter = chapter;
+
+  updateSidebarHighlight(bookId, chapter);
+
+  readerInner.classList.remove('loaded');
+  readerInner.innerHTML = `<div class="loading-state"><span class="loading-cross">✦</span>Loading…</div>`;
+  navBar.style.display = 'none';
+
+  try {
+    const res = await fetch(`${API_BASE}/text/${VERSION}/${bookId}/${chapter}`);
+    const verses = await res.json();
+    renderChapter(bookId, chapter, verses);
+  } catch(e) {
+    readerInner.innerHTML = `<div class="error-state">Failed to load chapter.<br>${e.message}</div>`;
+  }
+}
+
+// ── RENDER CHAPTER ──
+function renderChapter(bookId, chapter, verses) {
+  const book = books.find(b => b.bookid === bookId);
+  const bookName = book ? book.name : '';
+
+  // Build heading
+  let html = `
+    <div class="chapter-heading">
+      <div class="chapter-book-name">${bookName}</div>
+      <div class="chapter-number">Chapter ${chapter}</div>
+    </div>
+    <div class="chapter-body" id="chapterBody">`;
+
+  // Accumulate paragraphs
+  // Each "[p]" ends a paragraph. We flow verses together in paragraphs.
+  let paragraphVerses = [];
+  const paragraphs = [];
+
+  verses.forEach((v, i) => {
+    paragraphVerses.push(v);
+    if (v.text.includes('[p]') || i === verses.length - 1) {
+      paragraphs.push([...paragraphVerses]);
+      paragraphVerses = [];
+    }
+  });
+
+  paragraphs.forEach(pvs => {
+    // Build the full paragraph HTML
+    let paraContent = '';
+    pvs.forEach(v => {
+      const rendered = renderVerseText(v.verse, v.text);
+      paraContent += rendered;
+    });
+    html += `<p class="verse-paragraph">${paraContent}</p>`;
+  });
+
+  html += `</div>`;
+
+  readerInner.innerHTML = html;
+  readerInner.classList.add('loaded');
+
+  // Scroll reader to top
+  document.getElementById('main').scrollTop = 0;
+
+  renderNavBar(bookId, chapter);
+}
+
+// ── VERSE TEXT RENDERING ──
+function renderVerseText(verseNum, rawText) {
+  // Remove [p] markers (paragraph breaks handled at paragraph level)
+  let text = rawText.replace(/\[p\]/g, '');
+
+  // Handle ">" for poetry: split on ">" to produce indented lines
+  if (text.includes('>')) {
+    const parts = text.split('>');
+    let out = `<sup class="verse-num">${verseNum}</sup>`;
+    parts.forEach((part, i) => {
+      part = part.trim();
+      if (!part) return;
+      if (i === 0) {
+        out += part + ' ';
+      } else {
+        out += `<span class="poetry-line">${part}</span>`;
+      }
+    });
+    return out + ' ';
+  }
+
+  // Normal verse
+  return `<sup class="verse-num">${verseNum}</sup>${text} `;
+}
+
+// ── NAV BAR ──
+function renderNavBar(bookId, chapter) {
+  const book = books.find(b => b.bookid === bookId);
+  if (!book) return;
+
+  const { prevBook, prevCh, nextBook, nextCh } = getAdjacentChapters(bookId, chapter);
+
+  const prevLabel = prevBook
+    ? `${prevBook.abbreviation} ${prevCh}`
+    : '';
+  const nextLabel = nextBook
+    ? `${nextBook.abbreviation} ${nextCh}`
+    : '';
+
+  navBar.innerHTML = `
+    <button class="nav-btn nav-btn-prev" id="prevBtn" ${!prevBook ? 'disabled' : ''}>
+      <span class="nav-arrow">←</span>
+      <span>
+        <span class="nav-label">Previous</span><br>
+        <span class="nav-ref">${prevLabel}</span>
+      </span>
+    </button>
+    <div class="nav-center">${book.abbreviation}&nbsp;${chapter}</div>
+    <button class="nav-btn nav-btn-next" id="nextBtn" ${!nextBook ? 'disabled' : ''}>
+      <span>
+        <span class="nav-label">Next</span><br>
+        <span class="nav-ref">${nextLabel}</span>
+      </span>
+      <span class="nav-arrow">→</span>
+    </button>`;
+
+  navBar.style.display = 'flex';
+
+  if (prevBook) {
+    document.getElementById('prevBtn').addEventListener('click', () => loadChapter(prevBook.bookid, prevCh));
+  }
+  if (nextBook) {
+    document.getElementById('nextBtn').addEventListener('click', () => loadChapter(nextBook.bookid, nextCh));
+  }
+}
+
+function getAdjacentChapters(bookId, chapter) {
+  const bookIdx = books.findIndex(b => b.bookid === bookId);
+  const book = books[bookIdx];
+
+  let prevBook = null, prevCh = null;
+  let nextBook = null, nextCh = null;
+
+  // Previous
+  if (chapter > 1) {
+    prevBook = book;
+    prevCh = chapter - 1;
+  } else if (bookIdx > 0) {
+    prevBook = books[bookIdx - 1];
+    prevCh = prevBook.chapters;
+  } else {
+    // Wrap: Gen 1 → Rev 22
+    prevBook = books[books.length - 1];
+    prevCh = prevBook.chapters;
+  }
+
+  // Next
+  if (chapter < book.chapters) {
+    nextBook = book;
+    nextCh = chapter + 1;
+  } else if (bookIdx < books.length - 1) {
+    nextBook = books[bookIdx + 1];
+    nextCh = 1;
+  } else {
+    // Wrap: Rev 22 → Gen 1
+    nextBook = books[0];
+    nextCh = 1;
+  }
+
+  return { prevBook, prevCh, nextBook, nextCh };
+}
+
+// ── FONT SIZE ──
+const FONT_MIN = 13, FONT_MAX = 28;
+
+function applyFontSize() {
+  // Inject a dynamic style rule so it persists across chapter re-renders
+  let styleEl = document.getElementById('dynamic-font-style');
+  if (!styleEl) {
+    styleEl = document.createElement('style');
+    styleEl.id = 'dynamic-font-style';
+    document.head.appendChild(styleEl);
+  }
+  styleEl.textContent = `.chapter-body { font-size: ${fontSize}px; }`;
+  fontLabel.textContent = fontSize;
+}
+
+fontUpBtn.addEventListener('click', () => {
+  if (fontSize < FONT_MAX) { fontSize++; applyFontSize(); }
+});
+fontDownBtn.addEventListener('click', () => {
+  if (fontSize > FONT_MIN) { fontSize--; applyFontSize(); }
+});
+
+// ── THEME ──
+themeBtn.addEventListener('click', () => {
+  isDark = !isDark;
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : '');
+  themeBtn.textContent = isDark ? '☀ Light' : '☽ Dark';
+});
+
+// ── GO ──
+init();
+</script>
+</body>
+</html>

@@ -6,7 +6,7 @@ My personal Bible Translation Project
 
 ---
 
-- Read the [ABT Bible Translation](html/index.html)
+- Read the [ABT Bible Translation](abt_bible.html)
 - Download [ABT in Plain Text format](ABT_txt.zip) in a ZIP File
 - Download [ABT in CSV format](ABT_csv.zip) in a ZIP File
 - Download [ABT in Markown format](ABT_md.zip) in ZIP File
