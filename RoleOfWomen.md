@@ -14,8 +14,8 @@ This discussion examines the role of women in the church using a *Sola Scriptura
 
 At first glance, two foundational questions arise:
 
-1. **How important are these passages?** Are they merely cultural guidance, or do they affect salvation?
-2. **What do they mean in practice?** How do we move from Paul’s instructions to concrete church roles such as pastors and elders?
+1. **How important are these passages?** Are they merely cultural, local, time-limited guidance, or are they universal rules for all of human history that affect salvation?
+2. **What do they mean in practice?** From Paul’s instructions that “women may not speak in church”, how do we come to understand “women may not be pastors and elders”?
 
 These questions must be addressed carefully and biblically.
 
@@ -43,7 +43,7 @@ From the text itself, several conclusions follow:
 * Disregard for them carries **church-level consequences**.
 * Their grounding in creation places them **prior to sin**, not within a cultural moment.
 
-If breaking God’s law constitutes sin (1 John 3:4), and sin leads to death (Rom 6:23), then Scripture itself frames this issue as spiritually significant. This conclusion relies entirely on biblical premises.
+If breaking God’s law constitutes sin (1 John 3:4), and sin leads to death (Rom 6:23), then Scripture itself frames this issue as spiritually significant and affecting eternal salvation. This conclusion relies entirely on biblical premises.
 
 ---
 
@@ -61,14 +61,14 @@ Notably, no biblical text overturns Paul’s declaration that these instructions
 
 The passages do not explicitly mention “pastors” or “elders.” To understand their application, Scripture must interpret Scripture.
 
-The broader context of 1 Corinthians 14 (and indeed chapters 12–14) is **spiritual gifts**, particularly those involving public speaking and authority within the congregation. Any interpretation of verses 33–38 that ignores this context fails the *Sola Scriptura* test (and must also be incompatible with SDA Fundamental Belief #1).
+The broader context of 1 Corinthians 14 (and indeed chapters 12–14) is **spiritual gifts**, particularly those involving public speaking and authority within the congregation. Any interpretation of verses 33–38 that ignores this context fails the *Sola Scriptura* test (and must, therefore, be incompatible with SDA Fundamental Belief #1).
 
 Two specific restrictions appear:
 
 1. **Speaking** (1 Cor 14:34)
 2. **Teaching and exercising authority** (1 Tim 2:12)
 
-The Greek term translated “speak” consistently refers to **public proclamation or preaching**, not casual conversation. Within a chapter devoted to regulating public worship and spiritual gifts, the most reasonable conclusion is that Paul is restricting **authoritative, public speaking Spiritual Gift roles**.
+The Greek term translated here as “speak” consistently refers to **public proclamation or preaching**, not casual conversation.[^4] Within a chapter devoted to regulating public worship and spiritual gifts, the most reasonable conclusion is that Paul is restricting **authoritative, public speaking Spiritual Gift roles**.
 
 Pastors and elders, as described in Ephesians 4:11 and Romans 12:8, are spiritual gifts roles associated with preaching and authority. Therefore, restricting these roles to men aligns naturally with Paul’s instructions. No alternative modern practice satisfies all the biblical constraints simultaneously.
 
@@ -130,3 +130,18 @@ According to Scripture, the stakes are not small.
 
 [^3] Full Quote (with emphasis added):  
 > 33 *For God is not a God of confusion but of peace, **as in all the churches of the saints**.* 34 *Let the women keep silent in the churches, for they are not permitted to speak, but must be in submission, **just as the Law also says**.* 35 *If they want to learn anything, let them ask their own husbands at home, for it is shameful for a woman to speak in church.* 36 *Or was it from you that the word of God came? Or are you the only ones it has reached?* 37 *If anyone thinks that he is a prophet or spiritual, let him recognize that **the things I am writing to you are a commandment of the Lord**.* 38 *But **if anyone ignores this, he is to be ignored**.* (1 Cor 14:33-38)
+
+[^4] The Greek word translated as “speak” in this verse is λαλεῖν (*lalein*), the infinitive form of λαλέω (*laleō*) Strong's G2980. In turn, λαλέω is the emphatic form of λέγω (*legō*) Strong's G3004. The primary difference between the two is that λέγω is focused on what is said and almost always accompanies a direct quote of some sort or deals with private conversations, while λαλέω focuses on the act of speaking itself, or on the manner of speaking.
+
+An example of these two meanings can be seen in Mark 5:35 where both forms occur:
+
+> While he was still speaking (*laleō* G2980), someone from the synagogue ruler’s house arrived, saying (*legō* G3004), “Your daughter has died. Why trouble the Teacher any further?”
+
+The first instance of speak refers to the fact that Jesus was teaching, or preaching to a group of people in public but doesn't specify what was said. The second refers to a private, personal message being brought directly to the ruler of the synagogue, and includes the speaker's words.
+
+It is worth noting that there are three primary categories of how λαλέω is used in both NT and LXX.
+
+The first category is where speaking is unexpected or an unusual occurrence. This can be seen in Mat 9:3 where previously mute people were miraculously healed: “... the mute *spoke*...”.
+
+The second category is instances of public speaking (as opposed to private conversations which always use λέγω).
+

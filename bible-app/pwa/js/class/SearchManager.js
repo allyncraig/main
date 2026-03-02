@@ -123,10 +123,10 @@ class SearchManager {
 				const row = resultsList.item ? resultsList.item(i) : resultsList[i];
 
 				// Find the book by abbreviation to get its ID
-				const book = getBookIndexByAbbr(row.abbreviation);
+				const bookId = getBookIndexByAbbr(row.abbreviation);
 
 				// Use standard 3-letter abbreviation from BOOK_DATA
-				const standardAbbr = book ? getBookAbbr(book.id) : row.abbreviation;
+				const standardAbbr = bookId ? getBookAbbr(bookId) : row.abbreviation;
 
 				results.push({
 					bookAbbr: standardAbbr,

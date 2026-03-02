@@ -4,10 +4,11 @@
 
 - [Allyn's Bible Translation](bible/index.md) : My own translation of the Bible
 - [Bible App](bible-app/index.md) : Native Android App; and PWA for iOS and Web Brosers
-- Workout Tracker
-- Walk Tracker
-- Tabata Workout Tool
-- Multiplication Practice Tool
+- Calculator : Multi-mode Calculator with Basic, Scientific, Conversion and Programmer modes
+- Workout Tracker : Tracking workout activity
+- Walk Tracker : Tracking and mapping walking exercise sessions
+- Tabata Workout Tool : 
+- Multiplication Practice Tool : For practicing simple multiplication facts
 - FlashCards app
 
 ## **Documents**

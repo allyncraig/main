@@ -38,14 +38,24 @@ class AbtApiProvider extends BaseProvider {
 			throw new Error('Invalid chapter response from API');
 		}
 
+		// Store raw verses
+		const rawVerses = {};
+		
 		// Transform to HTML
 		let html = '';
 		verses.forEach(verseObj => {
 			const text = this.standardizeText(verseObj.text);
 			html += `<p class="verse"><span class="verse-number">${verseObj.verse}</span>&nbsp;${text}</p>`;
+			
+			// Store raw text (with markup) - only ABT has this markup
+			rawVerses[verseObj.verse] = verseObj.text.trim();
 		});
 
-		return html;
+		// Return both HTML and raw verses
+		return {
+			html: html,
+			rawVerses: rawVerses
+		};
 	}
 
 	async search(versionParams, searchTerm, page = 1) {
@@ -85,6 +95,9 @@ class AbtApiProvider extends BaseProvider {
 			.replace(/>|\[p\]/g, ' ')
 			.replace(/\s+/g, ' ')
 			.trim();
+	}
+	rawText(text) {
+		return (text ?? '').trim();
 	}
 }
 

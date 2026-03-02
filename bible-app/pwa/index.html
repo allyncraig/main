@@ -94,6 +94,7 @@
 			<!-- <button onclick="clearBookCache()" class="menu-item">Clear Book Cache</button> -->
 			<!-- <button onclick="showStorage()" class="menu-item">Manage Storage</button> -->
 			<!-- END TEST MENU ITEMS -->
+			<button onclick="showBackup()" class="menu-item">Backup &amp; Restore</button>
 			<button onclick="showContact()" class="menu-item">Contact Us</button>
 			<button onclick="showAbout()" class="menu-item">About</button>
 		</div>
@@ -199,6 +200,22 @@
 		</div>
 	</div>
 
+	<!-- Backup & Restore Modal -->
+	<div id="backupModal" class="modal-overlay">
+		<div class="modal-wrapper">
+			<div class="modal-header">
+				<h3 class="modal-title">Backup &amp; Restore</h3>
+				<button onclick="closeModal(MODAL.BACKUP)" class="modal-close-button">&times;</button>
+			</div>
+			<div class="modal-content">
+				<p class="standard-label">Save your settings, notes, bookmark, and reading plan progress to a JSON file, or restore from a previous backup.</p>
+				<button onclick="exportBackup()" class="standard-button icon ion-archive">Export Backup</button>
+				<button onclick="importBackupFile()" class="standard-button icon ion-upload">Import Backup</button>
+				<input type="file" id="backupFileInput" accept=".json" style="display:none" onchange="onBackupFileSelected(this)">
+			</div>
+		</div>
+	</div>
+
 	<!-- Template for download version items -->
 	<template id="downloadVersionTemplate">
 		<div class="item clickable download-item-box" data-onclick="handleDownloadItemClick('{{code}}', {{exists}})">
@@ -266,6 +283,7 @@
 				<div><textarea id="noteText" class="note-textarea"></textarea></div>
 				<button onclick="noteGoToVerse()" class="standard-button icon ion-ios-book hidden" id="noteGoToVerseButton">Go to Verse</button>
 				<button onclick="noteSave()" class="standard-button icon ion-edit" id="noteSaveButton">Save Note</button>
+				<button onclick="noteSendSuggestion()" class="standard-button icon ion-paper-airplane hidden" id="noteSendSuggestionButton">Send as Suggestion</button>
 				<button onclick="noteCancel()" class="standard-button icon ion-trash-a" id="noteCancelButton">Clear Note</button>
 			</div>
 		</div>

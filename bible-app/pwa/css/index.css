@@ -151,9 +151,6 @@ body.reading-mode .version-button {
 	font-size: 18px;
 	line-height: 1.6;
 	transition: font-size 0.3s ease;
-	animation-duration: 0.3s;
-	animation-timing-function: ease-out;
-	animation-fill-mode: both;
 	position: relative;
 	overflow-x: hidden; /* Prevent horizontal scroll during animation */
 	font-family: var(--font-primary);
@@ -356,56 +353,54 @@ To adjust the dark mode background color, change background-color: #2a2a2a; in b
 }
 
 /* Content transition animations */
-@keyframes slideInFromRight {
-	from {
-		transform: translateX(100%);
-		opacity: 0;
-	}
-	to {
-		transform: translateX(0);
-		opacity: 1;
-	}
+@keyframes pushOutLeft {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-100%); }
 }
 
-@keyframes slideInFromLeft {
-	from {
-		transform: translateX(-100%);
-		opacity: 0;
-	}
-	to {
-		transform: translateX(0);
-		opacity: 1;
-	}
+@keyframes pushOutRight {
+    from { transform: translateX(0); }
+    to   { transform: translateX(100%); }
 }
 
-@keyframes slideOutToRight {
-	from {
-		transform: translateX(0);
-		opacity: 1;
-	}
-	to {
-		transform: translateX(100%);
-		opacity: 0;
-	}
+@keyframes pushInFromRight {
+    from { transform: translateX(100%); }
+    to   { transform: translateX(0); }
 }
 
-@keyframes slideOutToLeft {
-	from {
-		transform: translateX(0);
-		opacity: 1;
-	}
-	to {
-		transform: translateX(-100%);
-		opacity: 0;
-	}
+@keyframes pushInFromLeft {
+    from { transform: translateX(-100%); }
+    to   { transform: translateX(0); }
 }
 
-.slide-in-left {
-	animation-name: slideInFromLeft;
+.push-out-left {
+    animation: pushOutLeft 0.3s ease forwards;
 }
 
-.slide-in-right {
-	animation-name: slideInFromRight;
+.push-out-right {
+    animation: pushOutRight 0.3s ease forwards;
+}
+
+.push-in-from-right {
+    animation: pushInFromRight 0.3s ease forwards;
+}
+
+.push-in-from-left {
+    animation: pushInFromLeft 0.3s ease forwards;
+}
+
+.page-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background-color: var(--color-bg-1);
+    color: var(--color-txt-1);
+    font-size: inherit;
+    font-family: inherit;
+    line-height: inherit;
+    box-sizing: border-box;
 }
 
 .verse.dimmed {

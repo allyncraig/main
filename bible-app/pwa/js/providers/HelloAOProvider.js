@@ -48,7 +48,11 @@ class HelloAOProvider extends BaseProvider {
 			}
 		});
 
-		return html;
+		// Return consistent format (no raw verses for this provider)
+		return {
+			html: html,
+			rawVerses: {}
+		};
 	}
 
 	async search(versionParams, searchTerm) {

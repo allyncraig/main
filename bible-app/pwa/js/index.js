@@ -77,6 +77,7 @@ const MODAL = Object.freeze({
 	NOTE: 'note',
 	ALLNOTES: 'allNotes',
 	READINGPLAN: 'readingPlan',
+	BACKUP: 'backup',
 	DAYCOMPLETE: 'dayComplete',
 	LOG: 'log',
 	CONTACT: 'contact',
@@ -354,7 +355,6 @@ async function initializeApp() {
 	app.navigationManager = new NavigationManager(
 		app.versionManager,
 		app.storageManager,
-		() => loadCurrentChapter()
 	);
 
 	app.contentRenderer = new ContentRenderer(UI.BIBLETEXT);
@@ -557,22 +557,28 @@ async function loadBooksAndChapter() {
 }
 
 function setupEventListeners() {
-	document.getElementById(UI.PREVCHAPTER).addEventListener(EVENT.CLICK, () => {
+	document.getElementById(UI.PREVCHAPTER).addEventListener(EVENT.CLICK, async () => {
 		if (app.readingModeActive) {
 			handleDailyReadingPrevious();
 		} else {
 			app.navigationManager.navigatePrevious();
 			updateDisplay();
+			loading();
+			await loadCurrentChapter();
+			closeLoading();
 			animateContentTransition('left');
 		}
 	});
 
-	document.getElementById(UI.NEXTCHAPTER).addEventListener(EVENT.CLICK, () => {
+	document.getElementById(UI.NEXTCHAPTER).addEventListener(EVENT.CLICK, async () => {
 		if (app.readingModeActive) {
 			handleDailyReadingNext();
 		} else {
 			app.navigationManager.navigateNext();
 			updateDisplay();
+			loading();
+			await loadCurrentChapter();
+			closeLoading();
 			animateContentTransition('right');
 		}
 	});
@@ -623,28 +629,38 @@ function setupEventListeners() {
 }
 
 function animateContentTransition(direction) {
-	const bibleText = document.getElementById(UI.MAINCONTENT);
-	if (!bibleText) return;
+    const contentArea = document.getElementById(UI.MAINCONTENT);
+    if (!contentArea) return;
 
-	// Remove any existing animation classes
-	bibleText.classList.remove('slide-in-left', 'slide-in-right');
+    // Snapshot the scroll offset so the old panel shows the same visible portion
+    const scrollTop = contentArea.scrollTop;
 
-	// Force reflow to restart animation
-	void bibleText.offsetWidth;
+    // Build the old-page panel (absolute, purely decorative, slides out)
+    const oldPanel = document.createElement('div');
+    oldPanel.className = 'page-panel';
+    oldPanel.style.top = `-${scrollTop}px`;
+    oldPanel.innerHTML = contentArea.innerHTML;
 
-	// Add appropriate animation class
-	if (direction === 'left') {
-		// Moving forward - content slides in from right
-		bibleText.classList.add('slide-in-left');
-	} else {
-		// Moving backward - content slides in from left
-		bibleText.classList.add('slide-in-right');
-	}
+    // Insert old panel into contentArea so it sits visually on top
+    contentArea.insertBefore(oldPanel, contentArea.firstChild);
 
-	// Remove class after animation completes
-	setTimeout(() => {
-		bibleText.classList.remove('slide-in-left', 'slide-in-right');
-	}, APP.TIMEOUT); // Match animation-duration in CSS
+    // Reset scroll to top so new content starts at the beginning
+    contentArea.scrollTop = 0;
+
+    // Animate old panel out, new content in
+    if (direction === 'left') {
+        oldPanel.classList.add('push-out-right');
+        contentArea.classList.add('push-in-from-left');
+    } else {
+        oldPanel.classList.add('push-out-left');
+        contentArea.classList.add('push-in-from-right');
+    }
+
+    // Clean up after animation completes
+    setTimeout(() => {
+        oldPanel.remove();
+        contentArea.classList.remove('push-in-from-right', 'push-in-from-left');
+    }, 300);
 }
 
 async function loadCurrentChapter() {
@@ -701,7 +717,7 @@ async function loadChapterContent(version) {
 					// Check if either version needs API loading
 					const needsLoading = resolvedVersionA.source === 'api' || resolvedVersionB.source === 'api';
 					if (needsLoading) {
-						loading(`Loading ${primaryVersionAbbr} / ABT...`);
+						loading('Loading...');
 					}
 
 					// Load books for version A if it's from API to get correct apiId
@@ -710,6 +726,7 @@ async function loadChapterContent(version) {
 						const booksA = await app.apiClient.fetchBookList(resolvedVersionA);
 						bookA = booksA.find(b => b.id === currentBook.id);
 						if (!bookA) {
+							closeLoading();
 							throw new Error(`Book ID ${currentBook.id} not found in ${primaryVersionAbbr}`);
 						}
 					}
@@ -720,6 +737,7 @@ async function loadChapterContent(version) {
 						const booksB = await app.apiClient.fetchBookList(resolvedVersionB);
 						bookB = booksB.find(b => b.id === currentBook.id);
 						if (!bookB) {
+							closeLoading();
 							throw new Error(`Book ID ${currentBook.id} not found in ABT`);
 						}
 					}
@@ -736,11 +754,12 @@ async function loadChapterContent(version) {
 						);
 					} else {
 						// Fetch from API and parse into verse format using correct apiId for this version
-						const contentA = await app.apiClient.fetchChapter(
+						const result = await app.apiClient.fetchChapter(
 							resolvedVersionA,
 							bookA.apiId,
 							app.navigationManager.getCurrentChapter()
 						);
+						const contentA = typeof result === 'string' ? result : result.html;
 						versesA = app.contentRenderer.parseAPIContent(contentA, currentBook.id, app.navigationManager.getCurrentChapter());
 					}
 
@@ -753,11 +772,12 @@ async function loadChapterContent(version) {
 						);
 					} else {
 						// Fetch from API and parse into verse format using correct apiId for this version
-						const contentB = await app.apiClient.fetchChapter(
+						const result = await app.apiClient.fetchChapter(
 							resolvedVersionB,
 							bookB.apiId,
 							app.navigationManager.getCurrentChapter()
 						);
+						const contentB = typeof result === 'string' ? result : result.html;
 						versesB = app.contentRenderer.parseAPIContent(contentB, currentBook.id, app.navigationManager.getCurrentChapter());
 					}
 
@@ -768,7 +788,6 @@ async function loadChapterContent(version) {
 
 					// Render interlinear with unified verse format
 					app.contentRenderer.renderChapterInterlinear(
-						currentBook.name,
 						app.navigationManager.getCurrentChapter(),
 						versesA,
 						versesB,
@@ -797,6 +816,20 @@ async function loadChapterContent(version) {
 				app.navigationManager.getCurrentChapter(),
 				resolvedVersion.tableVerses
 			);
+			
+			// Store raw verses from database
+			if (resolvedVersion.abbreviation === 'ABT') {
+				app.rawVerses = {};
+				const versesList = verses.rows || verses;
+				const verseCount = verses.rows ? verses.rows.length : verses.length;
+				for (let i = 0; i < verseCount; i++) {
+					const verse = versesList.item ? versesList.item(i) : versesList[i];
+					app.rawVerses[verse.verse] = verse.text;
+				}
+			} else {
+				app.rawVerses = {};
+			}
+			
 			app.contentRenderer.renderChapterFromDB(
 				currentBook.name,
 				app.navigationManager.getCurrentChapter(),
@@ -804,12 +837,31 @@ async function loadChapterContent(version) {
 			);
 		} else if (resolvedVersion.source === 'api') {
 			// SHOW SPINNER for API load
-			loading(`Loading ${resolvedVersion.version}...`);
-			const content = await app.apiClient.fetchChapter(
+			loading(`Loading ...`);
+			const result = await app.apiClient.fetchChapter(
 				resolvedVersion,
 				currentBook.apiId,
 				app.navigationManager.getCurrentChapter()
 			);
+
+			// Handle both old format (string) and new format (object)
+			let content, rawVerses;
+			if (typeof result === 'string') {
+				// Old format - just HTML string
+				content = result;
+				rawVerses = {};
+			} else {
+				// New format - object with html and rawVerses
+				content = result.html;
+				rawVerses = result.rawVerses || {};
+			}
+			
+			// Store raw verses if this is ABT
+			if (resolvedVersion.abbreviation === 'ABT') {
+				app.rawVerses = rawVerses;
+			} else {
+				app.rawVerses = {};
+			}
 
 			app.contentRenderer.renderChapterFromAPI(
 				currentBook.name,
@@ -847,7 +899,9 @@ function updateDisplay() {
 	// Update version button to show interlinear mode
 	const isInterlinear = app.configManager.getValue('interlinearMode');
 	if (isInterlinear) {
-		const primaryVersion = app.configManager.getValue('interlinearPrimaryVersion') || APP.INTERLINEAR_FALLBACK_PRIMARY;
+		const primaryVersion = app.interlinearPrimaryVersion
+			|| app.configManager.getValue('interlinearPrimaryVersion')
+			|| APP.INTERLINEAR_FALLBACK_PRIMARY;
 		versionButton.textContent = `${primaryVersion}/ABT`;
 	} else {
 		versionButton.textContent = app.navigationManager.getCurrentVersion();
@@ -1049,11 +1103,14 @@ function showChapterSelector() {
 	app.modalManager.show(MODAL.CHAPTER);
 }
 
-function selectChapter(bookId, chapter) {
-	app.navigationManager.navigateToChapter(bookId, chapter);
-	updateDisplay();
-	animateContentTransition('right');
-	closeModal(MODAL.CHAPTER);
+async function selectChapter(bookId, chapter) {
+    app.navigationManager.navigateToChapter(bookId, chapter);
+    updateDisplay();
+    loading();
+    closeModal(MODAL.CHAPTER);
+    await loadCurrentChapter();
+    closeLoading();
+    animateContentTransition('right');
 }
 
 /*** Version Selector ***/
@@ -1466,6 +1523,297 @@ async function submitToFormSubmit(endpoint, subject, fieldMappings) {
 	}
 }
 
+// Backup & Restore Functions
+
+function showBackup() {
+	closeModal(MODAL.MENU);
+	app.modalManager.show(MODAL.BACKUP);
+}
+
+async function exportBackup() {
+	try {
+		loading('Creating backup...');
+
+		// Build compact reading plan progress
+		const progressData = buildCompactProgress();
+
+		// Get app version
+		const appVersion = await new Promise((resolve) => {
+			if (window.cordova && cordova.getAppVersion) {
+				cordova.getAppVersion.getVersionNumber(resolve);
+			} else {
+				resolve('unknown');
+			}
+		});
+
+		// Assemble backup object
+		const settings = app.storageManager.loadAppSettings();
+		const backup = {
+			version: '1.0',
+			appVersion: appVersion,
+			exportDate: new Date().toISOString(),
+			navigation: {
+				book: settings.currentBook,
+				bookName: settings.lastBookName,
+				chapter: settings.currentChapter,
+				version: settings.currentVersion
+			},
+			bookmark: app.storageManager.get(app.storageManager.keys.BOOKMARK),
+			notes: app.storageManager.getNotes(),
+			config: app.configManager.values,
+			readingPlan: progressData
+		};
+
+		const json = JSON.stringify(backup, null, 2);
+		const dateStr = new Date().toISOString().split('T')[0];
+		const fileName = `mybibleapp_backup_${dateStr}.json`;
+
+		closeLoading();
+
+		// Try Web Share API first, fall back to direct file write
+		if (navigator.share && navigator.canShare) {
+			const file = new File([json], fileName, { type: 'application/json' });
+			if (navigator.canShare({ files: [file] })) {
+				await navigator.share({
+					title: 'My Bible App Backup',
+					files: [file]
+				});
+				return;
+			}
+		}
+
+		// Fallback: write to Downloads folder (Android) or Documents (iOS)
+		await writeBackupFile(json, fileName);
+
+	} catch (error) {
+		closeLoading();
+		if (error.name !== 'AbortError') {
+			openToast('Export failed: ' + error.message);
+			console.error('Backup export error:', error);
+		}
+	}
+}
+
+async function writeBackupFile(json, fileName) {
+	return new Promise((resolve, reject) => {
+		const targetDir = (window.cordova)
+			? (cordova.file.externalRootDirectory
+				? cordova.file.externalRootDirectory + 'Download/'
+				: cordova.file.documentsDirectory)
+			: null;
+
+		if (!targetDir) {
+			reject(new Error('File system not available'));
+			return;
+		}
+
+		window.resolveLocalFileSystemURL(targetDir, (dirEntry) => {
+			dirEntry.getFile(fileName, { create: true, exclusive: false }, (fileEntry) => {
+				fileEntry.createWriter((writer) => {
+					writer.onwriteend = () => {
+						openToast(`Backup saved: ${fileName}`);
+						resolve();
+					};
+					writer.onerror = (e) => reject(new Error(e.toString()));
+					writer.write(new Blob([json], { type: 'application/json' }));
+				}, reject);
+			}, reject);
+		}, (error) => {
+			reject(new Error('Could not access download folder: ' + error.code));
+		});
+	});
+}
+
+function importBackupFile() {
+	const input = document.getElementById('backupFileInput');
+	input.value = '';  // Reset so same file can be re-selected
+	input.click();
+}
+
+function onBackupFileSelected(input) {
+	const file = input.files[0];
+	if (!file) return;
+
+	const reader = new FileReader();
+	reader.onload = (e) => {
+		try {
+			const backup = JSON.parse(e.target.result);
+			validateAndImportBackup(backup);
+		} catch (error) {
+			openToast('Invalid backup file: could not parse JSON.');
+			console.error('Backup parse error:', error);
+		}
+	};
+	reader.readAsText(file);
+}
+
+function validateAndImportBackup(backup) {
+	// Basic structure validation
+	if (!backup.version || !backup.exportDate) {
+		openToast('Invalid backup file: missing required fields.');
+		return;
+	}
+
+	const dateStr = new Date(backup.exportDate).toLocaleDateString();
+	const confirmed = confirm(
+		`Import backup from ${dateStr}?\n\n` +
+		`This will replace ALL current settings, notes, bookmark, and reading plan progress.\n\n` +
+		`The app will reload after import. Continue?`
+	);
+
+	if (!confirmed) return;
+
+	applyBackup(backup);
+}
+
+function applyBackup(backup) {
+	try {
+		loading('Restoring backup...');
+
+		// Navigation state
+		if (backup.navigation) {
+			const nav = backup.navigation;
+			app.storageManager.saveAppSettings(
+				nav.book || APP.DEFAULT_BOOK,
+				nav.chapter || APP.DEFAULT_CHAPTER,
+				nav.version || APP.DEFAULT_VERSION,
+				nav.bookName || null
+			);
+		}
+
+		// Bookmark
+		if (backup.bookmark) {
+			app.storageManager.set(app.storageManager.keys.BOOKMARK, backup.bookmark);
+		} else {
+			app.storageManager.clearBookmark();
+		}
+
+		// Notes
+		if (backup.notes && typeof backup.notes === 'object') {
+			app.storageManager.set(app.storageManager.keys.NOTES, JSON.stringify(backup.notes));
+		} else {
+			app.storageManager.remove(app.storageManager.keys.NOTES);
+		}
+
+		// Config
+		if (backup.config && typeof backup.config === 'object') {
+			app.storageManager.set('bible_app_config', JSON.stringify(backup.config));
+		}
+
+		// Reading plan progress
+		if (backup.readingPlan) {
+			restoreCompactProgress(backup.readingPlan);
+		} else {
+			app.storageManager.clearDailyReadingProgress();
+		}
+
+		// Reload app to apply all settings
+		location.reload();
+
+	} catch (error) {
+		closeLoading();
+		openToast('Restore failed: ' + error.message);
+		console.error('Backup restore error:', error);
+	}
+}
+
+// Build compact progress: only store days with any activity
+// true = all readings complete, [0,2] = indices of completed readings, absent = unstarted
+function buildCompactProgress() {
+	const manager = app.dailyReadingManager;
+	if (!manager || !manager.completionState || manager.completionState.length === 0) {
+		return null;
+	}
+
+	const progress = {};
+	manager.completionState.forEach((dayCompletions, index) => {
+		const dayNum = index + 1;
+		const completedIndices = dayCompletions
+			.map((done, i) => done ? i : -1)
+			.filter(i => i !== -1);
+
+		if (completedIndices.length === 0) return; // Unstarted - omit
+
+		if (completedIndices.length === dayCompletions.length) {
+			progress[dayNum] = true; // Fully complete
+		} else {
+			progress[dayNum] = completedIndices; // Partial
+		}
+	});
+
+	return {
+		year: manager.readingModeYear,
+		progress: progress
+	};
+}
+
+// Restore compact progress back to full completionState array
+function restoreCompactProgress(planData) {
+	const manager = app.dailyReadingManager;
+	if (!manager || !manager.readingPlan || manager.readingPlan.length === 0) {
+		// Plan not loaded yet — store raw and let initialize() handle it
+		// We reconstruct a full completionState on next load instead
+		const raw = expandCompactProgress(planData);
+		if (raw) {
+			app.storageManager.setDailyReadingProgress(planData.year, raw);
+		}
+		return;
+	}
+
+	const expanded = expandCompactProgress(planData, manager.readingPlan);
+	if (expanded) {
+		app.storageManager.setDailyReadingProgress(planData.year, expanded);
+	}
+}
+
+function expandCompactProgress(planData, readingPlan = null) {
+	if (!planData || !planData.progress) return null;
+
+	const year = planData.year || new Date().getFullYear();
+	const progress = planData.progress;
+
+	// If we have the reading plan, build a properly sized array
+	if (readingPlan && readingPlan.length > 0) {
+		const completions = readingPlan.map((dayReadings, index) => {
+			const dayNum = String(index + 1);
+			const entry = progress[dayNum];
+
+			if (!entry) {
+				return new Array(dayReadings.length).fill(false);
+			}
+			if (entry === true) {
+				return new Array(dayReadings.length).fill(true);
+			}
+			// Partial: entry is array of completed indices
+			const dayCompletions = new Array(dayReadings.length).fill(false);
+			entry.forEach(i => {
+				if (i < dayReadings.length) dayCompletions[i] = true;
+			});
+			return dayCompletions;
+		});
+		return completions;
+	}
+
+	// No reading plan available — build a best-effort array from the progress keys
+	const maxDay = Math.max(...Object.keys(progress).map(Number), 365);
+	const completions = [];
+	for (let i = 0; i < maxDay; i++) {
+		const dayNum = String(i + 1);
+		const entry = progress[dayNum];
+		if (!entry) {
+			completions.push([false]);
+		} else if (entry === true) {
+			completions.push([true]);
+		} else {
+			const max = Math.max(...entry) + 1;
+			const day = new Array(max).fill(false);
+			entry.forEach(i => { day[i] = true; });
+			completions.push(day);
+		}
+	}
+	return completions;
+}
+
 function showAbout() {
 	closeModal(MODAL.MENU);
 	showAboutModal(TEXT.ABOUT_TITLE, app.aboutMessage);
@@ -1765,6 +2113,7 @@ function showNoteEditor(fromList = false) {
 	cancelBtn.innerText = 'Clear Note';
 	cancelBtn.classList.remove('ion-close');
 	cancelBtn.classList.add('ion-trash-a');
+	document.getElementById('noteSendSuggestionButton').classList.remove('hidden');
 
 	// Show/hide Copy button based on whether verse is in current view
 	const copyBtn = document.getElementById('noteCopyButton');
@@ -1844,6 +2193,7 @@ function showSuggestEdit() {
 	cancelBtn.classList.remove('ion-trash-a');
 	cancelBtn.classList.add('ion-close');
 	document.getElementById('noteCopyButton').classList.remove('hidden');
+	document.getElementById('noteSendSuggestionButton').classList.add('hidden');
 
 	const textarea = document.getElementById('noteText');
 	textarea.value = '';
@@ -1912,11 +2262,13 @@ async function noteGoToVerse() {
 
 	app.navigationManager.navigateToChapter(bookId, chapter);
 	updateDisplay();
+	loading();
+	await loadCurrentChapter();
+	closeLoading();
 	animateContentTransition('right');
-
-	setTimeout(() => {
-		app.contentRenderer.scrollToVerse(verse);
-	}, APP.TIMEOUT);
+	requestAnimationFrame(() => {
+		app.contentRenderer.scrollToVerse(verse, true);
+	})
 }
 
 // Bookmark functions
@@ -1948,7 +2300,7 @@ function bookmarkSet() {
 	openToast('Bookmark Set');
 }
 
-function gotoBookmark() {
+async function gotoBookmark() {
 	closeModal(MODAL.BOOKMARK)
 	closeModal(MODAL.MENU);
 	const bookmark = app.storageManager.getBookmark();
@@ -1965,11 +2317,13 @@ function gotoBookmark() {
 	// Navigate to the bookmarked position
 	app.navigationManager.navigateToChapter(bookmark.bookId, bookmark.chapter);
 	updateDisplay();
+	loading();
+	await loadCurrentChapter();
+	closeLoading();
 	animateContentTransition('right');
-	// Scroll to the verse after a short delay
-	setTimeout(() => {
-		app.contentRenderer.scrollToVerse(bookmark.verse);
-	}, APP.TIMEOUT);
+	requestAnimationFrame(() => {
+		app.contentRenderer.scrollToVerse(bookmark.verse, true);
+	})
 }
 
 // Notes functions
@@ -1989,11 +2343,9 @@ async function noteSave() {
 		if (!text || !text.trim()) {
 			app.storageManager.clearNote(bookId, chapter, verse);
 			closeModal(MODAL.NOTE);
-			openToast('Note cleared');
 		} else {
 			app.storageManager.setNote(bookId, chapter, verse, text);
 			closeModal(MODAL.NOTE);
-			openToast('Note saved successfully');
 		}
 
 		// Check if we're editing from the All Notes list
@@ -2006,20 +2358,14 @@ async function noteSave() {
 			const isCurrentChapter = (bookId === currentBookId && chapter === currentChapter);
 
 			if (isCurrentChapter) {
-				// Reload the chapter to update the note icon
-				await loadCurrentChapter();
+				app.contentRenderer.updateVerseNoteIcon(bookId, chapter, verse);
 			}
 
-			// Refresh the All Notes list to show updated text
+			// Refresh the All Notes list
 			showAllNotes();
 		} else {
-			// Normal note editing from chapter view - reload and highlight
-			await loadCurrentChapter();
-
-			// Scroll to the verse after reload completes
-			setTimeout(() => {
-				app.contentRenderer.scrollToVerse(verse);
-			}, APP.TIMEOUT);
+			// Normal note editing from chapter view - update icon in place
+			app.contentRenderer.updateVerseNoteIcon(bookId, chapter, verse);
 		}
 	}
 }
@@ -2055,21 +2401,29 @@ async function noteCancel() {
 		const isCurrentChapter = (bookId === currentBookId && chapter === currentChapter);
 
 		if (isCurrentChapter) {
-			// Reload the chapter to remove the note icon
-			await loadCurrentChapter();
+			app.contentRenderer.updateVerseNoteIcon(bookId, chapter, verse);
 		}
 
 		// Refresh the All Notes list
 		showAllNotes();
 	} else {
-		// Normal note deletion from chapter view - reload and highlight
-		await loadCurrentChapter();
-
-		// Scroll to the verse after reload completes
-		setTimeout(() => {
-			app.contentRenderer.scrollToVerse(verse);
-		}, APP.TIMEOUT);
+		// Normal note deletion from chapter view - update icon in place
+		app.contentRenderer.updateVerseNoteIcon(bookId, chapter, verse);
 	}
+}
+
+async function noteSendSuggestion() {
+	if (!app.selectedVerse) return;
+
+	const { bookId, chapter, verse } = app.selectedVerse;
+	const text = document.getElementById('noteText').value;
+
+	if (!text || !text.trim()) {
+		openToast('Please enter a suggestion');
+		return;
+	}
+
+	await sendSuggestion(bookId, chapter, verse, text, true);
 }
 
 function openNoteFromIcon(event, iconElement) {
@@ -2138,16 +2492,30 @@ function editNoteFromList(key) {
 }
 
 function copyVerseText() {
+	const { bookId, chapter, verse } = app.selectedVerse;
+	
+	// For suggestion mode, use raw text with markup (if available)
+	if (app.noteDialogMode === 'suggestion') {
+		// Check if we have raw verses stored
+		if (app.rawVerses && app.rawVerses[verse]) {
+			document.getElementById('noteText').value = app.rawVerses[verse];
+			return;
+		}
+		
+		// Fallback: use display text if raw not available
+		openToast('Raw text not available, using display text');
+	}
+	
+	// For note mode, use display text (markup already removed)
 	if (!app.selectedVerseText || app.selectedVerseText.trim() === '') {
 		openToast('Verse text not available');
 		return;
 	}
 
-	// Replace textarea content
 	document.getElementById('noteText').value = app.selectedVerseText;
 }
 
-async function sendSuggestion(bookId, chapter, verse, suggestionText) {
+async function sendSuggestion(bookId, chapter, verse, suggestionText, keepOpen = false) {
 	if (!suggestionText || !suggestionText.trim()) {
 		openToast('Please enter a suggestion');
 		return;
@@ -2189,9 +2557,11 @@ async function sendSuggestion(bookId, chapter, verse, suggestionText) {
 		]);
 
 		closeLoading();
-		closeModal(MODAL.NOTE);
+		if (!keepOpen) {
+			closeModal(MODAL.NOTE);
+			document.getElementById('noteText').value = '';
+		}
 		openToast('Suggestion sent successfully! Thank you.');
-		document.getElementById('noteText').value = '';
 	} catch (error) {
 		closeLoading();
 		console.error('Suggestion submission failed:', error);
@@ -2724,24 +3094,24 @@ function navigateToReading(reference, day, index) {
 	loadDailyReading();
 }
 
-function handleDailyReadingPrevious() {
-	if (app.dailyReadingManager.navigatePrevious()) {
-		loadDailyReading();
-		updateDisplay();
-		animateContentTransition('left');
-	} else {
-		openToast('Already at first reading for this day');
-	}
+async function handleDailyReadingPrevious() {
+    if (app.dailyReadingManager.navigatePrevious()) {
+        await loadDailyReading();
+        updateDisplay();
+        animateContentTransition('left');
+    } else {
+        openToast('Already at first reading for this day');
+    }
 }
 
-function handleDailyReadingNext() {
-	if (app.dailyReadingManager.navigateNext()) {
-		loadDailyReading();
-		updateDisplay();
-		animateContentTransition('right');
-	} else {
-		openToast('Already at last reading for this day');
-	}
+async function handleDailyReadingNext() {
+    if (app.dailyReadingManager.navigateNext()) {
+        await loadDailyReading();
+        updateDisplay();
+        animateContentTransition('right');
+    } else {
+        openToast('Already at last reading for this day');
+    }
 }
 
 // Render day cards dynamically

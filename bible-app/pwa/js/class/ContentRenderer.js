@@ -284,6 +284,26 @@ class ContentRenderer {
 			: '';
 	}
 
+	updateVerseNoteIcon(bookId, chapter, verse) {
+		const verseEls = document.querySelectorAll(
+			`.verse[data-book="${bookId}"][data-chapter="${chapter}"][data-verse="${verse}"]`
+		);
+		verseEls.forEach(verseEl => {
+			// Remove existing icon if present
+			const existingIcon = verseEl.querySelector('.note-icon');
+			if (existingIcon) existingIcon.remove();
+
+			// Add icon if note exists
+			const iconHtml = this.hasNoteIcon(bookId, chapter, verse);
+			if (iconHtml) {
+				const verseNumber = verseEl.querySelector('.verse-number');
+				if (verseNumber) {
+					verseNumber.insertAdjacentHTML('afterend', iconHtml);
+				}
+			}
+		});
+	}
+
 	enableScrollDetection() {
 		if (this.scrollListener) {
 			this.disableScrollDetection(); // Clean up old listener first
@@ -439,7 +459,7 @@ class ContentRenderer {
 		}
 	}
 
-	renderChapterInterlinear(bookName, chapter, versesA, versesB, sourceA, sourceB, versionAbbr) {
+	renderChapterInterlinear(chapter, versesA, versesB, sourceA, sourceB, versionAbbr) {
 		const currentBook = app.versionManager.findBookById(app.navigationManager.getCurrentBook());
 		const bookId = currentBook ? currentBook.id : '';
 
@@ -502,15 +522,6 @@ class ContentRenderer {
 		const maxVerseA = mapVersionA.size > 0 ? Math.max(...mapVersionA.keys()) : 0;
 		const maxVerseB = mapVersionB.size > 0 ? Math.max(...mapVersionB.keys()) : 0;
 		const maxVerses = Math.max(maxVerseA, maxVerseB);
-
-		console.log('Interlinear rendering:', {
-			sourceA,
-			sourceB,
-			versesACount: mapVersionA.size,
-			versesBCount: mapVersionB.size,
-			maxVerses,
-			versionAbbr
-		});
 
 		// Build verse pairs data
 		const versePairsData = [];

@@ -51,7 +51,11 @@ class BollsLifeProvider extends BaseProvider {
 			html += `<p class="verse"><span class="verse-number">${verseObj.verse}</span>&nbsp;${text}</p>`;
 		});
 
-		return html;
+		// Return consistent format (no raw verses for this provider)
+		return {
+			html: html,
+			rawVerses: {}
+		};
 	}
 
 async search(versionParams, searchTerm, page = 1) {
