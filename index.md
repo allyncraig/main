@@ -6,7 +6,7 @@
 - [Bible App](bible-app/index.md) : Native Android App; and PWA for iOS and Web Brosers
 - [Calculator](projects/calculator/index.md) : Multi-mode Calculator with Basic, Scientific, Conversion and Programmer modes
 - Workout Tracker : Tracking workout activity
-- Walk Tracker : Tracking and mapping walking exercise sessions
+- [Walk Tracker](projects/walk-tracker/index.md) : Tracking and mapping walking exercise sessions
 - Tabata Workout Tool : 
 - Multiplication Practice Tool : For practicing simple multiplication facts
 - FlashCards app
