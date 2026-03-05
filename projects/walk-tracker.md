@@ -1,4 +1,4 @@
-# Calculator App
+# Walk Tracker
 
 A walk session mapper and tracker app for Android.
 
@@ -16,19 +16,19 @@ Currently in progress. This app will have Standard, Scientific, Conversion and P
 
 ### Mobile App
 
-Download [Android APK](downloads/WalkTracker.apk) - direct install if accessing from an Android device. Current Version: 1.0.6
+Download [Android APK](downloads/WalkTracker.apk) - direct install if accessing from an Android device. Current Version: 1.0.7
 
 ---
 
 ## Features
 
--- Map the path of a walk session.
--- Calculate basic walk statistics: distance, duration, average pace, speed, steps and calories burned.
--- Keep a history of walk sessions.
--- Manage walk session history: view, delete
--- No ads
--- No registration required
--- Privacy: your personal information is not gatherd, not sent to me (or anyone else) and not tracked at all except on your device.
+- Map the path of a walk session.
+- Calculate basic walk statistics: distance, duration, average pace, speed, steps and calories burned.
+- Keep a history of walk sessions.
+- Manage walk session history: view, delete
+- No ads
+- No registration required
+- Privacy: your personal information is not gatherd, not sent to me (or anyone else) and not tracked at all except on your device.
 
 ---
 

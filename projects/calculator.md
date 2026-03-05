@@ -8,7 +8,7 @@ A multi-mode calculator app for Android.
 
 ## Overview
 
-Currently in progress. This app will have Standard, Scientific, Conversion and Programmer modes.
+Currently in progress. This app will have Standard, Scientific, Graphing, Conversion and Programmer modes.
 
 ---
 
@@ -22,11 +22,11 @@ Download [Android APK](downloads/Calculator.apk) - direct install if accessing f
 
 ## Features
 
--- Basic Calculator
--- Scientific mode
--- Converting mode - Partially Implemented. More features to come.
--- Programmer calculator
--- Graphing mode - Partially Implemented. More features to come.
+- Basic Calculator
+- Scientific mode
+- Converting mode - Partially Implemented. More features to come.
+- Programmer calculator
+- Graphing mode - Partially Implemented. More features to come.
 
 ---
 
