@@ -1,0 +1,36 @@
+# Walk Tracker
+
+An Android app to manage the Sermon Creation Process.
+
+[Home](../index.md)
+
+---
+
+## Overview
+
+Currently in progress.
+
+---
+
+## How to Access
+
+### Mobile App
+
+Download [Android APK](downloads/SermonArchitect.apk) - direct install if accessing from an Android device. Current Version: 1.0.0
+
+---
+
+## Features
+
+- 8-point process for creating Bible-based sermons based on the work of Perry, Chapell and Peckham.
+- Manages multiple sermons.
+
+---
+
+## Notes
+
+The Android APK can be installed directly on compatible devices. You may need to enable installation from unknown sources.
+
+---
+
+Mobile App (c) 2026 by Allyn Craig. The Sermon Architect process is the work of others for which I assert no copyright claim. 

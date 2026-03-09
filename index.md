@@ -4,6 +4,7 @@
 
 - [Allyn's Bible Translation](bible/index.md) : My own translation of the Bible
 - [Bible App](bible-app/index.md) : Native Android App; and PWA for iOS and Web Brosers
+- [Sermon Architect](sermon-architect.md) : Native Android App to assist in the process of creating Bible-based sermons
 - [Calculator](projects/calculator.md) : Multi-mode Calculator with Basic, Scientific, Conversion and Programmer modes
 - Workout Tracker : Tracking workout activity
 - [Walk Tracker](projects/walk-tracker.md) : Tracking and mapping walking exercise sessions
