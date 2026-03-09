@@ -4,14 +4,14 @@
 
 ## Stop Drinking Only Water
 
-People who argue that the Bible says it’s OK to drink alcohol will sometimes refer to 1 Timothy 5:23. In this verse can be read the following advice that Paul wrote to Timothy: “Stop drinking only water, and use a little wine” (NIV). On face value it appears that Paul is encouraging the use of alcohol. However, this reading takes Paul’s advice out of its full context and twists Paul’s words around to mean something quite different from what was intended.
+Christians who argue that the Bible says it’s OK to drink alcohol will sometimes refer to 1 Timothy 5:23. In this verse can be read the following advice that Paul wrote to Timothy: “Stop drinking only water, and use a little wine” (NIV). On face value it appears that Paul is encouraging the use of alcohol. However, this reading takes Paul’s advice out of its full context and twists Paul’s words around to mean something quite different from what was intended.
 
 The full verse reads as follows:
 
 > “Stop drinking only water, and use a little wine ***because of your stomach and your frequent illnesses***”
 * 1 Timothy 5:23 (emphasis added).
 
-Paul has a reason for telling Timothy to use some wine – because he has stomach problems and is becoming ill frequently due to these stomach problems. So this verse is not as a general statement that everyone should follow all the time, but medical advice to one specific person (Timothy) for treating a specific ailment (stomach problems).
+Paul has a reason for telling Timothy to use some wine – because he has stomach problems and is becoming ill frequently due to these stomach problems. So this verse is not a general statement that everyone should follow all the time, but medical advice to one specific person (Timothy) for treating a specific ailment (stomach problems).
 
 Another problem with using this verse to justify alcohol consumption is that the Greek word translated as “wine” in this text is *oinos*. The word *oinos* in Greek is used for both fermented wine and unfermented grape juice. So Paul could just as easily have been telling Timothy to consume fresh grape juice, not fermented wine.
 
@@ -73,8 +73,12 @@ Why? For the same reasons as given in the above texts:
 
 ### **Avoid alcohol so we can know God**
 
+In Deuteronomy, Moses is about to die, so he is recounting to the Israelites what God had done for them. In this verse, he is repeating the LORD's words to them:
+
 > You ate no bread and drank no wine or other fermented drink. I did this so that you might know that I am the LORD your God.
 * Deuteronomy 29:6
+
+God withheld all alcohol from them so that they might know God. Does this not imply that alcohol has the ability to prevent us from knowing God?
 
 ## Texts relating to Sobriety
 
