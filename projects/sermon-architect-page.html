@@ -1,0 +1,1960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sermon Architect — Perry · Chapell · Peckham</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --ink-light: #3d342a;
+    --parchment: #f7f2ea;
+    --parchment-dark: #ede5d4;
+    --parchment-darker: #ddd0b8;
+    --gold: #b8872a;
+    --gold-light: #d4a84b;
+    --gold-pale: #f0dfa8;
+    --crimson: #8b2020;
+    --crimson-light: #b03030;
+    --teal: #1a5c5c;
+    --teal-light: #2a7878;
+    --shadow: rgba(26,20,16,0.12);
+    --shadow-deep: rgba(26,20,16,0.25);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--ink);
+    font-family: 'Crimson Pro', Georgia, serif;
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, #1a1410 0%, #2d2218 40%, #1a2a1a 100%);
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    border-bottom: 3px solid var(--gold);
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: 
+      radial-gradient(ellipse at 20% 50%, rgba(184,135,42,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 50%, rgba(26,92,92,0.08) 0%, transparent 60%);
+  }
+  header::after {
+    content: '✦ SOLI DEO GLORIA ✦';
+    position: absolute;
+    bottom: 0.5rem; left: 50%; transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    opacity: 0.5;
+  }
+  .header-ornament {
+    color: var(--gold);
+    font-size: 1.2rem;
+    letter-spacing: 0.4em;
+    opacity: 0.6;
+    margin-bottom: 0.5rem;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    color: var(--parchment);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+  }
+  header h1 span { color: var(--gold-light); font-style: italic; }
+  .header-sub {
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--parchment-darker);
+    letter-spacing: 0.15em;
+    font-family: 'JetBrains Mono', monospace;
+    opacity: 0.7;
+  }
+  .method-badges {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem;
+    margin-top: 1rem; position: relative;
+  }
+  .badge {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(184,135,42,0.35);
+    color: var(--gold-light);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    padding: 0.3rem 0.8rem;
+    border-radius: 2px;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .app-shell {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: calc(100vh - 130px);
+  }
+
+  /* ── SIDEBAR ── */
+  aside {
+    background: #0f0c09;
+    border-right: 1px solid rgba(184,135,42,0.2);
+    padding: 1.5rem 1rem;
+    display: flex; flex-direction: column; gap: 0.3rem;
+  }
+  .sidebar-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    opacity: 0.5;
+    padding: 0.8rem 0.8rem 0.3rem;
+    text-transform: uppercase;
+  }
+  .step-btn {
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    background: none; border: none;
+    padding: 0.75rem 0.8rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+    text-align: left;
+    width: 100%;
+    position: relative;
+  }
+  .step-btn:hover { background: rgba(184,135,42,0.08); }
+  .step-btn.active {
+    background: rgba(184,135,42,0.12);
+    border-left: 2px solid var(--gold);
+  }
+  .step-btn.completed .step-num { background: var(--teal); color: white; }
+  .step-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(184,135,42,0.3);
+    color: var(--gold-light);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+    transition: all 0.2s;
+  }
+  .step-info { flex: 1; }
+  .step-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    color: var(--parchment);
+    line-height: 1.2;
+  }
+  .step-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--gold);
+    opacity: 0.55;
+    letter-spacing: 0.05em;
+    margin-top: 2px;
+  }
+  .sidebar-divider {
+    height: 1px; background: rgba(184,135,42,0.1);
+    margin: 0.5rem 0.8rem;
+  }
+
+  /* ── MAIN CONTENT ── */
+  main {
+    background: var(--parchment);
+    overflow-y: auto;
+  }
+  .panel { display: none; padding: 2.5rem 2.5rem 3rem; max-width: 860px; }
+  .panel.active { display: block; }
+
+  /* ── PANEL HEADERS ── */
+  .panel-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 2px solid var(--parchment-darker);
+    position: relative;
+  }
+  .panel-header::after {
+    content: '';
+    position: absolute; bottom: -2px; left: 0;
+    width: 60px; height: 2px;
+    background: var(--gold);
+  }
+  .panel-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .panel-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    color: var(--ink);
+    font-weight: 700;
+    line-height: 1.15;
+  }
+  .panel-title em { color: var(--crimson); font-style: italic; }
+  .panel-desc {
+    margin-top: 0.6rem;
+    font-size: 1rem;
+    color: var(--ink-light);
+    line-height: 1.6;
+    max-width: 600px;
+  }
+
+  /* ── THEORY BOXES ── */
+  .theory-box {
+    border-radius: 4px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.25rem;
+    border-left: 3px solid;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .theory-box.perry { border-color: var(--crimson); background: #f9f0f0; }
+  .theory-box.chapell { border-color: var(--teal); background: #f0f6f6; }
+  .theory-box.peckham { border-color: var(--gold); background: #fdf7ec; }
+  .theory-box strong {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+  .theory-box.perry strong { color: var(--crimson); }
+  .theory-box.chapell strong { color: var(--teal); }
+  .theory-box.peckham strong { color: var(--gold); }
+
+  /* ── FORM ELEMENTS ── */
+  .field-group { margin-bottom: 1.5rem; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  label {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: var(--ink-light);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  label .required { color: var(--crimson); }
+  input[type="text"], input[type="date"], select, textarea {
+    width: 100%;
+    background: white;
+    border: 1.5px solid var(--parchment-darker);
+    border-radius: 3px;
+    padding: 0.65rem 0.85rem;
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 1rem;
+    color: var(--ink);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(184,135,42,0.12);
+  }
+  textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+  textarea.tall { min-height: 130px; }
+  select { cursor: pointer; }
+
+  /* ── SERMON STRUCTURE CARDS ── */
+  .structure-grid {
+    display: flex; flex-direction: column; gap: 0; margin-top: 0.5rem;
+  }
+  .struct-item {
+    background: white;
+    border: 1.5px solid var(--parchment-darker);
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .struct-item:hover { box-shadow: 0 4px 16px var(--shadow); }
+  .struct-header {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 0.85rem 1.1rem;
+    background: var(--parchment-dark);
+    border-bottom: 1.5px solid var(--parchment-darker);
+    cursor: pointer;
+    user-select: none;
+  }
+  .struct-header:hover { background: var(--parchment-darker); }
+  .struct-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    min-width: 1.5rem;
+  }
+  .struct-label {
+    flex: 1;
+  }
+  .struct-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .struct-hint {
+    font-size: 0.82rem;
+    color: var(--ink-light);
+    margin-top: 1px;
+  }
+  .struct-toggle {
+    color: var(--gold);
+    font-size: 1.1rem;
+    transition: transform 0.2s;
+  }
+  .struct-toggle.open { transform: rotate(180deg); }
+  .struct-body {
+    padding: 1.2rem 1.1rem;
+    display: none;
+  }
+  .struct-body.open { display: block; }
+  .sub-field { margin-bottom: 1rem; }
+  .sub-field:last-child { margin-bottom: 0; }
+
+  /* ── OUTLINE PREVIEW ── */
+  .outline-preview {
+    background: white;
+    border: 1.5px solid var(--parchment-darker);
+    border-radius: 4px;
+    padding: 2rem;
+    font-size: 0.95rem;
+    line-height: 1.8;
+  }
+  .outline-preview h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--ink);
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .outline-section {
+    margin-bottom: 1.2rem;
+    padding-left: 1rem;
+    border-left: 3px solid var(--parchment-darker);
+  }
+  .outline-section.filled { border-left-color: var(--gold); }
+  .outline-section-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    color: var(--ink);
+    font-size: 1rem;
+  }
+  .outline-sub {
+    color: var(--ink-light);
+    font-size: 0.9rem;
+    padding-left: 1rem;
+    margin-top: 0.2rem;
+  }
+  .outline-empty { color: #bbb; font-style: italic; font-size: 0.88rem; }
+
+  /* ── FCF METER ── */
+  .fcf-meter {
+    background: white;
+    border: 1.5px solid var(--parchment-darker);
+    border-radius: 4px;
+    padding: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+  .fcf-meter-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--teal);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .fcf-bar-track {
+    height: 8px;
+    background: var(--parchment-dark);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.4rem;
+  }
+  .fcf-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--gold));
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+  .fcf-bar-desc {
+    font-size: 0.82rem;
+    color: var(--ink-light);
+    font-style: italic;
+  }
+
+  /* ── DOXOLOGICAL COMPASS ── */
+  .dox-compass {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .dox-axis {
+    background: white;
+    border: 1.5px solid var(--parchment-darker);
+    border-radius: 4px;
+    padding: 1rem;
+  }
+  .dox-axis-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.35rem;
+  }
+  .dox-axis-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .dox-axis-desc {
+    font-size: 0.82rem;
+    color: var(--ink-light);
+    margin-top: 0.2rem;
+    line-height: 1.5;
+  }
+
+  /* ── BUTTONS ── */
+  .btn-row {
+    display: flex; gap: 0.75rem; margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+  .btn {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.65rem 1.5rem;
+    border: 2px solid;
+    border-radius: 3px;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    transition: all 0.15s;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 0.4rem;
+  }
+  .btn-primary {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--parchment);
+  }
+  .btn-primary:hover { background: var(--ink-light); border-color: var(--ink-light); }
+  .btn-gold {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: white;
+  }
+  .btn-gold:hover { background: var(--gold-light); border-color: var(--gold-light); }
+  .btn-outline {
+    background: transparent;
+    border-color: var(--parchment-darker);
+    color: var(--ink-light);
+  }
+  .btn-outline:hover { border-color: var(--ink-light); color: var(--ink); }
+
+  /* ── EXPORT PANEL ── */
+  .export-card {
+    background: white;
+    border: 1.5px solid var(--parchment-darker);
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .export-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  #full-outline {
+    background: #f9f6f1;
+    border: 1.5px solid var(--parchment-darker);
+    border-radius: 3px;
+    padding: 1.5rem;
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.95rem;
+    line-height: 1.9;
+    white-space: pre-wrap;
+    max-height: 500px;
+    overflow-y: auto;
+    color: var(--ink);
+  }
+  .copy-btn {
+    margin-top: 0.75rem;
+  }
+
+  /* ── RADIO CARDS ── */
+  .radio-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.75rem;
+    margin-top: 0.4rem;
+  }
+  .radio-card {
+    position: relative;
+  }
+  .radio-card input[type="radio"] {
+    position: absolute; opacity: 0; width: 0; height: 0;
+  }
+  .radio-card label {
+    display: block;
+    background: white;
+    border: 2px solid var(--parchment-darker);
+    border-radius: 4px;
+    padding: 0.9rem 1rem;
+    cursor: pointer;
+    text-transform: none;
+    letter-spacing: 0;
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.95rem;
+    color: var(--ink);
+    transition: all 0.15s;
+  }
+  .radio-card input:checked + label {
+    border-color: var(--gold);
+    background: var(--gold-pale);
+    box-shadow: 0 0 0 3px rgba(184,135,42,0.15);
+  }
+  .radio-card label:hover { border-color: var(--gold-light); }
+  .radio-card .rc-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 0.92rem;
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+  .radio-card .rc-desc {
+    font-size: 0.8rem;
+    color: var(--ink-light);
+    font-style: italic;
+    display: block;
+  }
+
+  /* ── PROGRESS INDICATOR ── */
+  .progress-bar-outer {
+    height: 3px;
+    background: rgba(184,135,42,0.2);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .progress-bar-inner {
+    height: 100%;
+    background: var(--gold);
+    transition: width 0.4s ease;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .app-shell { grid-template-columns: 1fr; }
+    aside { flex-direction: row; flex-wrap: wrap; padding: 0.75rem; gap: 0.25rem; overflow-x: auto; }
+    .sidebar-label, .sidebar-divider { display: none; }
+    .step-btn { padding: 0.5rem 0.7rem; }
+    .step-info .step-title { font-size: 0.75rem; }
+    .step-tag { display: none; }
+    .field-row { grid-template-columns: 1fr; }
+    .dox-compass { grid-template-columns: 1fr; }
+    .panel { padding: 1.5rem 1rem 2rem; }
+  }
+
+  /* ── ANIMATIONS ── */
+  .panel.active { animation: fadeSlide 0.3s ease; }
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 1.5rem; right: 1.5rem;
+    background: var(--ink);
+    color: var(--gold-light);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    padding: 0.7rem 1.2rem;
+    border-radius: 3px;
+    border: 1px solid var(--gold);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    pointer-events: none;
+    z-index: 1000;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* Checkmark for completed */
+  .step-btn.completed .step-num::after { content: '✓'; }
+  .step-btn.completed .step-num { font-size: 0.7rem; }
+
+  .info-chip {
+    display: inline-block;
+    background: var(--gold-pale);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    padding: 0.1rem 0.5rem;
+    border-radius: 2px;
+    margin-left: 0.4rem;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-ornament">✦ ✦ ✦</div>
+  <h1>Sermon <span>Architect</span></h1>
+  <p class="header-sub">EXPOSITORY PREACHING · PERRY · CHAPELL · PECKHAM</p>
+  <div class="method-badges">
+    <span class="badge">Lloyd Perry's Expository Method</span>
+    <span class="badge">Bryan Chapell's FCF</span>
+    <span class="badge">John Peckham's Relational Doxology</span>
+    <span class="badge">Text-Driven Structure</span>
+  </div>
+</header>
+
+<div class="progress-bar-outer">
+  <div class="progress-bar-inner" id="progress-bar" style="width:12.5%"></div>
+</div>
+
+<div class="app-shell">
+
+  <!-- SIDEBAR -->
+  <aside>
+    <div class="sidebar-label">Sermon Stages</div>
+    <button class="step-btn active" onclick="goTo(0)" id="btn-0">
+      <div class="step-num">1</div>
+      <div class="step-info">
+        <div class="step-title">Scripture & Context</div>
+        <div class="step-tag">Foundation</div>
+      </div>
+    </button>
+    <button class="step-btn" onclick="goTo(1)" id="btn-1">
+      <div class="step-num">2</div>
+      <div class="step-info">
+        <div class="step-title">FCF — Fallen Condition</div>
+        <div class="step-tag">Chapell</div>
+      </div>
+    </button>
+    <button class="step-btn" onclick="goTo(2)" id="btn-2">
+      <div class="step-num">3</div>
+      <div class="step-info">
+        <div class="step-title">Relational Doxology</div>
+        <div class="step-tag">Peckham</div>
+      </div>
+    </button>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-label">Perry's Structure</div>
+    <button class="step-btn" onclick="goTo(3)" id="btn-3">
+      <div class="step-num">4</div>
+      <div class="step-info">
+        <div class="step-title">Introduction</div>
+        <div class="step-tag">Perry §1</div>
+      </div>
+    </button>
+    <button class="step-btn" onclick="goTo(4)" id="btn-4">
+      <div class="step-num">5</div>
+      <div class="step-info">
+        <div class="step-title">Proposition, Interrogative & Transition</div>
+        <div class="step-tag">Perry §2</div>
+      </div>
+    </button>
+    <button class="step-btn" onclick="goTo(5)" id="btn-5">
+      <div class="step-num">6</div>
+      <div class="step-info">
+        <div class="step-title">Body — Main Points</div>
+        <div class="step-tag">Perry §3–5</div>
+      </div>
+    </button>
+    <button class="step-btn" onclick="goTo(6)" id="btn-6">
+      <div class="step-num">7</div>
+      <div class="step-info">
+        <div class="step-title">Conclusion & Call</div>
+        <div class="step-tag">Perry §6</div>
+      </div>
+    </button>
+    <div class="sidebar-divider"></div>
+    <button class="step-btn" onclick="goTo(7)" id="btn-7">
+      <div class="step-num">8</div>
+      <div class="step-info">
+        <div class="step-title">Export Outline</div>
+        <div class="step-tag">Final</div>
+      </div>
+    </button>
+  </aside>
+
+  <!-- MAIN PANELS -->
+  <main>
+
+    <!-- PANEL 0: Scripture & Context -->
+    <div class="panel active" id="panel-0">
+      <div class="panel-header">
+        <div class="panel-eyebrow">Step 1 · Exegetical Foundation</div>
+        <h2 class="panel-title">Passage & <em>Exegesis</em></h2>
+        <p class="panel-desc">Expository preaching begins and ends with the text. The sermon's structure, points, and thrust must <em>emerge from</em> the passage — not be imposed upon it. Do your exegetical work here before building anything else.</p>
+      </div>
+
+      <div class="theory-box perry">
+        <strong>Lloyd Perry — Expository Textual Integrity</strong>
+        In expository preaching, the text is not merely a launching pad — it is the sermon's architecture. Perry insists: the main points arise from the passage's own divisions; every assertion must be traceable to a specific verse; the preacher's voice serves the text's voice. Begin by mapping the passage's structure before you write a single outline point.
+      </div>
+
+      <div class="field-group">
+        <div class="field-row">
+          <div>
+            <label>Sermon Title <span class="required">*</span></label>
+            <input type="text" id="sermon-title" placeholder="e.g. Grace in the Wilderness" oninput="updateData()">
+          </div>
+          <div>
+            <label>Date / Occasion</label>
+            <input type="text" id="sermon-date" placeholder="e.g. Advent Sunday, Dec 1" oninput="updateData()">
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-row">
+          <div>
+            <label>Primary Pericope <span class="required">*</span></label>
+            <input type="text" id="scripture-ref" placeholder="e.g. Romans 8:18–25" oninput="updateData()">
+          </div>
+          <div>
+            <label>Support / Cross-Reference Texts</label>
+            <input type="text" id="scripture-support" placeholder="e.g. Ps 22; Heb 4:15" oninput="updateData()">
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Literary Genre of the Passage <span class="info-chip">Expository</span></label>
+        <div class="radio-cards">
+          <div class="radio-card">
+            <input type="radio" name="lit-genre" id="lg-epistle" value="Epistle / Didactic" checked onchange="updateData()">
+            <label for="lg-epistle"><span class="rc-title">Epistle / Didactic</span><span class="rc-desc">Theological argument or instruction</span></label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" name="lit-genre" id="lg-narrative" value="Biblical Narrative" onchange="updateData()">
+            <label for="lg-narrative"><span class="rc-title">Biblical Narrative</span><span class="rc-desc">Historical / story genre</span></label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" name="lit-genre" id="lg-poetry" value="Poetry / Wisdom" onchange="updateData()">
+            <label for="lg-poetry"><span class="rc-title">Poetry / Wisdom</span><span class="rc-desc">Psalms, Proverbs, Song</span></label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" name="lit-genre" id="lg-prophecy" value="Prophecy / Apocalyptic" onchange="updateData()">
+            <label for="lg-prophecy"><span class="rc-title">Prophecy / Apocalyptic</span><span class="rc-desc">Oracular or visionary</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Passage Structural Outline (How the Text Itself Divides) <span class="required">*</span></label>
+        <textarea id="passage-structure" class="tall" placeholder="Map the passage's own structure — its movements, paragraphs, or strophes. e.g.:&#10;v.18 — Present sufferings stated&#10;vv.19–22 — Creation's groan (cosmic frame)&#10;vv.23–25 — Believers' groan (personal frame)&#10;&#10;These natural divisions should become your main points." oninput="updateData()"></textarea>
+      </div>
+
+      <!-- TEXTUAL ANALYSIS -->
+      <div class="panel-eyebrow" style="margin: 1.75rem 0 0.75rem; font-size:0.65rem; letter-spacing:0.2em; color:var(--crimson);">Textual Analysis</div>
+      <div class="theory-box perry" style="margin-bottom:1rem">
+        <strong>Perry — Textual Analysis as the Exegetical Engine</strong>
+        Faithful exposition requires moving through several layers of the text before any homiletical decisions are made. Historical-grammatical analysis, word study, syntactical observation, and intertextual tracing are not optional scholarly extras — they are the work of finding what the text actually says, means, and demands. Each layer informs and constrains the next.
+      </div>
+
+      <div class="structure-grid">
+
+        <!-- TA-A: Historical-Grammatical Context -->
+        <div class="struct-item">
+          <div class="struct-header" onclick="toggleStruct(this)">
+            <div class="struct-num" style="color:var(--crimson)">A</div>
+            <div class="struct-label">
+              <div class="struct-name">Historical-Grammatical Context</div>
+              <div class="struct-hint">Author, audience, occasion, and setting of the passage</div>
+            </div>
+            <div class="struct-toggle">▼</div>
+          </div>
+          <div class="struct-body">
+            <div class="sub-field">
+              <label>Author & Date</label>
+              <input type="text" id="ta-author" placeholder="e.g. Paul, c. AD 57, writing from Corinth to Rome" oninput="updateData()">
+            </div>
+            <div class="sub-field">
+              <label>Original Audience & Occasion</label>
+              <textarea id="ta-audience-orig" placeholder="Who are the original recipients? What is their situation — theological, social, political — that prompted this text?" oninput="updateData()"></textarea>
+            </div>
+            <div class="sub-field">
+              <label>Immediate Literary Context (What Precedes / Follows)</label>
+              <textarea id="ta-lit-context" placeholder="What comes immediately before and after this pericope? How does the surrounding argument or narrative shape the meaning of this passage?" oninput="updateData()"></textarea>
+            </div>
+            <div class="sub-field">
+              <label>Historical / Cultural Background Notes</label>
+              <textarea id="ta-historical" placeholder="e.g. Roman suffering under Nero; Jewish concepts of glory; first-century eschatological expectations — any background a congregation needs to hear the text as the original audience heard it." oninput="updateData()"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- TA-B: Word Study -->
+        <div class="struct-item">
+          <div class="struct-header" onclick="toggleStruct(this)">
+            <div class="struct-num" style="color:var(--crimson)">B</div>
+            <div class="struct-label">
+              <div class="struct-name">Word Study</div>
+              <div class="struct-hint">Key terms in the original language — semantic range, usage, and weight</div>
+            </div>
+            <div class="struct-toggle">▼</div>
+          </div>
+          <div class="struct-body">
+            <div class="sub-field">
+              <label>Key Words / Terms to Define <span class="info-chip">Original Language</span></label>
+              <input type="text" id="key-terms" placeholder="e.g. glory (δόξα), groaning (στενάζω), adoption (υἱοθεσία), hope (ἐλπίς)" oninput="updateData()">
+            </div>
+            <div class="sub-field">
+              <label>Word Study Notes</label>
+              <textarea id="ta-word-study" placeholder="For each key term: (1) Hebrew/Greek root, (2) semantic range in the biblical corpus, (3) specific nuance in this context, (4) any translation issues or homiletically significant weight. e.g. ἐλπίς — not wishful thinking but confident expectation grounded in God's character (cf. Rom 5:5)." oninput="updateData()"></textarea>
+            </div>
+            <div class="sub-field">
+              <label>Theologically Loaded Terms (Loci)</label>
+              <input type="text" id="ta-theological-loci" placeholder="e.g. justification, covenant, glory, shalom — terms carrying theological freight beyond their surface meaning" oninput="updateData()">
+            </div>
+          </div>
+        </div>
+
+        <!-- TA-C: Syntactical & Grammatical Analysis -->
+        <div class="struct-item">
+          <div class="struct-header" onclick="toggleStruct(this)">
+            <div class="struct-num" style="color:var(--crimson)">C</div>
+            <div class="struct-label">
+              <div class="struct-name">Syntactical & Grammatical Analysis</div>
+              <div class="struct-hint">Sentence structure, verb tenses, clausal relationships, and logical connectors</div>
+            </div>
+            <div class="struct-toggle">▼</div>
+          </div>
+          <div class="struct-body">
+            <div class="sub-field">
+              <label>Critical Grammatical / Syntactical Notes</label>
+              <input type="text" id="grammar-notes" placeholder="e.g. present tense verb; subordinate clause structure; imperative vs indicative" oninput="updateData()">
+            </div>
+            <div class="sub-field">
+              <label>Dominant Verb Moods & Tenses</label>
+              <textarea id="ta-verbs" placeholder="Note the primary verbs: are they imperative or indicative? Aorist (completed act) or present (ongoing)? Active or passive? These choices carry theological and homiletical weight — the imperative rests on the indicative." oninput="updateData()"></textarea>
+            </div>
+            <div class="sub-field">
+              <label>Logical Connectors & Clause Structure</label>
+              <textarea id="ta-connectors" placeholder="Identify conjunctions, particles, and logical connectors: therefore (οὖν), because (γάρ / ὅτι), but (δέ / ἀλλά), so that (ἵνα). These reveal the argument's logical spine — especially for Pauline epistles." oninput="updateData()"></textarea>
+            </div>
+            <div class="sub-field">
+              <label>Indicative → Imperative Pattern</label>
+              <textarea id="ta-indicative" placeholder="What does God declare or accomplish (indicative)? What does he then call his people to (imperative)? Expository preaching always grounds the 'do' in the 'done'. Map this relationship in the text." oninput="updateData()"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- TA-D: Intertextual & Canonical Connections -->
+        <div class="struct-item">
+          <div class="struct-header" onclick="toggleStruct(this)">
+            <div class="struct-num" style="color:var(--crimson)">D</div>
+            <div class="struct-label">
+              <div class="struct-name">Intertextual & Canonical Connections</div>
+              <div class="struct-hint">OT allusions, NT echoes, and the passage's place in redemptive history</div>
+            </div>
+            <div class="struct-toggle">▼</div>
+          </div>
+          <div class="struct-body">
+            <div class="sub-field">
+              <label>Old Testament Allusions or Quotations</label>
+              <textarea id="ta-ot-allusions" placeholder="Does the author quote or allude to OT texts? What theological weight do those allusions carry? How does knowing the OT source deepen the passage's meaning? e.g. Rom 8 echoes Ps 44, Gen 3, and Isa 65." oninput="updateData()"></textarea>
+            </div>
+            <div class="sub-field">
+              <label>New Testament Parallels & Echoes</label>
+              <textarea id="ta-nt-parallels" placeholder="Where else in the NT does this theme, term, or argument appear? What do parallel passages clarify or reinforce? (These become natural cross-reference support texts.)" oninput="updateData()"></textarea>
+            </div>
+            <div class="sub-field">
+              <label>Redemptive-Historical Location</label>
+              <textarea id="ta-redemptive" placeholder="Where does this passage sit in the arc of redemptive history — promise, fulfillment, anticipation? How does Christ (his person, work, resurrection, or return) stand at the center of what this text teaches?" oninput="updateData()"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- TA-E: Authorial Intent & Central Assertion -->
+        <div class="struct-item">
+          <div class="struct-header" onclick="toggleStruct(this)">
+            <div class="struct-num" style="color:var(--crimson)">E</div>
+            <div class="struct-label">
+              <div class="struct-name">Authorial Intent & Central Assertion</div>
+              <div class="struct-hint">What the human author intended — which constrains the homiletical idea</div>
+            </div>
+            <div class="struct-toggle">▼</div>
+          </div>
+          <div class="struct-body">
+            <div class="sub-field">
+              <label>What Problem or Question Does the Author Address?</label>
+              <textarea id="ta-author-problem" placeholder="What theological, ethical, or pastoral problem is the author solving? What question does the text arise to answer? Identifying this prevents the preacher from making the text answer a question it was never asking." oninput="updateData()"></textarea>
+            </div>
+            <div class="sub-field">
+              <label>The Author's Central Assertion (in one sentence)</label>
+              <textarea id="ta-central-assertion" placeholder="In one sentence, what is the human author's main claim in this passage? This is the raw material for your Exegetical Idea below — written from the author's perspective, not yet addressed to your congregation." oninput="updateData()"></textarea>
+            </div>
+            <div class="sub-field">
+              <label>What Response Does the Author Intend to Produce?</label>
+              <textarea id="ta-author-intent" placeholder="Is the author aiming to comfort, correct, warn, instruct, praise, or exhort? What change in belief, affection, or behavior is the text designed to produce in its readers?" oninput="updateData()"></textarea>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- END TEXTUAL ANALYSIS -->
+
+      <div class="field-group" style="margin-top:1.5rem">
+        <label>Exegetical (Big) Idea — What the Text Means in Its Own Context <span class="required">*</span></label>
+        <p style="font-size:0.88rem;color:var(--ink-light);line-height:1.5;margin-bottom:0.6rem">Synthesize your textual analysis into one or two sentences. What is the author saying to the original audience? (This is the exegetical idea; the homiletical idea comes later in the Proposition step.)</p>
+        <textarea id="exeg-summary" class="tall" placeholder="e.g. Paul argues that the present sufferings of believers are not worthy of comparison with the coming glory, grounding their patient hope in the Spirit's intercession and God's sovereign purpose in redemption." oninput="updateData()"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label>Passage Structural Outline (How the Text Itself Divides) <span class="required">*</span></label>
+        <p style="font-size:0.88rem;color:var(--ink-light);line-height:1.5;margin-bottom:0.6rem">Map the passage's natural movements — its paragraphs, strophes, or argument steps. These divisions should become your main points.</p>
+        <textarea id="passage-structure" class="tall" placeholder="Map the passage's own structure — its movements, paragraphs, or strophes. e.g.:&#10;v.18 — Present sufferings stated&#10;vv.19–22 — Creation's groan (cosmic frame)&#10;vv.23–25 — Believers' groan (personal frame)&#10;&#10;These natural divisions should become your main points." oninput="updateData()"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label>Target Congregation / Audience</label>
+        <input type="text" id="audience" placeholder="e.g. Mixed congregation, many young families; mid-week prayer service" oninput="updateData()">
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-gold" onclick="goTo(1)">Next: FCF →</button>
+      </div>
+    </div>
+
+    <!-- PANEL 1: FCF -->
+    <div class="panel" id="panel-1">
+      <div class="panel-header">
+        <div class="panel-eyebrow">Step 2 · Bryan Chapell</div>
+        <h2 class="panel-title">Fallen Condition <em>Focus</em></h2>
+        <p class="panel-desc">Every passage addresses a human fallenness that Christ redeems. Identifying the FCF prevents moralism and keeps Christ at the center.</p>
+      </div>
+
+      <div class="theory-box chapell">
+        <strong>Bryan Chapell — Christ-Centered Preaching</strong>
+        Chapell argues that a sermon without a clear FCF lapses into mere advice-giving. The FCF is the universal human condition — a consequence of the Fall — that the text addresses and that the Gospel answers. It must be <em>present in the text</em>, <em>real in the audience</em>, and <em>resolved in Christ</em>.
+      </div>
+
+      <div class="fcf-meter">
+        <div class="fcf-meter-label">FCF Completeness</div>
+        <div class="fcf-bar-track"><div class="fcf-bar-fill" id="fcf-bar"></div></div>
+        <div class="fcf-bar-desc" id="fcf-desc">Fill in the fields below to assess FCF clarity.</div>
+      </div>
+
+      <div class="field-group">
+        <label>The Human Condition Addressed <span class="required">*</span></label>
+        <textarea id="fcf-condition" placeholder="What fallen condition does this passage diagnose? (e.g. fear, pride, self-reliance, doubt, idolatry, hopelessness, unbelief in God's provision...)" oninput="updateFCF()"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label>Evidence of This Condition in Your Congregation</label>
+        <textarea id="fcf-evidence" placeholder="How does this condition manifest concretely in your congregation's real life? Be specific — this keeps the sermon from being abstract." oninput="updateFCF()"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label>How the Text Diagnoses This Condition</label>
+        <textarea id="fcf-text-diag" placeholder="Where/how does the specific passage surface or expose this fallen condition?" oninput="updateFCF()"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label>How Christ / the Gospel Addresses This Condition <span class="required">*</span></label>
+        <textarea id="fcf-gospel-ans" class="tall" placeholder="This is the heart: how does Jesus — in his person, work, and grace — answer the specific condition? This should drive the sermon toward hope, not mere obligation." oninput="updateFCF()"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label>FCF Statement (one sentence)</label>
+        <input type="text" id="fcf-statement" placeholder='e.g. "Because we fear that God cannot be trusted in suffering, this text calls us to rest in Christ who bore our suffering."' oninput="updateFCF()">
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="goTo(0)">← Back</button>
+        <button class="btn btn-gold" onclick="goTo(2)">Next: Relational Doxology →</button>
+      </div>
+    </div>
+
+    <!-- PANEL 2: Peckham Relational Doxology -->
+    <div class="panel" id="panel-2">
+      <div class="panel-header">
+        <div class="panel-eyebrow">Step 3 · John Peckham</div>
+        <h2 class="panel-title">Relational <em>Doxology</em></h2>
+        <p class="panel-desc">Peckham's framework situates all of redemption within God's relational pursuit of his people — and the ultimate aim is the overflow of praise.</p>
+      </div>
+
+      <div class="theory-box peckham">
+        <strong>John Peckham — Canonical Theology & Relational Doxology</strong>
+        For Peckham, God's love is not merely volitional or ontological — it is genuinely relational and affective. Scripture narrates a cosmic love story: God pursuing, the creature resisting or responding, and the whole creation moving toward doxological consummation. Preaching should trace this arc: <em>God's relational initiative → human response → doxological overflow</em>.
+      </div>
+
+      <div class="dox-compass">
+        <div class="dox-axis">
+          <div class="dox-axis-label">Axis 1 · Relational</div>
+          <div class="dox-axis-name">God's Pursuit</div>
+          <div class="dox-axis-desc">How does this text show God initiating, pursuing, or sustaining relationship with his people?</div>
+        </div>
+        <div class="dox-axis">
+          <div class="dox-axis-label">Axis 2 · Doxological</div>
+          <div class="dox-axis-name">Worship Response</div>
+          <div class="dox-axis-desc">Where does obedience or transformation become an act of praise rather than mere duty?</div>
+        </div>
+        <div class="dox-axis">
+          <div class="dox-axis-label">Axis 3 · Affective</div>
+          <div class="dox-axis-name">God's Heart</div>
+          <div class="dox-axis-desc">What does this text reveal about God's genuine emotional investment in his people?</div>
+        </div>
+        <div class="dox-axis">
+          <div class="dox-axis-label">Axis 4 · Canonical</div>
+          <div class="dox-axis-name">Redemptive Arc</div>
+          <div class="dox-axis-desc">Where does this text sit within the larger love-story of Scripture?</div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>God's Relational Initiative in This Text</label>
+        <textarea id="peck-relation" placeholder="How is God's initiating love, covenant faithfulness, or gracious pursuit visible in this passage? (Avoid passive constructions — show God as the active pursuer.)" oninput="updateData()"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label>The Desired Doxological Response</label>
+        <textarea id="peck-doxology" placeholder="What praise, wonder, or worship should this text evoke? How does the sermon move hearers from information → adoration? What does a doxological 'so what' look like here?" oninput="updateData()"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label>God's Affective Heart Revealed (What Peckham Calls "Divine Pathos")</label>
+        <textarea id="peck-pathos" placeholder="What does this text reveal about God's genuine care, grief, joy, or longing? This should humanize (not diminish) God's response to his people's condition." oninput="updateData()"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label>Canonical Placement — Where Does This Fit the Big Story?</label>
+        <div class="radio-cards">
+          <div class="radio-card">
+            <input type="radio" name="canon-pos" id="cp-creation" value="Creation & Shalom" onchange="updateData()">
+            <label for="cp-creation"><span class="rc-title">Creation & Shalom</span><span class="rc-desc">Original relational design</span></label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" name="canon-pos" id="cp-fall" value="Fall & Rupture" onchange="updateData()">
+            <label for="cp-fall"><span class="rc-title">Fall & Rupture</span><span class="rc-desc">Relational breakdown</span></label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" name="canon-pos" id="cp-redemption" value="Redemption & Pursuit" checked onchange="updateData()">
+            <label for="cp-redemption"><span class="rc-title">Redemption & Pursuit</span><span class="rc-desc">God's relentless love</span></label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" name="canon-pos" id="cp-consummation" value="Consummation & Praise" onchange="updateData()">
+            <label for="cp-consummation"><span class="rc-title">Consummation & Praise</span><span class="rc-desc">Doxological fulfillment</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="goTo(1)">← Back</button>
+        <button class="btn btn-gold" onclick="goTo(3)">Next: Introduction →</button>
+      </div>
+    </div>
+
+    <!-- PANEL 3: Introduction -->
+    <div class="panel" id="panel-3">
+      <div class="panel-header">
+        <div class="panel-eyebrow">Step 4 · Perry §1</div>
+        <h2 class="panel-title">The <em>Introduction</em></h2>
+        <p class="panel-desc">Perry identifies five functions of a good introduction: capture attention, surface the need, introduce the text, state the proposition, and preview the body.</p>
+      </div>
+
+      <div class="theory-box perry">
+        <strong>Perry — Introduction Principles</strong>
+        The introduction should create a "felt need" that the sermon will address. It must be brief (no more than 15% of sermon time), earn the right to be heard, and bridge the world of the text with the world of the congregation. Perry warns against "cold openings" that have no connection to the sermon's central thrust.
+      </div>
+
+      <div class="structure-grid">
+        <div class="struct-item">
+          <div class="struct-header" onclick="toggleStruct(this)">
+            <div class="struct-num">A</div>
+            <div class="struct-label">
+              <div class="struct-name">Attention-Getter</div>
+              <div class="struct-hint">Hook that earns the right to be heard</div>
+            </div>
+            <div class="struct-toggle">▼</div>
+          </div>
+          <div class="struct-body">
+            <div class="sub-field">
+              <label>Hook Type</label>
+              <select id="hook-type" onchange="updateData()">
+                <option value="">— choose —</option>
+                <option>Striking statistic</option>
+                <option>Personal story / anecdote</option>
+                <option>Rhetorical question</option>
+                <option>Startling statement</option>
+                <option>Cultural observation</option>
+                <option>Historical incident</option>
+                <option>Imaginative scenario</option>
+                <option>Quotation</option>
+              </select>
+            </div>
+            <div class="sub-field">
+              <label>Attention-Getter Content</label>
+              <textarea id="intro-hook" placeholder="Write or sketch your opening hook. It should surface the FCF — the felt need — within the first 60 seconds." oninput="updateData()"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="struct-item">
+          <div class="struct-header" onclick="toggleStruct(this)">
+            <div class="struct-num">B</div>
+            <div class="struct-label">
+              <div class="struct-name">Need Statement</div>
+              <div class="struct-hint">Why does this matter to them right now?</div>
+            </div>
+            <div class="struct-toggle">▼</div>
+          </div>
+          <div class="struct-body">
+            <div class="sub-field">
+              <label>Statement of Need</label>
+              <textarea id="intro-need" placeholder="Articulate the FCF as a contemporary need. Congregants should think: 'yes, that is exactly my struggle.'" oninput="updateData()"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="struct-item">
+          <div class="struct-header" onclick="toggleStruct(this)">
+            <div class="struct-num">C</div>
+            <div class="struct-label">
+              <div class="struct-name">Scripture Introduction</div>
+              <div class="struct-hint">Bridging to the text</div>
+            </div>
+            <div class="struct-toggle">▼</div>
+          </div>
+          <div class="struct-body">
+            <div class="sub-field">
+              <label>How You Will Introduce the Passage</label>
+              <textarea id="intro-text-bridge" placeholder="How will you orient the congregation to the passage? Include any essential historical/canonical context they need to hear the text well." oninput="updateData()"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="goTo(2)">← Back</button>
+        <button class="btn btn-gold" onclick="goTo(4)">Next: Proposition →</button>
+      </div>
+    </div>
+
+    <!-- PANEL 4: Proposition -->
+    <div class="panel" id="panel-4">
+      <div class="panel-header">
+        <div class="panel-eyebrow">Step 5 · Perry §2</div>
+        <h2 class="panel-title">Proposition, Interrogative Adverb & <em>Propositional Transition</em></h2>
+        <p class="panel-desc">In expository preaching, the proposition is the exegetical idea re-voiced for your congregation today. From it flows an <strong>interrogative adverb</strong> (Why? How? What?) that raises the question the body will answer — and a <strong>propositional transition</strong> (the keyword plural noun) that signals the structure of the main points.</p>
+      </div>
+
+      <div class="theory-box perry">
+        <strong>Perry — The Expository Proposition</strong>
+        The expository proposition differs from the exegetical idea in one key way: it is addressed to your congregation, in present tense, as a living word. It must be: (1) a complete declarative sentence, (2) in present tense, (3) directly derived from the passage's own central assertion, (4) comprehensive enough to contain all main points, and (5) simple enough to repeat from memory. Perry: "If you can't say it in one sentence, you don't yet know what you're preaching."
+      </div>
+
+      <div class="field-group">
+        <label>Homiletical Proposition (from the Passage) <span class="required">*</span></label>
+        <textarea id="proposition" class="tall" placeholder='Translate your exegetical idea into a homiletical proposition addressed to your congregation now. e.g.:&#10;Exeg. idea: "Paul argues that present suffering is outweighed by future glory, grounding hope in creation's renewal."&#10;Homiletical: "Because God has promised a glory that outweighs all suffering, we can endure our present pain with patient hope."' oninput="updateData()"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label>Sermon Aim (Behavioral / Transformational Goal)</label>
+        <textarea id="sermon-aim" placeholder="Complete this: 'By the end of this sermon, my congregation should...' (think: know, feel, do — at least one of these)" oninput="updateData()"></textarea>
+      </div>
+
+      <div class="field-group">
+        <div class="panel-eyebrow" style="margin-bottom:0.5rem">Interrogative Adverb</div>
+        <label>The Interrogative Question <span class="required">*</span> <span class="info-chip">Perry's "Transitional Sentence"</span></label>
+        <p style="font-size:0.88rem;color:var(--ink-light);line-height:1.5;margin-bottom:0.6rem">
+          This is the single question — built around an <strong>interrogative adverb</strong> (Why? How? What? When? Where?) — that your proposition raises and your main points collectively answer. It acts as the hinge between the proposition and the body. The keyword you select below must appear naturally in this question.
+        </p>
+        <input type="text" id="key-word" placeholder='e.g. "WHY can we endure suffering with patient hope?" · "HOW does God sustain us through suffering?" · "WHAT grounds our hope when we suffer?"' oninput="updateData()">
+      </div>
+
+      <div class="field-group">
+        <div class="panel-eyebrow" style="margin-bottom:0.5rem">Propositional Transition</div>
+        <label>Perry's Keyword — The Plural Noun Bridging Proposition to Points <span class="required">*</span></label>
+        <p style="font-size:0.88rem;color:var(--ink-light);line-height:1.5;margin-bottom:0.6rem">
+          The <strong>Propositional Transition</strong> is a plural noun embedded in the interrogative question above that previews the structure of the body. It signals to the congregation that multiple parallel points are coming, all of the same grammatical and logical kind. Choose the keyword that best describes what your main points are — then verify it fits your interrogative question naturally.
+        </p>
+        <div class="radio-cards">
+          <div class="radio-card">
+            <input type="radio" name="keyword" id="kw-reasons" value="Reasons" onchange="updateData()">
+            <label for="kw-reasons"><span class="rc-title">Reasons</span><span class="rc-desc">Interrog. adverb: <em>Why?</em><br>"What are the <strong>reasons</strong> we…?"</span></label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" name="keyword" id="kw-ways" value="Ways" onchange="updateData()">
+            <label for="kw-ways"><span class="rc-title">Ways</span><span class="rc-desc">Interrog. adverb: <em>How?</em><br>"What are the <strong>ways</strong> we…?"</span></label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" name="keyword" id="kw-means" value="Means" onchange="updateData()">
+            <label for="kw-means"><span class="rc-title">Means</span><span class="rc-desc">Interrog. adverb: <em>Through what?</em><br>"What are the <strong>means</strong> by which…?"</span></label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" name="keyword" id="kw-results" value="Results" onchange="updateData()">
+            <label for="kw-results"><span class="rc-title">Results</span><span class="rc-desc">Interrog. adverb: <em>What follows?</em><br>"What are the <strong>results</strong> of…?"</span></label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" name="keyword" id="kw-aspects" value="Aspects" onchange="updateData()">
+            <label for="kw-aspects"><span class="rc-title">Aspects</span><span class="rc-desc">Interrog. adverb: <em>What?</em><br>"What are the <strong>aspects</strong> of…?"</span></label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" name="keyword" id="kw-steps" value="Steps" onchange="updateData()">
+            <label for="kw-steps"><span class="rc-title">Steps</span><span class="rc-desc">Interrog. adverb: <em>When? / What next?</em><br>"What are the <strong>steps</strong> toward…?"</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="goTo(3)">← Back</button>
+        <button class="btn btn-gold" onclick="goTo(5)">Next: Main Points →</button>
+      </div>
+    </div>
+
+    <!-- PANEL 5: Body / Main Points -->
+    <div class="panel" id="panel-5">
+      <div class="panel-header">
+        <div class="panel-eyebrow">Step 6 · Perry §3–5</div>
+        <h2 class="panel-title">Sermon Body — <em>Text-Derived Points</em></h2>
+        <p class="panel-desc">In expository preaching, main points are not invented — they are discovered. Each point must be traceable to a specific textual division of the pericope you mapped in Step 1.</p>
+      </div>
+
+      <div class="theory-box perry">
+        <strong>Perry — Expository Body Development</strong>
+        Each main point must: (1) arise from a natural division of the passage, (2) be supported by the specific verse(s) in that division, (3) restate the passage's assertion in homiletical form, (4) include exposition of the text, an illustration, and application. Points must be <em>parallel in grammatical form</em> and <em>progressive in redemptive development</em>. Perry warns: a point without a verse is an opinion, not exposition.
+      </div>
+
+      <div id="main-points-container"></div>
+
+      <button class="btn btn-outline" onclick="addPoint()" style="margin-top:0.5rem" id="add-point-btn">+ Add Another Main Point</button>
+
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="goTo(4)">← Back</button>
+        <button class="btn btn-gold" onclick="goTo(6)">Next: Conclusion →</button>
+      </div>
+    </div>
+
+    <!-- PANEL 6: Conclusion -->
+    <div class="panel" id="panel-6">
+      <div class="panel-header">
+        <div class="panel-eyebrow">Step 7 · Perry §6</div>
+        <h2 class="panel-title">Conclusion & <em>Call</em></h2>
+        <p class="panel-desc">Perry's conclusion crystallizes the proposition, addresses the FCF with Gospel resolution, and calls for a doxological response.</p>
+      </div>
+
+      <div class="theory-box perry">
+        <strong>Perry — Conclusion Principles</strong>
+        The conclusion should never introduce new material. It: (1) brings the sermon to a definite close, (2) re-establishes the proposition in a memorable way, (3) delivers the Gospel answer to the FCF, and (4) issues a specific call to response. Perry says: "Land the plane — don't circle the runway."
+      </div>
+
+      <div class="theory-box peckham">
+        <strong>Peckham — Doxological Landing</strong>
+        The conclusion is where relational doxology reaches its crescendo. The call should not be mere behavioral compliance but an invitation into deeper intimacy with God — where obedience itself becomes an act of praise in response to God's relational pursuit.
+      </div>
+
+      <div class="structure-grid">
+        <div class="struct-item">
+          <div class="struct-header" onclick="toggleStruct(this)">
+            <div class="struct-num">A</div>
+            <div class="struct-label">
+              <div class="struct-name">Summary & Restatement</div>
+              <div class="struct-hint">Crystallize the proposition memorably</div>
+            </div>
+            <div class="struct-toggle">▼</div>
+          </div>
+          <div class="struct-body">
+            <div class="sub-field">
+              <label>Restated Proposition (in conclusion form)</label>
+              <textarea id="conc-restate" placeholder="Restate the main truth — not as a list review, but as a single memorable summation that echoes the opening." oninput="updateData()"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="struct-item">
+          <div class="struct-header" onclick="toggleStruct(this)">
+            <div class="struct-num">B</div>
+            <div class="struct-label">
+              <div class="struct-name">Gospel Resolution of the FCF</div>
+              <div class="struct-hint">Chapell: end with grace, not law</div>
+            </div>
+            <div class="struct-toggle">▼</div>
+          </div>
+          <div class="struct-body">
+            <div class="sub-field">
+              <label>How Does Christ Fully Answer the Fallen Condition?</label>
+              <textarea id="conc-gospel" class="tall" placeholder="This is the Gospel moment. What has Jesus done — past, present, and future — that resolves the FCF? Chapell warns: the conclusion must not leave people with duty but with delight in what God has done." oninput="updateData()"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="struct-item">
+          <div class="struct-header" onclick="toggleStruct(this)">
+            <div class="struct-num">C</div>
+            <div class="struct-label">
+              <div class="struct-name">Doxological Call to Response</div>
+              <div class="struct-hint">Peckham: invitation to worship, not mere compliance</div>
+            </div>
+            <div class="struct-toggle">▼</div>
+          </div>
+          <div class="struct-body">
+            <div class="sub-field">
+              <label>Type of Response Called For</label>
+              <select id="response-type" onchange="updateData()">
+                <option value="">— choose —</option>
+                <option>Repentance and return</option>
+                <option>Faith and trust</option>
+                <option>Praise and worship</option>
+                <option>Obedience as gratitude</option>
+                <option>Compassion and service</option>
+                <option>Rest and surrender</option>
+                <option>Prayer and intercession</option>
+                <option>Commissioning and mission</option>
+              </select>
+            </div>
+            <div class="sub-field">
+              <label>The Specific Call</label>
+              <textarea id="conc-call" class="tall" placeholder="What specific, concrete response is the congregation called to? Frame it doxologically — as a response to what God has done, not a transaction to earn what God will do." oninput="updateData()"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="struct-item">
+          <div class="struct-header" onclick="toggleStruct(this)">
+            <div class="struct-num">D</div>
+            <div class="struct-label">
+              <div class="struct-name">Closing Image / Final Word</div>
+              <div class="struct-hint">The last thing they will carry home</div>
+            </div>
+            <div class="struct-toggle">▼</div>
+          </div>
+          <div class="struct-body">
+            <div class="sub-field">
+              <label>Closing Illustration or Image</label>
+              <textarea id="conc-image" placeholder="A final image, story, or verse that encapsulates everything. Perry says: 'Begin with a window, end with a door.'" oninput="updateData()"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="goTo(5)">← Back</button>
+        <button class="btn btn-gold" onclick="goTo(7)">Generate Full Outline →</button>
+      </div>
+    </div>
+
+    <!-- PANEL 7: Export -->
+    <div class="panel" id="panel-7">
+      <div class="panel-header">
+        <div class="panel-eyebrow">Step 8 · Final</div>
+        <h2 class="panel-title">Your Sermon <em>Outline</em></h2>
+        <p class="panel-desc">Review your complete outline below, integrating Perry's structure, Chapell's FCF, and Peckham's relational doxology.</p>
+      </div>
+
+      <div class="export-card">
+        <h3>📋 Complete Outline</h3>
+        <pre id="full-outline"></pre>
+        <button class="btn btn-primary copy-btn" onclick="copyOutline()">Copy to Clipboard</button>
+        <button class="btn btn-gold copy-btn" onclick="printOutline()" style="margin-left:0.5rem">🖨 Print / Save PDF</button>
+      </div>
+
+      <div class="export-card">
+        <h3>🔍 Diagnostic Checklist</h3>
+        <div id="checklist"></div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="goTo(6)">← Revise</button>
+        <button class="btn btn-outline" onclick="startOver()">↺ Start New Sermon</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── STATE ───────────────────────────────────────────────
+const D = {};
+let currentPanel = 0;
+let pointCount = 3;
+
+// ─── NAVIGATION ──────────────────────────────────────────
+function goTo(n) {
+  document.getElementById('panel-' + currentPanel).classList.remove('active');
+  document.getElementById('btn-' + currentPanel).classList.remove('active');
+  currentPanel = n;
+  document.getElementById('panel-' + n).classList.add('active');
+  const btn = document.getElementById('btn-' + n);
+  btn.classList.add('active');
+  btn.classList.add('completed');
+  document.querySelector('main').scrollTo(0, 0);
+  const pct = Math.round(((n + 1) / 8) * 100);
+  document.getElementById('progress-bar').style.width = pct + '%';
+  if (n === 7) generateOutline();
+}
+
+// ─── STRUCTURE TOGGLES ───────────────────────────────────
+function toggleStruct(header) {
+  const body = header.nextElementSibling;
+  const toggle = header.querySelector('.struct-toggle');
+  body.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+// open all by default
+document.addEventListener('DOMContentLoaded', () => {
+  buildPoints();
+  // open first item in each struct group
+  document.querySelectorAll('.struct-header').forEach(h => {
+    h.click();
+  });
+});
+
+// ─── MAIN POINTS BUILDER ─────────────────────────────────
+function buildPoints() {
+  const container = document.getElementById('main-points-container');
+  container.innerHTML = '';
+  for (let i = 1; i <= pointCount; i++) renderPoint(i);
+}
+
+function renderPoint(i) {
+  const container = document.getElementById('main-points-container');
+  const div = document.createElement('div');
+  div.className = 'struct-item';
+  div.id = 'point-block-' + i;
+  div.style.marginBottom = '2rem';
+  div.innerHTML = `
+    <div class="struct-header" onclick="toggleStruct(this)" style="background:var(--parchment-darker)">
+      <div class="struct-num" style="font-size:1rem;width:28px;height:28px">Pt ${i}</div>
+      <div class="struct-label">
+        <div class="struct-name">Main Point ${i} <span style="font-weight:400;font-size:0.82rem;color:var(--ink-light)">— from the text's own division</span></div>
+        <div class="struct-hint">Verse(s) · Statement · Exegesis · Cross-Reference Validation · Application · Illustration</div>
+      </div>
+      <div class="struct-toggle">▼</div>
+    </div>
+    <div class="struct-body open" style="padding:1.2rem 1.1rem 0.2rem">
+
+      <!-- Anchor fields: scripture + statement always visible -->
+      <div class="sub-field">
+        <label>Passage Division (Verses for This Point) <span class="required">*</span></label>
+        <input type="text" id="pt${i}-scripture" placeholder="Which verse(s) form this natural division of the passage? Non-negotiable in expository preaching." oninput="updateData()">
+      </div>
+      <div class="sub-field" style="margin-bottom:1.25rem">
+        <label>Point ${i} Statement — Homiletical Form, Parallel Grammar <span class="required">*</span></label>
+        <input type="text" id="pt${i}-statement" placeholder='Declarative sentence derived from this text division — e.g. "God sustains his people through the groan of the Spirit (vv.26–27)"' oninput="updateData()">
+      </div>
+
+      <!-- SUB-SECTION: EXEGESIS -->
+      <div class="struct-item" style="margin-bottom:0.85rem;border-color:var(--crimson)">
+        <div class="struct-header" onclick="toggleStruct(this)" style="background:#fdf4f4">
+          <div class="struct-num" style="color:var(--crimson);background:#fde8e8;border-color:var(--crimson)">Ex</div>
+          <div class="struct-label">
+            <div class="struct-name" style="color:var(--crimson)">Exegesis</div>
+            <div class="struct-hint">What the text says, means, and requires — verse by verse</div>
+          </div>
+          <div class="struct-toggle" style="color:var(--crimson)">▼</div>
+        </div>
+        <div class="struct-body">
+          <div class="sub-field">
+            <label>Verse-by-Verse Exposition</label>
+            <textarea id="pt${i}-explain" class="tall" placeholder="Walk through each verse in this division. Define key words, trace the author's argument, note grammatical features. Let the text speak before you do. e.g. v.26 — 'the Spirit intercedes' (ὑπερεντυγχάνει): rare compound verb; only here in NT; emphasises intensity of Spirit's advocacy on our behalf." oninput="updateData()"></textarea>
+          </div>
+          <div class="sub-field">
+            <label>Key Terms in This Division</label>
+            <input type="text" id="pt${i}-key-terms" placeholder="e.g. weakness (ἀσθένεια), intercedes (ὑπερεντυγχάνει), groanings (στεναγμοῖς)" oninput="updateData()">
+          </div>
+          <div class="sub-field">
+            <label>Grammatical / Syntactical Features to Highlight</label>
+            <textarea id="pt${i}-grammar" placeholder="Note the dominant verb mood/tense, logical connectors, indicative/imperative pattern, or clause structure that shapes the meaning of this division. What does the grammar tell us about what God is doing vs. what we are called to do?" oninput="updateData()"></textarea>
+          </div>
+          <div class="sub-field">
+            <label>Exegetical Idea for This Division (one sentence)</label>
+            <input type="text" id="pt${i}-exeg-idea" placeholder='What is the author asserting in this specific division? e.g. "The Spirit's own intercession covers the believer's inability to pray in weakness."' oninput="updateData()">
+          </div>
+        </div>
+      </div>
+
+      <!-- SUB-SECTION: CROSS-REFERENCE VALIDATION -->
+      <div class="struct-item" style="margin-bottom:0.85rem;border-color:var(--teal)">
+        <div class="struct-header" onclick="toggleStruct(this)" style="background:#f0f8f8">
+          <div class="struct-num" style="color:var(--teal);background:#e0f4f4;border-color:var(--teal)">Cr</div>
+          <div class="struct-label">
+            <div class="struct-name" style="color:var(--teal)">Cross-Reference Validation</div>
+            <div class="struct-hint">Scripture interpreting Scripture — confirming and deepening the point</div>
+          </div>
+          <div class="struct-toggle" style="color:var(--teal)">▼</div>
+        </div>
+        <div class="struct-body">
+          <div class="sub-field">
+            <label>Confirming Cross-References <span class="info-chip">Scripture interprets Scripture</span></label>
+            <input type="text" id="pt${i}-xref-confirm" placeholder="e.g. Rom 5:5; Gal 4:6; Heb 7:25 — passages that teach the same truth from a different angle" oninput="updateData()">
+          </div>
+          <div class="sub-field">
+            <label>Old Testament Foundation or Typological Background</label>
+            <textarea id="pt${i}-xref-ot" placeholder="What OT text, type, or promise does this passage fulfil, echo, or develop? How does knowing the OT foundation deepen this point's theological weight? e.g. Spirit's intercession echoes the Aaronic priesthood (Lev 16) — now fulfilled and surpassed." oninput="updateData()"></textarea>
+          </div>
+          <div class="sub-field">
+            <label>How These References Validate (Not Replace) the Main Text</label>
+            <textarea id="pt${i}-xref-note" placeholder="Cross-references serve the main passage — they confirm its meaning, expand its scope, or show its canonical weight. Note here how each reference illuminates rather than distracts from the primary text." oninput="updateData()"></textarea>
+          </div>
+          <div class="sub-field">
+            <label>Theological Locus This Point Addresses</label>
+            <input type="text" id="pt${i}-xref-locus" placeholder="e.g. pneumatology, intercession, eschatological hope, union with Christ, divine sovereignty" oninput="updateData()">
+          </div>
+        </div>
+      </div>
+
+      <!-- SUB-SECTION: APPLICATION -->
+      <div class="struct-item" style="margin-bottom:0.85rem;border-color:var(--gold)">
+        <div class="struct-header" onclick="toggleStruct(this)" style="background:#fdf8ec">
+          <div class="struct-num" style="color:var(--gold);background:#fdf0cc;border-color:var(--gold)">Ap</div>
+          <div class="struct-label">
+            <div class="struct-name" style="color:var(--gold)">Application</div>
+            <div class="struct-hint">FCF-grounded response — what God's word demands of this congregation</div>
+          </div>
+          <div class="struct-toggle" style="color:var(--gold)">▼</div>
+        </div>
+        <div class="struct-body">
+          <div class="sub-field">
+            <label>How This Point Addresses the Fallen Condition (FCF)</label>
+            <textarea id="pt${i}-apply-fcf" placeholder="How does this specific text division expose or redress the FCF identified in Step 2? Frame the application as a response to what God has done, not a demand for self-effort." oninput="updateData()"></textarea>
+          </div>
+          <div class="sub-field">
+            <label>Specific Application for This Congregation</label>
+            <textarea id="pt${i}-apply" class="tall" placeholder="Concrete, specific, non-moralistic application: Who in the congregation needs this? In what situation does this truth land? What does believing this change — in thought, affection, or action? Avoid generic commands; ground every imperative in the indicative of the text." oninput="updateData()"></textarea>
+          </div>
+          <div class="sub-field">
+            <label>Know · Feel · Do <span class="info-chip">Aim</span></label>
+            <input type="text" id="pt${i}-apply-kfd" placeholder="e.g. Know: the Spirit is praying for you right now. Feel: relief that God does not depend on the quality of your prayers. Do: pray with confidence, not performance." oninput="updateData()">
+          </div>
+          <div class="sub-field">
+            <label>Doxological Bridge — Peckham's Relational Move</label>
+            <input type="text" id="pt${i}-dox" placeholder='How does this point draw hearers toward wonder and worship rather than mere duty? e.g. "The Spirit groans with us — this is not cold theology; this is God emotionally invested in your weakness."' oninput="updateData()">
+          </div>
+        </div>
+      </div>
+
+      <!-- SUB-SECTION: ILLUSTRATION -->
+      <div class="struct-item" style="margin-bottom:1.25rem;border-color:#7a5c9e">
+        <div class="struct-header" onclick="toggleStruct(this)" style="background:#f8f4fd">
+          <div class="struct-num" style="color:#7a5c9e;background:#ede4f8;border-color:#7a5c9e">Il</div>
+          <div class="struct-label">
+            <div class="struct-name" style="color:#7a5c9e">Illustration</div>
+            <div class="struct-hint">Making the invisible visible — the text's truth embodied in story or image</div>
+          </div>
+          <div class="struct-toggle" style="color:#7a5c9e">▼</div>
+        </div>
+        <div class="struct-body">
+          <div class="sub-field">
+            <label>Illustration Type</label>
+            <select id="pt${i}-illus-type" onchange="updateData()">
+              <option value="">— choose —</option>
+              <option>Personal story / pastoral anecdote</option>
+              <option>Historical incident</option>
+              <option>Literary / cultural reference</option>
+              <option>Scientific or natural phenomenon</option>
+              <option>Analogy or extended metaphor</option>
+              <option>Contemporary news or event</option>
+              <option>Biographical sketch</option>
+              <option>Imaginative / hypothetical scenario</option>
+            </select>
+          </div>
+          <div class="sub-field">
+            <label>The Illustration</label>
+            <textarea id="pt${i}-illus" class="tall" placeholder="Tell the story or sketch the image. Write it fully enough to preach, not just reference. The illustration should illuminate the text's truth — not replace it, overshadow it, or merely entertain. It should make people say: 'now I see what that means.'" oninput="updateData()"></textarea>
+          </div>
+          <div class="sub-field">
+            <label>The Hinge — How the Illustration Connects to the Text</label>
+            <textarea id="pt${i}-illus-hinge" placeholder="State explicitly how this illustration illuminates the text's claim. What is the point of contact? This hinge prevents the illustration from floating free of the passage and becoming a sermon in itself." oninput="updateData()"></textarea>
+          </div>
+          <div class="sub-field">
+            <label>Source / Attribution</label>
+            <input type="text" id="pt${i}-illus-source" placeholder="e.g. C.S. Lewis, The Problem of Pain, ch. 3 · Personal, Jan 2024 · Attributed to Spurgeon" oninput="updateData()">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  `;
+  container.appendChild(div);
+}
+
+function addPoint() {
+  if (pointCount >= 4) {
+    toast('Perry recommends a maximum of 4 main points.');
+    return;
+  }
+  pointCount++;
+  renderPoint(pointCount);
+  if (pointCount >= 4) document.getElementById('add-point-btn').style.display = 'none';
+}
+
+// ─── DATA COLLECTION ─────────────────────────────────────
+function updateData() { /* live — data pulled directly at export */ }
+
+function getData(id) {
+  const el = document.getElementById(id);
+  if (!el) return '';
+  return (el.value || el.textContent || '').trim();
+}
+function getRadio(name) {
+  const r = document.querySelector(`input[name="${name}"]:checked`);
+  return r ? r.value : '';
+}
+
+// ─── FCF METER ───────────────────────────────────────────
+function updateFCF() {
+  updateData();
+  const fields = ['fcf-condition','fcf-evidence','fcf-text-diag','fcf-gospel-ans','fcf-statement'];
+  let filled = fields.filter(id => getData(id).length > 10).length;
+  const pct = (filled / fields.length) * 100;
+  document.getElementById('fcf-bar').style.width = pct + '%';
+  const descs = [
+    'Begin filling in the FCF fields to clarify your message.',
+    'Good start — keep developing the condition and Gospel answer.',
+    'Halfway there — the Gospel answer is the most important field.',
+    'Strong FCF developing — ensure your Gospel answer is Christ-centered.',
+    'FCF is clear. Your sermon has a Gospel spine. ✓'
+  ];
+  document.getElementById('fcf-desc').textContent = descs[Math.min(Math.floor(pct/25), 4)];
+}
+
+// ─── OUTLINE GENERATOR ───────────────────────────────────
+function generateOutline() {
+  const title = getData('sermon-title') || '[Untitled Sermon]';
+  const date = getData('sermon-date');
+  const ref = getData('scripture-ref') || '[Scripture Reference]';
+  const support = getData('scripture-support');
+  const litGenre = getRadio('lit-genre');
+  const passageStruct = getData('passage-structure');
+  const exeg = getData('exeg-summary');
+  const keyTerms = getData('key-terms');
+  const grammarNotes = getData('grammar-notes');
+  const audience = getData('audience');
+
+  // Textual Analysis fields
+  const taAuthor = getData('ta-author');
+  const taAudienceOrig = getData('ta-audience-orig');
+  const taLitContext = getData('ta-lit-context');
+  const taHistorical = getData('ta-historical');
+  const taWordStudy = getData('ta-word-study');
+  const taTheologicalLoci = getData('ta-theological-loci');
+  const taVerbs = getData('ta-verbs');
+  const taConnectors = getData('ta-connectors');
+  const taIndicative = getData('ta-indicative');
+  const taOtAllusions = getData('ta-ot-allusions');
+  const taNtParallels = getData('ta-nt-parallels');
+  const taRedemptive = getData('ta-redemptive');
+  const taAuthorProblem = getData('ta-author-problem');
+  const taCentralAssertion = getData('ta-central-assertion');
+  const taAuthorIntent = getData('ta-author-intent');
+
+  const fcfCond = getData('fcf-condition');
+  const fcfGospel = getData('fcf-gospel-ans');
+  const fcfStatement = getData('fcf-statement');
+
+  const peckRel = getData('peck-relation');
+  const peckDox = getData('peck-doxology');
+  const canonPos = getRadio('canon-pos');
+
+  const hookType = getData('hook-type');
+  const introHook = getData('intro-hook');
+  const introNeed = getData('intro-need');
+  const introBridge = getData('intro-text-bridge');
+
+  const prop = getData('proposition');
+  const aim = getData('sermon-aim');
+  const keyWord = getData('key-word');
+  const keyword = getRadio('keyword');
+
+  const concRestate = getData('conc-restate');
+  const concGospel = getData('conc-gospel');
+  const responseType = getData('response-type');
+  const concCall = getData('conc-call');
+  const concImage = getData('conc-image');
+
+  let out = '';
+  const hr = '─'.repeat(58);
+  const hr2 = '═'.repeat(58);
+
+  out += `${hr2}\n`;
+  out += `  EXPOSITORY SERMON OUTLINE\n`;
+  out += `  ${title.toUpperCase()}\n`;
+  out += `${hr2}\n`;
+  if (date) out += `  Date / Occasion: ${date}\n`;
+  out += `  Pericope:        ${ref}\n`;
+  if (support) out += `  Support Texts:   ${support}\n`;
+  if (litGenre) out += `  Literary Genre:  ${litGenre}\n`;
+  if (audience) out += `  Congregation:    ${audience}\n`;
+  out += `${hr}\n\n`;
+
+  out += `┌─ TEXTUAL ANALYSIS ──────────────────────────────┐\n`;
+  out += `  A. Historical-Grammatical Context\n`;
+  if (taAuthor) out += wrap('     Author/Date:      ' + taAuthor, 58) + '\n';
+  if (taAudienceOrig) out += wrap('     Orig. Audience:   ' + taAudienceOrig, 58) + '\n';
+  if (taLitContext) out += wrap('     Lit. Context:     ' + taLitContext, 58) + '\n';
+  if (taHistorical) out += wrap('     Hist. Background: ' + taHistorical, 58) + '\n';
+  out += `  B. Word Study\n`;
+  if (keyTerms) out += `     Key Terms:        ${keyTerms}\n`;
+  if (taWordStudy) out += wrap('     Word Study:       ' + taWordStudy, 58) + '\n';
+  if (taTheologicalLoci) out += `     Theol. Loci:      ${taTheologicalLoci}\n`;
+  out += `  C. Syntactical & Grammatical Analysis\n`;
+  if (grammarNotes) out += wrap('     Grammar Notes:    ' + grammarNotes, 58) + '\n';
+  if (taVerbs) out += wrap('     Verb Analysis:    ' + taVerbs, 58) + '\n';
+  if (taConnectors) out += wrap('     Connectors:       ' + taConnectors, 58) + '\n';
+  if (taIndicative) out += wrap('     Indicat→Imperat:  ' + taIndicative, 58) + '\n';
+  out += `  D. Intertextual & Canonical Connections\n`;
+  if (taOtAllusions) out += wrap('     OT Allusions:     ' + taOtAllusions, 58) + '\n';
+  if (taNtParallels) out += wrap('     NT Parallels:     ' + taNtParallels, 58) + '\n';
+  if (taRedemptive) out += wrap('     Redemptive Arc:   ' + taRedemptive, 58) + '\n';
+  out += `  E. Authorial Intent\n`;
+  if (taAuthorProblem) out += wrap('     Author\'s Problem: ' + taAuthorProblem, 58) + '\n';
+  if (taCentralAssertion) out += wrap('     Central Assert.:  ' + taCentralAssertion, 58) + '\n';
+  if (taAuthorIntent) out += wrap('     Intent/Response:  ' + taAuthorIntent, 58) + '\n';
+  out += `└─────────────────────────────────────────────────┘\n\n`;
+
+  out += `┌─ EXEGESIS ──────────────────────────────────────┐\n`;
+  if (exeg) out += wrap('  Exeg. Idea:      ' + exeg, 58) + '\n';
+  if (passageStruct) out += wrap('  Passage Struct:  ' + passageStruct.replace(/\n/g, ' | '), 58) + '\n';
+  out += `└─────────────────────────────────────────────────┘\n\n`;
+
+  out += `┌─ CHAPELL · FCF ─────────────────────────────────┐\n`;
+  out += wrap('  Fallen Condition: ' + (fcfCond || '[not filled]'), 58);
+  out += '\n';
+  out += wrap('  Gospel Answer:    ' + (fcfGospel || '[not filled]'), 58);
+  out += '\n';
+  if (fcfStatement) out += wrap('  FCF Statement:   ' + fcfStatement, 58) + '\n';
+  out += `└─────────────────────────────────────────────────┘\n\n`;
+
+  out += `┌─ PECKHAM · RELATIONAL DOXOLOGY ─────────────────┐\n`;
+  out += wrap('  God\'s Pursuit:   ' + (peckRel || '[not filled]'), 58) + '\n';
+  out += wrap('  Doxological Aim: ' + (peckDox || '[not filled]'), 58) + '\n';
+  out += `  Canonical Locus:  ${canonPos || '[not selected]'}\n`;
+  out += `└─────────────────────────────────────────────────┘\n\n`;
+
+  out += `${hr}\n`;
+  out += `I. INTRODUCTION\n`;
+  out += `${hr}\n\n`;
+  if (hookType) out += `   Hook Type:       ${hookType}\n`;
+  if (introHook) out += wrap('   A. Attention: ' + introHook, 58) + '\n';
+  if (introNeed) out += wrap('   B. Need:      ' + introNeed, 58) + '\n';
+  if (introBridge) out += wrap('   C. Text:      ' + introBridge, 58) + '\n';
+  out += '\n';
+
+  out += `${hr}\n`;
+  out += `II. PROPOSITION  [Homiletical Idea from the Text]\n`;
+  out += `${hr}\n\n`;
+  out += wrap('   ' + (prop || '[Proposition not yet written]'), 58) + '\n\n';
+  if (aim) out += wrap('   Aim: ' + aim, 58) + '\n';
+  if (keyWord || keyword) out += `   Key Word: ${keyword || keyWord}\n`;
+  out += '\n';
+
+  out += `${hr}\n`;
+  out += `III. BODY  [Points Derived from Passage Divisions]\n`;
+  out += `${hr}\n\n`;
+
+  for (let i = 1; i <= pointCount; i++) {
+    const numeral = ['A','B','C','D'][i-1];
+    const stmt     = getData(`pt${i}-statement`);
+    const scr      = getData(`pt${i}-scripture`);
+    // Exegesis
+    const exp      = getData(`pt${i}-explain`);
+    const ptTerms  = getData(`pt${i}-key-terms`);
+    const ptGram   = getData(`pt${i}-grammar`);
+    const ptExegId = getData(`pt${i}-exeg-idea`);
+    // Cross-Reference Validation
+    const xrefConf = getData(`pt${i}-xref-confirm`);
+    const xrefOT   = getData(`pt${i}-xref-ot`);
+    const xrefNote = getData(`pt${i}-xref-note`);
+    const xrefLocus= getData(`pt${i}-xref-locus`);
+    // Application
+    const appFCF   = getData(`pt${i}-apply-fcf`);
+    const app      = getData(`pt${i}-apply`);
+    const appKFD   = getData(`pt${i}-apply-kfd`);
+    const dox      = getData(`pt${i}-dox`);
+    // Illustration
+    const illusType= getData(`pt${i}-illus-type`);
+    const ill      = getData(`pt${i}-illus`);
+    const illusHinge= getData(`pt${i}-illus-hinge`);
+    const illusSrc = getData(`pt${i}-illus-source`);
+
+    out += `   ${numeral}. ${stmt || `[Main Point ${i} — not yet written]`}\n`;
+    if (scr) out += `      Passage:              ${scr}\n`;
+    out += '\n';
+
+    out += `      ┌ EXEGESIS ─────────────────────────────┐\n`;
+    if (exp)      out += wrap('      Exposition:          ' + exp, 58) + '\n';
+    if (ptTerms)  out += `      Key Terms:            ${ptTerms}\n`;
+    if (ptGram)   out += wrap('      Grammar:             ' + ptGram, 58) + '\n';
+    if (ptExegId) out += wrap('      Exeg. Idea:          ' + ptExegId, 58) + '\n';
+    out += `      └───────────────────────────────────────┘\n\n`;
+
+    out += `      ┌ CROSS-REFERENCE VALIDATION ────────────┐\n`;
+    if (xrefConf)  out += `      Confirming Refs:      ${xrefConf}\n`;
+    if (xrefOT)    out += wrap('      OT Foundation:       ' + xrefOT, 58) + '\n';
+    if (xrefNote)  out += wrap('      Validation Note:     ' + xrefNote, 58) + '\n';
+    if (xrefLocus) out += `      Theological Locus:    ${xrefLocus}\n`;
+    out += `      └───────────────────────────────────────┘\n\n`;
+
+    out += `      ┌ APPLICATION ──────────────────────────┐\n`;
+    if (appFCF)  out += wrap('      FCF Connection:      ' + appFCF, 58) + '\n';
+    if (app)     out += wrap('      Application:         ' + app, 58) + '\n';
+    if (appKFD)  out += wrap('      Know·Feel·Do:        ' + appKFD, 58) + '\n';
+    if (dox)     out += wrap('      ✦ Doxological Brdg:  ' + dox, 58) + '\n';
+    out += `      └───────────────────────────────────────┘\n\n`;
+
+    out += `      ┌ ILLUSTRATION ─────────────────────────┐\n`;
+    if (illusType)  out += `      Type:                 ${illusType}\n`;
+    if (ill)        out += wrap('      Illustration:         ' + ill, 58) + '\n';
+    if (illusHinge) out += wrap('      Hinge to Text:        ' + illusHinge, 58) + '\n';
+    if (illusSrc)   out += `      Source:               ${illusSrc}\n`;
+    out += `      └───────────────────────────────────────┘\n\n`;
+  }
+
+  out += `${hr}\n`;
+  out += `IV. CONCLUSION\n`;
+  out += `${hr}\n\n`;
+  if (concRestate) out += wrap('   Restatement: ' + concRestate, 58) + '\n\n';
+  if (concGospel)  out += wrap('   Gospel Resolution (FCF): ' + concGospel, 58) + '\n\n';
+  if (responseType) out += `   Response Type: ${responseType}\n`;
+  if (concCall)    out += wrap('   Call: ' + concCall, 58) + '\n\n';
+  if (concImage)   out += wrap('   Closing Image: ' + concImage, 58) + '\n\n';
+
+  out += `${hr2}\n`;
+  out += `  SOLI DEO GLORIA\n`;
+  out += `${hr2}\n`;
+
+  document.getElementById('full-outline').textContent = out;
+  buildChecklist();
+}
+
+function wrap(text, width) {
+  const lines = [];
+  const words = text.split(' ');
+  let line = '';
+  for (const w of words) {
+    if ((line + ' ' + w).trim().length > width) {
+      lines.push(line.trim());
+      line = '      ' + w;
+    } else {
+      line = (line ? line + ' ' : '') + w;
+    }
+  }
+  if (line) lines.push(line.trim());
+  return lines.join('\n');
+}
+
+// ─── CHECKLIST ───────────────────────────────────────────
+function buildChecklist() {
+  const checks = [
+    { label: 'Sermon title entered', ok: !!getData('sermon-title') },
+    { label: 'Primary pericope reference provided', ok: !!getData('scripture-ref') },
+    { label: 'Passage structure (natural divisions) mapped', ok: getData('passage-structure').length > 20 },
+    { label: 'Exegetical idea articulated', ok: getData('exeg-summary').length > 15 },
+    { label: 'FCF — fallen condition identified in the text', ok: getData('fcf-condition').length > 15 },
+    { label: 'FCF — Gospel answer is Christ-centered', ok: getData('fcf-gospel-ans').length > 20 },
+    { label: 'FCF one-sentence statement written', ok: !!getData('fcf-statement') },
+    { label: 'God\'s relational pursuit articulated (Peckham)', ok: getData('peck-relation').length > 10 },
+    { label: 'Doxological aim / response defined', ok: getData('peck-doxology').length > 10 },
+    { label: 'Introduction has an attention-getter', ok: getData('intro-hook').length > 10 },
+    { label: 'Need statement connects FCF to congregation', ok: getData('intro-need').length > 10 },
+    { label: 'Homiletical proposition derived from the text', ok: getData('proposition').length > 15 },
+    { label: 'Main Point 1 has a passage reference', ok: !!getData('pt1-scripture') },
+    { label: 'Main Point 1 statement written', ok: !!getData('pt1-statement') },
+    { label: 'Main Point 1 — exegesis developed', ok: getData('pt1-explain').length > 20 },
+    { label: 'Main Point 1 — cross-reference(s) provided', ok: !!getData('pt1-xref-confirm') },
+    { label: 'Main Point 1 — application is FCF-grounded', ok: getData('pt1-apply').length > 15 },
+    { label: 'Main Point 1 — illustration written', ok: getData('pt1-illus').length > 20 },
+    { label: 'Main Point 2 has a passage reference', ok: !!getData('pt2-scripture') },
+    { label: 'Main Point 2 statement written', ok: !!getData('pt2-statement') },
+    { label: 'Main Point 2 — exegesis developed', ok: getData('pt2-explain').length > 20 },
+    { label: 'Main Point 2 — cross-reference(s) provided', ok: !!getData('pt2-xref-confirm') },
+    { label: 'Main Point 2 — application is FCF-grounded', ok: getData('pt2-apply').length > 15 },
+    { label: 'Main Point 2 — illustration written', ok: getData('pt2-illus').length > 20 },
+    { label: 'Conclusion delivers Gospel resolution of FCF', ok: getData('conc-gospel').length > 20 },
+    { label: 'Response call is doxological, not merely moralistic', ok: getData('conc-call').length > 10 },
+  ];
+
+  const passed = checks.filter(c => c.ok).length;
+  const pct = Math.round((passed / checks.length) * 100);
+
+  let html = `<div style="margin-bottom:1rem">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.1em;color:var(--teal);margin-bottom:0.4rem">
+      SERMON READINESS: ${pct}% (${passed}/${checks.length})
+    </div>
+    <div class="fcf-bar-track"><div class="fcf-bar-fill" style="width:${pct}%;background:linear-gradient(90deg,var(--teal),var(--gold))"></div></div>
+  </div>`;
+
+  html += '<div style="display:flex;flex-direction:column;gap:0.4rem">';
+  for (const c of checks) {
+    const icon = c.ok ? '✓' : '○';
+    const color = c.ok ? 'var(--teal)' : '#aaa';
+    html += `<div style="display:flex;gap:0.6rem;font-size:0.9rem;color:${color}">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;flex-shrink:0">${icon}</span>
+      <span>${c.label}</span>
+    </div>`;
+  }
+  html += '</div>';
+
+  document.getElementById('checklist').innerHTML = html;
+}
+
+// ─── COPY & PRINT ─────────────────────────────────────────
+function copyOutline() {
+  const text = document.getElementById('full-outline').textContent;
+  navigator.clipboard.writeText(text).then(() => toast('Outline copied to clipboard ✓'));
+}
+
+function printOutline() {
+  const text = document.getElementById('full-outline').textContent;
+  const win = window.open('', '_blank');
+  win.document.write(`<html><head><title>Sermon Outline</title>
+    <style>body{font-family:Georgia,serif;font-size:11pt;line-height:1.8;margin:2cm;white-space:pre-wrap}
+    @page{margin:2cm}</style></head>
+    <body>${text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</body></html>`);
+  win.document.close();
+  win.print();
+}
+
+// ─── TOAST ────────────────────────────────────────────────
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ─── START OVER ───────────────────────────────────────────
+function startOver() {
+  if (!confirm('Start a new sermon? All current data will be lost.')) return;
+  document.querySelectorAll('input[type="text"], textarea').forEach(el => el.value = '');
+  document.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
+  pointCount = 3;
+  buildPoints();
+  goTo(0);
+  document.querySelectorAll('.step-btn').forEach(b => b.classList.remove('completed'));
+}
+</script>
+</body>
+</html>

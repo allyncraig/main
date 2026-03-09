@@ -18,6 +18,10 @@ Currently in progress.
 
 Download [Android APK](downloads/SermonArchitect.apk) - direct install if accessing from an Android device. Current Version: 1.0.0
 
+### Web App
+
+My app is based on a [simpler web page](sermon-architect-page.html) which only allows working on one sermon at a time.
+
 ---
 
 ## Features
