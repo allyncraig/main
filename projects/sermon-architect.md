@@ -1,4 +1,4 @@
-# Walk Tracker
+# Sermon Architect
 
 An Android app to manage the Sermon Creation Process.
 
