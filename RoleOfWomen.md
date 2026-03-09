@@ -25,7 +25,9 @@ These questions must be addressed carefully and biblically.
 
 Scripture teaches that *“the wages of sin is death”* (Rom 6:23), and that *“sin is the transgression of the law”* (1 John 3:4). If disobedience to God’s law results in sin, then determining whether these passages constitute “law” is critical.
 
-In 1 Corinthians 14:34, Paul explicitly grounds his instruction in “the Law.” The surrounding context strengthens this claim:
+If you only read verses 34 and 35 of 1 Corinthians chapter 14, then you will miss important context for these verses.
+
+But when reading the full context, 1 Corinthians 14:33-38, we find that Paul explicitly grounds his instruction in “the Law.” The surrounding context strengthens this claim:
 
 > *“As in all the churches of the saints…”* (v. 33)  
 > *“just as the law also says.”* (v. 34)  
@@ -40,10 +42,10 @@ From the text itself, several conclusions follow:
 
 * These instructions apply to **all churches**, not a single congregation.
 * Paul explicitly calls them **the law** and **a commandment of the Lord**.
-* Disregard for them carries **church-level consequences**.
+* Disregard for them carries **church-** and **salvation-level consequences**.
 * Their grounding in creation places them **prior to sin**, not within a cultural moment.
 
-If breaking God’s law constitutes sin (1 John 3:4), and sin leads to death (Rom 6:23), then Scripture itself frames this issue as spiritually significant and affecting eternal salvation. This conclusion relies entirely on biblical premises.
+If breaking God’s law constitutes sin (1 John 3:4), and sin leads to death (Rom 6:23), then Scripture itself frames this issue as spiritually significant and affecting eternal salvation!
 
 ---
 
@@ -68,7 +70,7 @@ Two specific restrictions appear:
 1. **Speaking** (1 Cor 14:34)
 2. **Teaching and exercising authority** (1 Tim 2:12)
 
-The Greek term translated here as “speak” consistently refers to **public proclamation or preaching**, not casual conversation.[^4] Within a chapter devoted to regulating public worship and spiritual gifts, the most reasonable conclusion is that Paul is restricting **authoritative, public speaking Spiritual Gift roles**.
+The Greek term translated here as “speak” consistently refers to **public proclamation or preaching**, not casual conversation.[^4] Within a chapter devoted to regulating the use of *Spiritual Gifts* in *public worship*, the most reasonable conclusion is that Paul is restricting **authoritative, public speaking Spiritual Gift roles**.
 
 Pastors and elders, as described in Ephesians 4:11 and Romans 12:8, are spiritual gifts roles associated with preaching and authority. Therefore, restricting these roles to men aligns naturally with Paul’s instructions. No alternative modern practice satisfies all the biblical constraints simultaneously.
 
@@ -79,6 +81,8 @@ Pastors and elders, as described in Ephesians 4:11 and Romans 12:8, are spiritua
 If pastoral and elder roles are spiritual gifts involving preaching and authority, and if Scripture presents their restriction as a universal commandment established at creation, then allowing women to occupy these roles constitutes disobedience to that command.
 
 By biblical definition, disobedience to God’s law is sin.
+
+**Could we not, therefore, reasonably conclude that allowing women to be pastors and elders is a sin?**
 
 ---
 
@@ -131,17 +135,12 @@ According to Scripture, the stakes are not small.
 [^3] Full Quote (with emphasis added):  
 > 33 *For God is not a God of confusion but of peace, **as in all the churches of the saints**.* 34 *Let the women keep silent in the churches, for they are not permitted to speak, but must be in submission, **just as the Law also says**.* 35 *If they want to learn anything, let them ask their own husbands at home, for it is shameful for a woman to speak in church.* 36 *Or was it from you that the word of God came? Or are you the only ones it has reached?* 37 *If anyone thinks that he is a prophet or spiritual, let him recognize that **the things I am writing to you are a commandment of the Lord**.* 38 *But **if anyone ignores this, he is to be ignored**.* (1 Cor 14:33-38)
 
-[^4] The Greek word translated as “speak” in this verse is λαλεῖν (*lalein*), the infinitive form of λαλέω (*laleō*) Strong's G2980. In turn, λαλέω is the emphatic form of λέγω (*legō*) Strong's G3004. The primary difference between the two is that λέγω is focused on what is said and almost always accompanies a direct quote of some sort or deals with private conversations, while λαλέω focuses on the act of speaking itself, or on the manner of speaking.
+[^4] The Greek word translated as “speak” in this verse is λαλεῖν (*lalein*), the infinitive form of λαλέω (*laleō*) Strong’s G2980. In turn, λαλέω is the emphatic form of λέγω (*legō*) Strong’s G3004. The primary difference between the two is that λέγω is focused on what is said and almost always accompanies a direct quote of some sort or deals with private conversations, while λαλέω focuses on the act of speaking itself, or on the manner of speaking.
 
 An example of these two meanings can be seen in Mark 5:35 where both forms occur:
 
 > While he was still speaking (*laleō* G2980), someone from the synagogue ruler’s house arrived, saying (*legō* G3004), “Your daughter has died. Why trouble the Teacher any further?”
 
-The first instance of speak refers to the fact that Jesus was teaching, or preaching to a group of people in public but doesn't specify what was said. The second refers to a private, personal message being brought directly to the ruler of the synagogue, and includes the speaker's words.
+The first instance of speak refers to the fact that Jesus was teaching, or preaching to a group of people in public but doesn’t specify what was said. The second refers to a private, personal message being brought directly to the ruler of the synagogue, and includes the speaker’s words.
 
-It is worth noting that there are three primary categories of how λαλέω is used in both NT and LXX.
-
-The first category is where speaking is unexpected or an unusual occurrence. This can be seen in Mat 9:3 where previously mute people were miraculously healed: “... the mute *spoke*...”.
-
-The second category is instances of public speaking (as opposed to private conversations which always use λέγω).
-
+Not only does the word refer to public speaking/preaching/teaching, but Strong also points out an even stronger meaning: “... the primary meaning of λαλεῖν, to utter oneself, enables us easily to understand its very frequent use in the sacred writers to denote the utterances by which GOD indicates or gives proof of his mind and will, whether immediately or through the instrumentality of his messengers and heralds.”
