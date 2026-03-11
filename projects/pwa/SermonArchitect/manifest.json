@@ -2,7 +2,7 @@
   "name": "Sermon Architect",
   "short_name": "SermonArch",
   "description": "Expository sermon preparation — Perry · Chapell · Peckham",
-  "start_url": "/main/projects/pwa/SermonArchitect/index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#1a1410",
