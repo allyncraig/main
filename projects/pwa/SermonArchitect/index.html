@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+  <!-- PWA general -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#1a1410">
+  <link rel="manifest" href="manifest.json">
+
+  <!-- iOS PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Sermon Architect">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+
+  <title>Sermon Architect</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     SPLASH SCREEN (CSS-based, fades out on load)
+     ══════════════════════════════════════════ -->
+<div id="splash-screen">
+  <div id="splash-inner">
+    <div class="splash-ornament">✦ ✦ ✦</div>
+    <div id="splash-title">Sermon <span>Architect</span></div>
+    <div class="splash-sub">EXPOSITORY PREACHING</div>
+    <div class="splash-sub">PERRY · CHAPELL · PECKHAM</div>
+    <div class="splash-sdg">✦ SOLI DEO GLORIA ✦</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TOP BAR (persistent across all screens)
+     ══════════════════════════════════════════ -->
+<div id="top-bar">
+  <div id="top-bar-collapsed">
+    <div id="top-bar-title">Sermon <span>Architect</span></div>
+    <div id="top-bar-chevron">▼</div>
+  </div>
+  <div id="top-bar-expanded">
+    <div id="top-bar-expanded-inner">
+      <div class="header-ornament">✦ ✦ ✦</div>
+      <h1>Sermon <span>Architect</span></h1>
+      <p class="header-sub">EXPOSITORY PREACHING · PERRY · CHAPELL · PECKHAM</p>
+      <div class="method-badges">
+        <span class="badge">Lloyd Perry's Expository Method</span>
+        <span class="badge">Bryan Chapell's FCF</span>
+        <span class="badge">John Peckham's Relational Doxology</span>
+        <span class="badge">Text-Driven Structure</span>
+      </div>
+      <div class="header-sdg">✦ SOLI DEO GLORIA ✦</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     APP CONTAINER
+     ══════════════════════════════════════════ -->
+<div id="app-container">
+
+  <!-- ── SERMON LIST SCREEN ── -->
+  <div id="screen-list" class="screen active">
+    <div id="list-toolbar">
+      <button id="btn-new-sermon">+ New Sermon</button>
+      <div class="sort-bar">
+        <button class="sort-btn active" id="sort-btn-date" data-sort="date">
+          <span>Date</span>
+          <span class="sort-arrow" id="sort-arrow-date">↓</span>
+        </button>
+        <button class="sort-btn" id="sort-btn-title" data-sort="title">
+          <span>Title</span>
+          <span class="sort-arrow" id="sort-arrow-title">↑</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="list-edit-bar">
+      <span id="list-edit-count">0 selected</span>
+      <div style="display:flex;gap:0.5rem">
+        <button class="btn-cancel-edit" id="btn-cancel-edit">Cancel</button>
+        <button class="btn-delete-selected" id="btn-delete-selected">Delete</button>
+      </div>
+    </div>
+
+    <div id="sermon-list-container">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+  <!-- ── EDITOR SCREEN ── -->
+  <div id="screen-editor" class="screen">
+
+    <!-- Step nav bar (replaces sidebar) -->
+    <div id="step-nav-bar">
+      <div id="step-nav-header">
+        <button id="btn-save-return">← Save &amp; Return</button>
+        <div id="current-sermon-title-display">Untitled Sermon</div>
+      </div>
+      <div id="step-selector-btn" onclick="toggleStepDropdown()">
+        <span id="step-selector-label">1. Scripture &amp; Context</span>
+        <span id="step-selector-arrow">▼</span>
+      </div>
+    </div>
+
+    <div id="editor-progress-bar">
+      <div id="editor-progress-fill"></div>
+    </div>
+
+    <!-- All step panels -->
+    <div id="panel-scroll-container">
+
+      <!-- PANEL 0: Scripture & Context -->
+      <div class="panel active" id="panel-0">
+        <div class="panel-header">
+          <div class="panel-header-top">
+            <div class="panel-header-titles">
+              <div class="panel-eyebrow">Step 1 · Exegetical Foundation</div>
+              <h2 class="panel-title">Passage &amp; <em>Exegesis</em></h2>
+            </div>
+            <div class="panel-desc-toggle">▼</div>
+          </div>
+          <div class="panel-desc-wrap">
+            <p class="panel-desc">Expository preaching begins and ends with the text. The sermon's structure, points, and thrust must <em>emerge from</em> the passage — not be imposed upon it. Do your exegetical work here before building anything else.</p>
+            <div class="theory-box perry">
+              <strong>Lloyd Perry — Expository Textual Integrity</strong>
+              In expository preaching, the text is not merely a launching pad — it is the sermon's architecture. Perry insists: the main points arise from the passage's own divisions; every assertion must be traceable to a specific verse; the preacher's voice serves the text's voice. Begin by mapping the passage's structure before you write a single outline point.
+            </div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="field-row">
+            <div>
+              <label>Sermon Title <span class="required">*</span></label>
+              <input type="text" id="sermon-title" placeholder="e.g. Grace in the Wilderness" oninput="updateData()">
+            </div>
+            <div>
+              <label>Date / Occasion</label>
+              <input type="text" id="sermon-date" placeholder="e.g. Advent Sunday, Dec 1" oninput="updateData()">
+            </div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="field-row">
+            <div>
+              <label>Primary Pericope <span class="required">*</span></label>
+              <input type="text" id="scripture-ref" placeholder="e.g. Romans 8:18–25" oninput="updateData()">
+            </div>
+            <div>
+              <label>Support / Cross-Reference Texts</label>
+              <input type="text" id="scripture-support" placeholder="e.g. Ps 22; Heb 4:15" oninput="updateData()">
+            </div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>Literary Genre <span class="info-chip">Expository</span></label>
+          <div class="radio-cards">
+            <div class="radio-card">
+              <input type="radio" name="lit-genre" id="lg-epistle" value="Epistle / Didactic" checked onchange="updateData()">
+              <label for="lg-epistle"><span class="rc-title">Epistle / Didactic</span><span class="rc-desc">Theological argument or instruction</span></label>
+            </div>
+            <div class="radio-card">
+              <input type="radio" name="lit-genre" id="lg-narrative" value="Biblical Narrative" onchange="updateData()">
+              <label for="lg-narrative"><span class="rc-title">Biblical Narrative</span><span class="rc-desc">Historical / story genre</span></label>
+            </div>
+            <div class="radio-card">
+              <input type="radio" name="lit-genre" id="lg-poetry" value="Poetry / Wisdom" onchange="updateData()">
+              <label for="lg-poetry"><span class="rc-title">Poetry / Wisdom</span><span class="rc-desc">Psalms, Proverbs, Song</span></label>
+            </div>
+            <div class="radio-card">
+              <input type="radio" name="lit-genre" id="lg-prophecy" value="Prophecy / Apocalyptic" onchange="updateData()">
+              <label for="lg-prophecy"><span class="rc-title">Prophecy / Apocalyptic</span><span class="rc-desc">Oracular or visionary</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>Passage Structural Outline <span class="required">*</span></label>
+          <p class="field-hint">Map the passage's natural movements — its paragraphs, strophes, or argument steps. These divisions should become your main points.</p>
+          <textarea id="passage-structure" class="tall" placeholder="e.g.:&#10;v.18 — Present sufferings stated&#10;vv.19–22 — Creation's groan (cosmic frame)&#10;vv.23–25 — Believers' groan (personal frame)&#10;&#10;These natural divisions should become your main points." oninput="updateData()"></textarea>
+        </div>
+
+        <!-- TEXTUAL ANALYSIS -->
+        <div class="section-eyebrow">Textual Analysis</div>
+        <div class="theory-box perry" style="margin-bottom:0.85rem">
+          <strong>Perry — Textual Analysis as the Exegetical Engine</strong>
+          Faithful exposition requires moving through several layers of the text before any homiletical decisions are made. Historical-grammatical analysis, word study, syntactical observation, and intertextual tracing are not optional scholarly extras — they are the work of finding what the text actually says, means, and demands.
+        </div>
+
+        <div class="structure-grid">
+
+          <div class="struct-item">
+            <div class="struct-header" onclick="toggleStruct(this)">
+              <div class="struct-num" style="color:var(--crimson)">A</div>
+              <div class="struct-label">
+                <div class="struct-name">Historical-Grammatical Context</div>
+                <div class="struct-hint">Author, audience, occasion, and setting</div>
+              </div>
+              <div class="struct-toggle">▼</div>
+            </div>
+            <div class="struct-body">
+              <div class="sub-field">
+                <label>Author &amp; Date</label>
+                <input type="text" id="ta-author" placeholder="e.g. Paul, c. AD 57, writing from Corinth to Rome" oninput="updateData()">
+              </div>
+              <div class="sub-field">
+                <label>Original Audience &amp; Occasion</label>
+                <textarea id="ta-audience-orig" placeholder="Who are the original recipients? What is their situation?" oninput="updateData()"></textarea>
+              </div>
+              <div class="sub-field">
+                <label>Immediate Literary Context</label>
+                <textarea id="ta-lit-context" placeholder="What comes immediately before and after this pericope?" oninput="updateData()"></textarea>
+              </div>
+              <div class="sub-field">
+                <label>Historical / Cultural Background</label>
+                <textarea id="ta-historical" placeholder="Background a congregation needs to hear the text as the original audience heard it." oninput="updateData()"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="struct-item">
+            <div class="struct-header" onclick="toggleStruct(this)">
+              <div class="struct-num" style="color:var(--crimson)">B</div>
+              <div class="struct-label">
+                <div class="struct-name">Word Study</div>
+                <div class="struct-hint">Key terms — semantic range, usage, and weight</div>
+              </div>
+              <div class="struct-toggle">▼</div>
+            </div>
+            <div class="struct-body">
+              <div class="sub-field">
+                <label>Key Words / Terms <span class="info-chip">Original Language</span></label>
+                <input type="text" id="key-terms" placeholder="e.g. glory (δόξα), groaning (στενάζω), hope (ἐλπίς)" oninput="updateData()">
+              </div>
+              <div class="sub-field">
+                <label>Word Study Notes</label>
+                <textarea id="ta-word-study" placeholder="For each key term: root, semantic range, nuance in this context, translation issues." oninput="updateData()"></textarea>
+              </div>
+              <div class="sub-field">
+                <label>Theologically Loaded Terms</label>
+                <input type="text" id="ta-theological-loci" placeholder="e.g. justification, covenant, glory, shalom" oninput="updateData()">
+              </div>
+            </div>
+          </div>
+
+          <div class="struct-item">
+            <div class="struct-header" onclick="toggleStruct(this)">
+              <div class="struct-num" style="color:var(--crimson)">C</div>
+              <div class="struct-label">
+                <div class="struct-name">Syntactical &amp; Grammatical Analysis</div>
+                <div class="struct-hint">Sentence structure, verb tenses, logical connectors</div>
+              </div>
+              <div class="struct-toggle">▼</div>
+            </div>
+            <div class="struct-body">
+              <div class="sub-field">
+                <label>Critical Grammar / Syntax Notes</label>
+                <input type="text" id="grammar-notes" placeholder="e.g. present tense verb; subordinate clause structure" oninput="updateData()">
+              </div>
+              <div class="sub-field">
+                <label>Dominant Verb Moods &amp; Tenses</label>
+                <textarea id="ta-verbs" placeholder="Note primary verbs: imperative or indicative? Aorist or present? Active or passive?" oninput="updateData()"></textarea>
+              </div>
+              <div class="sub-field">
+                <label>Logical Connectors &amp; Clause Structure</label>
+                <textarea id="ta-connectors" placeholder="Identify conjunctions: therefore (οὖν), because (γάρ), but (δέ / ἀλλά), so that (ἵνα)." oninput="updateData()"></textarea>
+              </div>
+              <div class="sub-field">
+                <label>Indicative → Imperative Pattern</label>
+                <textarea id="ta-indicative" placeholder="What does God declare (indicative)? What does he call his people to (imperative)?" oninput="updateData()"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="struct-item">
+            <div class="struct-header" onclick="toggleStruct(this)">
+              <div class="struct-num" style="color:var(--crimson)">D</div>
+              <div class="struct-label">
+                <div class="struct-name">Intertextual &amp; Canonical Connections</div>
+                <div class="struct-hint">OT allusions, NT echoes, redemptive history</div>
+              </div>
+              <div class="struct-toggle">▼</div>
+            </div>
+            <div class="struct-body">
+              <div class="sub-field">
+                <label>Old Testament Allusions or Quotations</label>
+                <textarea id="ta-ot-allusions" placeholder="Does the author quote or allude to OT texts? What theological weight do those allusions carry?" oninput="updateData()"></textarea>
+              </div>
+              <div class="sub-field">
+                <label>New Testament Parallels &amp; Echoes</label>
+                <textarea id="ta-nt-parallels" placeholder="Where else in the NT does this theme, term, or argument appear?" oninput="updateData()"></textarea>
+              </div>
+              <div class="sub-field">
+                <label>Redemptive-Historical Location</label>
+                <textarea id="ta-redemptive" placeholder="Where does this passage sit in the arc of redemptive history — promise, fulfillment, anticipation?" oninput="updateData()"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="struct-item">
+            <div class="struct-header" onclick="toggleStruct(this)">
+              <div class="struct-num" style="color:var(--crimson)">E</div>
+              <div class="struct-label">
+                <div class="struct-name">Authorial Intent &amp; Central Assertion</div>
+                <div class="struct-hint">What the author intended — constraining the homiletical idea</div>
+              </div>
+              <div class="struct-toggle">▼</div>
+            </div>
+            <div class="struct-body">
+              <div class="sub-field">
+                <label>What Problem Does the Author Address?</label>
+                <textarea id="ta-author-problem" placeholder="What theological, ethical, or pastoral problem is the author solving?" oninput="updateData()"></textarea>
+              </div>
+              <div class="sub-field">
+                <label>The Author's Central Assertion (one sentence)</label>
+                <textarea id="ta-central-assertion" placeholder="In one sentence, what is the human author's main claim in this passage?" oninput="updateData()"></textarea>
+              </div>
+              <div class="sub-field">
+                <label>What Response Does the Author Intend?</label>
+                <textarea id="ta-author-intent" placeholder="Is the author aiming to comfort, correct, warn, instruct, praise, or exhort?" oninput="updateData()"></textarea>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- end structure-grid -->
+
+        <div class="field-group" style="margin-top:1.25rem">
+          <label>Exegetical (Big) Idea <span class="required">*</span></label>
+          <p class="field-hint">Synthesize your textual analysis into one or two sentences. What is the author saying to the original audience?</p>
+          <textarea id="exeg-summary" class="tall" placeholder="e.g. Paul argues that present sufferings are not worthy of comparison with the coming glory, grounding patient hope in the Spirit's intercession and God's sovereign purpose." oninput="updateData()"></textarea>
+        </div>
+
+        <div class="field-group">
+          <label>Target Congregation / Audience</label>
+          <input type="text" id="audience" placeholder="e.g. Mixed congregation, many young families" oninput="updateData()">
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-gold" onclick="goTo(1)">Next: FCF →</button>
+        </div>
+      </div><!-- end panel-0 -->
+
+      <!-- PANEL 1: FCF -->
+      <div class="panel" id="panel-1">
+        <div class="panel-header">
+          <div class="panel-header-top">
+            <div class="panel-header-titles">
+              <div class="panel-eyebrow">Step 2 · Bryan Chapell</div>
+              <h2 class="panel-title">Fallen Condition <em>Focus</em></h2>
+            </div>
+            <div class="panel-desc-toggle">▼</div>
+          </div>
+          <div class="panel-desc-wrap">
+            <p class="panel-desc">Every passage addresses a human fallenness that Christ redeems. Identifying the FCF prevents moralism and keeps Christ at the center.</p>
+            <div class="theory-box chapell">
+              <strong>Bryan Chapell — Christ-Centered Preaching</strong>
+              Chapell argues that a sermon without a clear FCF lapses into mere advice-giving. The FCF is the universal human condition — a consequence of the Fall — that the text addresses and that the Gospel answers. It must be <em>present in the text</em>, <em>real in the audience</em>, and <em>resolved in Christ</em>.
+            </div>
+          </div>
+        </div>
+
+        <div class="fcf-meter">
+          <div class="fcf-meter-label">FCF Completeness</div>
+          <div class="fcf-bar-track"><div class="fcf-bar-fill" id="fcf-bar"></div></div>
+          <div class="fcf-bar-desc" id="fcf-desc">Fill in the fields below to assess FCF clarity.</div>
+        </div>
+
+        <div class="field-group">
+          <label>The Human Condition Addressed <span class="required">*</span></label>
+          <textarea id="fcf-condition" placeholder="What fallen condition does this passage diagnose? (e.g. fear, pride, self-reliance, doubt, idolatry…)" oninput="updateFCF()"></textarea>
+        </div>
+
+        <div class="field-group">
+          <label>Evidence of This Condition in Your Congregation</label>
+          <textarea id="fcf-evidence" placeholder="How does this condition manifest concretely in your congregation's real life?" oninput="updateFCF()"></textarea>
+        </div>
+
+        <div class="field-group">
+          <label>How the Text Diagnoses This Condition</label>
+          <textarea id="fcf-text-diag" placeholder="Where/how does the specific passage surface or expose this fallen condition?" oninput="updateFCF()"></textarea>
+        </div>
+
+        <div class="field-group">
+          <label>How Christ / the Gospel Addresses This Condition <span class="required">*</span></label>
+          <textarea id="fcf-gospel-ans" class="tall" placeholder="How does Jesus — in his person, work, and grace — answer the specific condition?" oninput="updateFCF()"></textarea>
+        </div>
+
+        <div class="field-group">
+          <label>FCF Statement (one sentence)</label>
+          <input type="text" id="fcf-statement" placeholder='e.g. "Because we fear that God cannot be trusted in suffering, this text calls us to rest in Christ."' oninput="updateFCF()">
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="goTo(0)">← Back</button>
+          <button class="btn btn-gold" onclick="goTo(2)">Next: Relational Doxology →</button>
+        </div>
+      </div><!-- end panel-1 -->
+
+      <!-- PANEL 2: Peckham Relational Doxology -->
+      <div class="panel" id="panel-2">
+        <div class="panel-header">
+          <div class="panel-header-top">
+            <div class="panel-header-titles">
+              <div class="panel-eyebrow">Step 3 · John Peckham</div>
+              <h2 class="panel-title">Relational <em>Doxology</em></h2>
+            </div>
+            <div class="panel-desc-toggle">▼</div>
+          </div>
+          <div class="panel-desc-wrap">
+            <p class="panel-desc">Peckham's framework situates all of redemption within God's relational pursuit of his people — and the ultimate aim is the overflow of praise.</p>
+            <div class="theory-box peckham">
+              <strong>John Peckham — Canonical Theology &amp; Relational Doxology</strong>
+              For Peckham, God's love is not merely volitional or ontological — it is genuinely relational and affective. Scripture narrates a cosmic love story: God pursuing, the creature resisting or responding, and the whole creation moving toward doxological consummation. Preaching should trace this arc: <em>God's relational initiative → human response → doxological overflow</em>.
+            </div>
+            <div class="dox-compass">
+              <div class="dox-axis">
+                <div class="dox-axis-label">Axis 1 · Relational</div>
+                <div class="dox-axis-name">God's Pursuit</div>
+                <div class="dox-axis-desc">How does this text show God initiating, pursuing, or sustaining relationship?</div>
+              </div>
+              <div class="dox-axis">
+                <div class="dox-axis-label">Axis 2 · Doxological</div>
+                <div class="dox-axis-name">Worship Response</div>
+                <div class="dox-axis-desc">Where does obedience become an act of praise rather than mere duty?</div>
+              </div>
+              <div class="dox-axis">
+                <div class="dox-axis-label">Axis 3 · Affective</div>
+                <div class="dox-axis-name">God's Heart</div>
+                <div class="dox-axis-desc">What does this text reveal about God's genuine emotional investment?</div>
+              </div>
+              <div class="dox-axis">
+                <div class="dox-axis-label">Axis 4 · Canonical</div>
+                <div class="dox-axis-name">Redemptive Arc</div>
+                <div class="dox-axis-desc">Where does this text sit within the larger love-story of Scripture?</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>God's Relational Initiative in This Text</label>
+          <textarea id="peck-relation" placeholder="How is God's initiating love, covenant faithfulness, or gracious pursuit visible in this passage?" oninput="updateData()"></textarea>
+        </div>
+
+        <div class="field-group">
+          <label>The Desired Doxological Response</label>
+          <textarea id="peck-doxology" placeholder="What praise, wonder, or worship should this text evoke? How does the sermon move hearers from information → adoration?" oninput="updateData()"></textarea>
+        </div>
+
+        <div class="field-group">
+          <label>God's Affective Heart Revealed (Divine Pathos)</label>
+          <textarea id="peck-pathos" placeholder="What does this text reveal about God's genuine care, grief, joy, or longing?" oninput="updateData()"></textarea>
+        </div>
+
+        <div class="field-group">
+          <label>Canonical Placement — Where Does This Fit the Big Story?</label>
+          <div class="radio-cards">
+            <div class="radio-card">
+              <input type="radio" name="canon-pos" id="cp-creation" value="Creation & Shalom" onchange="updateData()">
+              <label for="cp-creation"><span class="rc-title">Creation &amp; Shalom</span><span class="rc-desc">Original relational design</span></label>
+            </div>
+            <div class="radio-card">
+              <input type="radio" name="canon-pos" id="cp-fall" value="Fall & Rupture" onchange="updateData()">
+              <label for="cp-fall"><span class="rc-title">Fall &amp; Rupture</span><span class="rc-desc">Relational breakdown</span></label>
+            </div>
+            <div class="radio-card">
+              <input type="radio" name="canon-pos" id="cp-redemption" value="Redemption & Pursuit" checked onchange="updateData()">
+              <label for="cp-redemption"><span class="rc-title">Redemption &amp; Pursuit</span><span class="rc-desc">God's relentless love</span></label>
+            </div>
+            <div class="radio-card">
+              <input type="radio" name="canon-pos" id="cp-consummation" value="Consummation & Praise" onchange="updateData()">
+              <label for="cp-consummation"><span class="rc-title">Consummation &amp; Praise</span><span class="rc-desc">Doxological fulfillment</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="goTo(1)">← Back</button>
+          <button class="btn btn-gold" onclick="goTo(3)">Next: Introduction →</button>
+        </div>
+      </div><!-- end panel-2 -->
+
+      <!-- PANEL 3: Introduction -->
+      <div class="panel" id="panel-3">
+        <div class="panel-header">
+          <div class="panel-header-top">
+            <div class="panel-header-titles">
+              <div class="panel-eyebrow">Step 4 · Perry §1</div>
+              <h2 class="panel-title">The <em>Introduction</em></h2>
+            </div>
+            <div class="panel-desc-toggle">▼</div>
+          </div>
+          <div class="panel-desc-wrap">
+            <p class="panel-desc">Perry identifies five functions of a good introduction: capture attention, surface the need, introduce the text, state the proposition, and preview the body.</p>
+            <div class="theory-box perry">
+              <strong>Perry — Introduction Principles</strong>
+              The introduction should create a "felt need" that the sermon will address. It must be brief (no more than 15% of sermon time), earn the right to be heard, and bridge the world of the text with the world of the congregation. Perry warns against "cold openings" with no connection to the sermon's central thrust.
+            </div>
+          </div>
+        </div>
+
+        <div class="structure-grid">
+          <div class="struct-item">
+            <div class="struct-header" onclick="toggleStruct(this)">
+              <div class="struct-num">A</div>
+              <div class="struct-label">
+                <div class="struct-name">Attention-Getter</div>
+                <div class="struct-hint">Hook that earns the right to be heard</div>
+              </div>
+              <div class="struct-toggle">▼</div>
+            </div>
+            <div class="struct-body">
+              <div class="sub-field">
+                <label>Hook Type</label>
+                <select id="hook-type" onchange="updateData()">
+                  <option value="">— choose —</option>
+                  <option>Striking statistic</option>
+                  <option>Personal story / anecdote</option>
+                  <option>Rhetorical question</option>
+                  <option>Startling statement</option>
+                  <option>Cultural observation</option>
+                  <option>Historical incident</option>
+                  <option>Imaginative scenario</option>
+                  <option>Quotation</option>
+                </select>
+              </div>
+              <div class="sub-field">
+                <label>Attention-Getter Content</label>
+                <textarea id="intro-hook" placeholder="Write or sketch your opening hook. It should surface the FCF — the felt need — within the first 60 seconds." oninput="updateData()"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="struct-item">
+            <div class="struct-header" onclick="toggleStruct(this)">
+              <div class="struct-num">B</div>
+              <div class="struct-label">
+                <div class="struct-name">Need Statement</div>
+                <div class="struct-hint">Why does this matter to them right now?</div>
+              </div>
+              <div class="struct-toggle">▼</div>
+            </div>
+            <div class="struct-body">
+              <div class="sub-field">
+                <label>Statement of Need</label>
+                <textarea id="intro-need" placeholder="Articulate the FCF as a contemporary need. Congregants should think: 'yes, that is exactly my struggle.'" oninput="updateData()"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="struct-item">
+            <div class="struct-header" onclick="toggleStruct(this)">
+              <div class="struct-num">C</div>
+              <div class="struct-label">
+                <div class="struct-name">Scripture Introduction</div>
+                <div class="struct-hint">Bridging to the text</div>
+              </div>
+              <div class="struct-toggle">▼</div>
+            </div>
+            <div class="struct-body">
+              <div class="sub-field">
+                <label>How You Will Introduce the Passage</label>
+                <textarea id="intro-text-bridge" placeholder="How will you orient the congregation to the passage? Include any essential context they need." oninput="updateData()"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="goTo(2)">← Back</button>
+          <button class="btn btn-gold" onclick="goTo(4)">Next: Proposition →</button>
+        </div>
+      </div><!-- end panel-3 -->
+
+      <!-- PANEL 4: Proposition -->
+      <div class="panel" id="panel-4">
+        <div class="panel-header">
+          <div class="panel-header-top">
+            <div class="panel-header-titles">
+              <div class="panel-eyebrow">Step 5 · Perry §2</div>
+              <h2 class="panel-title">Proposition, Interrogative &amp; <em>Transition</em></h2>
+            </div>
+            <div class="panel-desc-toggle">▼</div>
+          </div>
+          <div class="panel-desc-wrap">
+            <p class="panel-desc">The proposition is the exegetical idea re-voiced for your congregation today. From it flows an <strong>interrogative adverb</strong> (Why? How? What?) that raises the question the body will answer — and a <strong>propositional transition</strong> (the keyword plural noun) that signals the structure of the main points.</p>
+            <div class="theory-box perry">
+              <strong>Perry — The Expository Proposition</strong>
+              The expository proposition must be: (1) a complete declarative sentence, (2) in present tense, (3) directly derived from the passage's own central assertion, (4) comprehensive enough to contain all main points, and (5) simple enough to repeat from memory. Perry: "If you can't say it in one sentence, you don't yet know what you're preaching."
+            </div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>Homiletical Proposition (from the Passage) <span class="required">*</span></label>
+          <textarea id="proposition" class="tall" placeholder='Translate your exegetical idea into a homiletical proposition addressed to your congregation now. e.g.: "Because God has promised a glory that outweighs all suffering, we can endure our present pain with patient hope."' oninput="updateData()"></textarea>
+        </div>
+
+        <div class="field-group">
+          <label>Sermon Aim (Behavioral / Transformational Goal)</label>
+          <textarea id="sermon-aim" placeholder="Complete this: 'By the end of this sermon, my congregation should…'" oninput="updateData()"></textarea>
+        </div>
+
+        <div class="field-group">
+          <div class="panel-eyebrow" style="margin-bottom:0.4rem;margin-top:0">Interrogative Adverb</div>
+          <label>The Interrogative Question <span class="required">*</span> <span class="info-chip">Perry's "Transitional Sentence"</span></label>
+          <p class="field-hint">The single question — built around <strong>Why? How? What? When? Where?</strong> — that your proposition raises and your main points collectively answer.</p>
+          <input type="text" id="key-word" placeholder='e.g. "WHY can we endure suffering with patient hope?"' oninput="updateData()">
+        </div>
+
+        <div class="field-group">
+          <div class="panel-eyebrow" style="margin-bottom:0.4rem;margin-top:0">Propositional Transition</div>
+          <label>Perry's Keyword — The Plural Noun <span class="required">*</span></label>
+          <p class="field-hint">A plural noun embedded in the interrogative question that previews the structure of the body. Choose the keyword that best describes what your main points are.</p>
+          <div class="radio-cards">
+            <div class="radio-card">
+              <input type="radio" name="keyword" id="kw-reasons" value="Reasons" onchange="updateData()">
+              <label for="kw-reasons"><span class="rc-title">Reasons</span><span class="rc-desc">Adverb: <em>Why?</em></span></label>
+            </div>
+            <div class="radio-card">
+              <input type="radio" name="keyword" id="kw-ways" value="Ways" onchange="updateData()">
+              <label for="kw-ways"><span class="rc-title">Ways</span><span class="rc-desc">Adverb: <em>How?</em></span></label>
+            </div>
+            <div class="radio-card">
+              <input type="radio" name="keyword" id="kw-means" value="Means" onchange="updateData()">
+              <label for="kw-means"><span class="rc-title">Means</span><span class="rc-desc">Adverb: <em>Through what?</em></span></label>
+            </div>
+            <div class="radio-card">
+              <input type="radio" name="keyword" id="kw-results" value="Results" onchange="updateData()">
+              <label for="kw-results"><span class="rc-title">Results</span><span class="rc-desc">Adverb: <em>What follows?</em></span></label>
+            </div>
+            <div class="radio-card">
+              <input type="radio" name="keyword" id="kw-aspects" value="Aspects" onchange="updateData()">
+              <label for="kw-aspects"><span class="rc-title">Aspects</span><span class="rc-desc">Adverb: <em>What?</em></span></label>
+            </div>
+            <div class="radio-card">
+              <input type="radio" name="keyword" id="kw-steps" value="Steps" onchange="updateData()">
+              <label for="kw-steps"><span class="rc-title">Steps</span><span class="rc-desc">Adverb: <em>When? / What next?</em></span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="goTo(3)">← Back</button>
+          <button class="btn btn-gold" onclick="goTo(5)">Next: Main Points →</button>
+        </div>
+      </div><!-- end panel-4 -->
+
+      <!-- PANEL 5: Body / Main Points -->
+      <div class="panel" id="panel-5">
+        <div class="panel-header">
+          <div class="panel-header-top">
+            <div class="panel-header-titles">
+              <div class="panel-eyebrow">Step 6 · Perry §3–5</div>
+              <h2 class="panel-title">Sermon Body — <em>Text-Derived Points</em></h2>
+            </div>
+            <div class="panel-desc-toggle">▼</div>
+          </div>
+          <div class="panel-desc-wrap">
+            <p class="panel-desc">In expository preaching, main points are not invented — they are discovered. Each point must be traceable to a specific textual division of the pericope you mapped in Step 1.</p>
+            <div class="theory-box perry">
+              <strong>Perry — Expository Body Development</strong>
+              Each main point must: (1) arise from a natural division of the passage, (2) be supported by specific verse(s), (3) restate the passage's assertion in homiletical form, (4) include exposition, illustration, and application. Points must be <em>parallel in grammatical form</em> and <em>progressive in redemptive development</em>.
+            </div>
+          </div>
+        </div>
+
+        <div id="main-points-container"></div>
+
+        <button class="btn btn-outline" onclick="addPoint()" style="margin-top:0.25rem" id="add-point-btn">+ Add Another Main Point</button>
+
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="goTo(4)">← Back</button>
+          <button class="btn btn-gold" onclick="goTo(6)">Next: Conclusion →</button>
+        </div>
+      </div><!-- end panel-5 -->
+
+      <!-- PANEL 6: Conclusion -->
+      <div class="panel" id="panel-6">
+        <div class="panel-header">
+          <div class="panel-header-top">
+            <div class="panel-header-titles">
+              <div class="panel-eyebrow">Step 7 · Perry §6</div>
+              <h2 class="panel-title">Conclusion &amp; <em>Call</em></h2>
+            </div>
+            <div class="panel-desc-toggle">▼</div>
+          </div>
+          <div class="panel-desc-wrap">
+            <p class="panel-desc">Perry's conclusion crystallizes the proposition, addresses the FCF with Gospel resolution, and calls for a doxological response.</p>
+            <div class="theory-box perry">
+              <strong>Perry — Conclusion Principles</strong>
+              The conclusion should never introduce new material. It: (1) brings the sermon to a definite close, (2) re-establishes the proposition memorably, (3) delivers the Gospel answer to the FCF, and (4) issues a specific call to response. Perry says: "Land the plane — don't circle the runway."
+            </div>
+            <div class="theory-box peckham">
+              <strong>Peckham — Doxological Landing</strong>
+              The conclusion is where relational doxology reaches its crescendo. The call should not be mere behavioral compliance but an invitation into deeper intimacy with God — where obedience itself becomes an act of praise in response to God's relational pursuit.
+            </div>
+          </div>
+        </div>
+
+        <div class="structure-grid">
+          <div class="struct-item">
+            <div class="struct-header" onclick="toggleStruct(this)">
+              <div class="struct-num">A</div>
+              <div class="struct-label">
+                <div class="struct-name">Summary &amp; Restatement</div>
+                <div class="struct-hint">Crystallize the proposition memorably</div>
+              </div>
+              <div class="struct-toggle">▼</div>
+            </div>
+            <div class="struct-body">
+              <div class="sub-field">
+                <label>Restated Proposition (conclusion form)</label>
+                <textarea id="conc-restate" placeholder="Restate the main truth as a single memorable summation that echoes the opening." oninput="updateData()"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="struct-item">
+            <div class="struct-header" onclick="toggleStruct(this)">
+              <div class="struct-num">B</div>
+              <div class="struct-label">
+                <div class="struct-name">Gospel Resolution of the FCF</div>
+                <div class="struct-hint">Chapell: end with grace, not law</div>
+              </div>
+              <div class="struct-toggle">▼</div>
+            </div>
+            <div class="struct-body">
+              <div class="sub-field">
+                <label>How Does Christ Fully Answer the Fallen Condition?</label>
+                <textarea id="conc-gospel" class="tall" placeholder="What has Jesus done — past, present, and future — that resolves the FCF? End with delight in what God has done, not mere duty." oninput="updateData()"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="struct-item">
+            <div class="struct-header" onclick="toggleStruct(this)">
+              <div class="struct-num">C</div>
+              <div class="struct-label">
+                <div class="struct-name">Doxological Call to Response</div>
+                <div class="struct-hint">Peckham: invitation to worship, not mere compliance</div>
+              </div>
+              <div class="struct-toggle">▼</div>
+            </div>
+            <div class="struct-body">
+              <div class="sub-field">
+                <label>Type of Response Called For</label>
+                <select id="response-type" onchange="updateData()">
+                  <option value="">— choose —</option>
+                  <option>Repentance and return</option>
+                  <option>Faith and trust</option>
+                  <option>Praise and worship</option>
+                  <option>Obedience as gratitude</option>
+                  <option>Compassion and service</option>
+                  <option>Rest and surrender</option>
+                  <option>Prayer and intercession</option>
+                  <option>Commissioning and mission</option>
+                </select>
+              </div>
+              <div class="sub-field">
+                <label>The Specific Call</label>
+                <textarea id="conc-call" class="tall" placeholder="What specific, concrete response is the congregation called to? Frame it doxologically — as a response to what God has done." oninput="updateData()"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="struct-item">
+            <div class="struct-header" onclick="toggleStruct(this)">
+              <div class="struct-num">D</div>
+              <div class="struct-label">
+                <div class="struct-name">Closing Image / Final Word</div>
+                <div class="struct-hint">The last thing they will carry home</div>
+              </div>
+              <div class="struct-toggle">▼</div>
+            </div>
+            <div class="struct-body">
+              <div class="sub-field">
+                <label>Closing Illustration or Image</label>
+                <textarea id="conc-image" placeholder="A final image, story, or verse that encapsulates everything. Perry: 'Begin with a window, end with a door.'" oninput="updateData()"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="goTo(5)">← Back</button>
+          <button class="btn btn-gold" onclick="goTo(7)">Generate Full Outline →</button>
+        </div>
+      </div><!-- end panel-6 -->
+
+      <!-- PANEL 7: Export -->
+      <div class="panel" id="panel-7">
+        <div class="panel-header">
+          <div class="panel-header-top">
+            <div class="panel-header-titles">
+              <div class="panel-eyebrow">Step 8 · Final</div>
+              <h2 class="panel-title">Your Sermon <em>Outline</em></h2>
+            </div>
+            <!-- No toggle arrow on step 8 -->
+          </div>
+          <p class="panel-export-instruction">Review your complete outline below, integrating Perry's structure, Chapell's FCF, and Peckham's relational doxology.</p>
+        </div>
+
+        <div class="export-card">
+          <h3>📋 Complete Outline</h3>
+          <pre id="full-outline"></pre>
+          <div class="btn-row" style="margin-top:0.75rem">
+            <button class="btn btn-primary" onclick="copyOutline()">Copy to Clipboard</button>
+            <button class="btn btn-gold" onclick="printOutline()">🖨 Print / Save PDF</button>
+          </div>
+        </div>
+
+        <div class="export-card">
+          <h3>🔍 Diagnostic Checklist</h3>
+          <div id="checklist"></div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="goTo(6)">← Revise</button>
+        </div>
+      </div><!-- end panel-7 -->
+
+    </div><!-- end panel-scroll-container -->
+  </div><!-- end screen-editor -->
+
+</div><!-- end app-container -->
+
+<!-- ══════════════════════════════════════════
+     TOAST
+     ══════════════════════════════════════════ -->
+<div id="toast"></div>
+
+<!-- ══════════════════════════════════════════
+     CONFIRM DIALOG
+     ══════════════════════════════════════════ -->
+<div id="confirm-overlay">
+  <div id="confirm-box">
+    <h3 id="confirm-title">Confirm</h3>
+    <p id="confirm-message">Are you sure?</p>
+    <div class="confirm-btns">
+      <button class="btn btn-outline" id="confirm-cancel">Cancel</button>
+      <button class="btn btn-primary" id="confirm-ok" style="border-color:var(--crimson);background:var(--crimson);color:white">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TEMPLATES
+     ══════════════════════════════════════════ -->
+
+<!-- Template: sermon list item -->
+<template id="tpl-sermon-item">
+  <div class="sermon-item">
+    <div class="sermon-item-checkbox">✓</div>
+    <div class="sermon-item-info">
+      <div class="sermon-item-title"></div>
+      <div class="sermon-item-meta"></div>
+    </div>
+    <div class="sermon-item-arrow">›</div>
+  </div>
+</template>
+
+
+<!-- Template: main point block -->
+<template id="tpl-point-block">
+  <div class="struct-item" style="margin-bottom:1.5rem">
+    <div class="struct-header" onclick="toggleStruct(this)" style="background:var(--parchment-darker)">
+      <div class="struct-num" style="font-size:0.9rem;width:28px;height:28px;min-width:28px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.4)"></div>
+      <div class="struct-label">
+        <div class="struct-name"></div>
+        <div class="struct-hint">Verse(s) · Statement · Exegesis · Cross-Ref · Application · Illustration</div>
+      </div>
+      <div class="struct-toggle">▼</div>
+    </div>
+    <div class="struct-body" style="padding:1rem 0.9rem 0.2rem">
+
+      <div class="sub-field">
+        <label class="pt-scripture-label">Passage Division (Verses) <span class="required">*</span></label>
+        <input type="text" class="pt-scripture" placeholder="Which verse(s) form this natural division of the passage?" oninput="updateData()">
+      </div>
+      <div class="sub-field" style="margin-bottom:1rem">
+        <label class="pt-statement-label">Point Statement — Homiletical Form <span class="required">*</span></label>
+        <input type="text" class="pt-statement" placeholder='Declarative sentence derived from this text division' oninput="updateData()">
+      </div>
+
+      <!-- EXEGESIS sub-section -->
+      <div class="struct-item" style="margin-bottom:0.75rem;border-color:var(--crimson)">
+        <div class="struct-header" onclick="toggleStruct(this)" style="background:#fdf4f4">
+          <div class="struct-num" style="color:var(--crimson);background:#fde8e8;border-color:var(--crimson);font-family:'JetBrains Mono',monospace;font-size:0.65rem;min-width:28px;width:28px;height:28px;display:flex;align-items:center;justify-content:center">Ex</div>
+          <div class="struct-label">
+            <div class="struct-name" style="color:var(--crimson)">Exegesis</div>
+            <div class="struct-hint">What the text says, means, and requires</div>
+          </div>
+          <div class="struct-toggle" style="color:var(--crimson)">▼</div>
+        </div>
+        <div class="struct-body">
+          <div class="sub-field">
+            <label class="pt-explain-label">Verse-by-Verse Exposition</label>
+            <textarea class="pt-explain tall" placeholder="Walk through each verse. Define key words, trace the author's argument, note grammatical features." oninput="updateData()"></textarea>
+          </div>
+          <div class="sub-field">
+            <label class="pt-key-terms-label">Key Terms in This Division</label>
+            <input type="text" class="pt-key-terms" placeholder="e.g. weakness (ἀσθένεια), intercedes (ὑπερεντυγχάνει)" oninput="updateData()">
+          </div>
+          <div class="sub-field">
+            <label class="pt-grammar-label">Grammatical / Syntactical Features</label>
+            <textarea class="pt-grammar" placeholder="Dominant verb mood/tense, logical connectors, indicative/imperative pattern." oninput="updateData()"></textarea>
+          </div>
+          <div class="sub-field">
+            <label class="pt-exeg-idea-label">Exegetical Idea for This Division (one sentence)</label>
+            <input type="text" class="pt-exeg-idea" placeholder='What is the author asserting in this specific division?' oninput="updateData()">
+          </div>
+        </div>
+      </div>
+
+      <!-- CROSS-REFERENCE sub-section -->
+      <div class="struct-item" style="margin-bottom:0.75rem;border-color:var(--teal)">
+        <div class="struct-header" onclick="toggleStruct(this)" style="background:#f0f8f8">
+          <div class="struct-num" style="color:var(--teal);background:#e0f4f4;border-color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:0.65rem;min-width:28px;width:28px;height:28px;display:flex;align-items:center;justify-content:center">Cr</div>
+          <div class="struct-label">
+            <div class="struct-name" style="color:var(--teal)">Cross-Reference Validation</div>
+            <div class="struct-hint">Scripture interpreting Scripture</div>
+          </div>
+          <div class="struct-toggle" style="color:var(--teal)">▼</div>
+        </div>
+        <div class="struct-body">
+          <div class="sub-field">
+            <label class="pt-xref-confirm-label">Confirming Cross-References <span class="info-chip">Scripture interprets Scripture</span></label>
+            <input type="text" class="pt-xref-confirm" placeholder="e.g. Rom 5:5; Gal 4:6; Heb 7:25" oninput="updateData()">
+          </div>
+          <div class="sub-field">
+            <label class="pt-xref-ot-label">Old Testament Foundation or Typological Background</label>
+            <textarea class="pt-xref-ot" placeholder="What OT text, type, or promise does this passage fulfil, echo, or develop?" oninput="updateData()"></textarea>
+          </div>
+          <div class="sub-field">
+            <label class="pt-xref-note-label">How These References Validate the Main Text</label>
+            <textarea class="pt-xref-note" placeholder="Cross-references serve the main passage — they confirm its meaning, expand its scope, or show its canonical weight." oninput="updateData()"></textarea>
+          </div>
+          <div class="sub-field">
+            <label class="pt-xref-locus-label">Theological Locus This Point Addresses</label>
+            <input type="text" class="pt-xref-locus" placeholder="e.g. pneumatology, intercession, eschatological hope" oninput="updateData()">
+          </div>
+        </div>
+      </div>
+
+      <!-- APPLICATION sub-section -->
+      <div class="struct-item" style="margin-bottom:0.75rem;border-color:var(--gold)">
+        <div class="struct-header" onclick="toggleStruct(this)" style="background:#fdf8ec">
+          <div class="struct-num" style="color:var(--gold);background:#fdf0cc;border-color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.65rem;min-width:28px;width:28px;height:28px;display:flex;align-items:center;justify-content:center">Ap</div>
+          <div class="struct-label">
+            <div class="struct-name" style="color:var(--gold)">Application</div>
+            <div class="struct-hint">FCF-grounded response</div>
+          </div>
+          <div class="struct-toggle" style="color:var(--gold)">▼</div>
+        </div>
+        <div class="struct-body">
+          <div class="sub-field">
+            <label class="pt-apply-fcf-label">How This Point Addresses the Fallen Condition</label>
+            <textarea class="pt-apply-fcf" placeholder="How does this text division expose or redress the FCF? Frame as a response to what God has done." oninput="updateData()"></textarea>
+          </div>
+          <div class="sub-field">
+            <label class="pt-apply-label">Specific Application for This Congregation</label>
+            <textarea class="pt-apply tall" placeholder="Concrete, specific, non-moralistic application. Ground every imperative in the indicative of the text." oninput="updateData()"></textarea>
+          </div>
+          <div class="sub-field">
+            <label class="pt-apply-kfd-label">Know · Feel · Do <span class="info-chip">Aim</span></label>
+            <input type="text" class="pt-apply-kfd" placeholder="e.g. Know: the Spirit is praying for you. Feel: relief. Do: pray with confidence." oninput="updateData()">
+          </div>
+          <div class="sub-field">
+            <label class="pt-dox-label">Doxological Bridge — Peckham's Relational Move</label>
+            <input type="text" class="pt-dox" placeholder="How does this point draw hearers toward wonder and worship rather than mere duty?" oninput="updateData()">
+          </div>
+        </div>
+      </div>
+
+      <!-- ILLUSTRATION sub-section -->
+      <div class="struct-item" style="margin-bottom:1rem;border-color:#7a5c9e">
+        <div class="struct-header" onclick="toggleStruct(this)" style="background:#f8f4fd">
+          <div class="struct-num" style="color:#7a5c9e;background:#ede4f8;border-color:#7a5c9e;font-family:'JetBrains Mono',monospace;font-size:0.65rem;min-width:28px;width:28px;height:28px;display:flex;align-items:center;justify-content:center">Il</div>
+          <div class="struct-label">
+            <div class="struct-name" style="color:#7a5c9e">Illustration</div>
+            <div class="struct-hint">Making the invisible visible</div>
+          </div>
+          <div class="struct-toggle" style="color:#7a5c9e">▼</div>
+        </div>
+        <div class="struct-body">
+          <div class="sub-field">
+            <label class="pt-illus-type-label">Illustration Type</label>
+            <select class="pt-illus-type" onchange="updateData()">
+              <option value="">— choose —</option>
+              <option>Personal story / pastoral anecdote</option>
+              <option>Historical incident</option>
+              <option>Literary / cultural reference</option>
+              <option>Scientific or natural phenomenon</option>
+              <option>Analogy or extended metaphor</option>
+              <option>Contemporary news or event</option>
+              <option>Biographical sketch</option>
+              <option>Imaginative / hypothetical scenario</option>
+            </select>
+          </div>
+          <div class="sub-field">
+            <label class="pt-illus-label">The Illustration</label>
+            <textarea class="pt-illus tall" placeholder="Tell the story or sketch the image fully enough to preach. It should make people say: 'now I see what that means.'" oninput="updateData()"></textarea>
+          </div>
+          <div class="sub-field">
+            <label class="pt-illus-hinge-label">The Hinge — How the Illustration Connects to the Text</label>
+            <textarea class="pt-illus-hinge" placeholder="State explicitly how this illustration illuminates the text's claim." oninput="updateData()"></textarea>
+          </div>
+          <div class="sub-field">
+            <label class="pt-illus-source-label">Source / Attribution</label>
+            <input type="text" class="pt-illus-source" placeholder="e.g. C.S. Lewis, The Problem of Pain, ch. 3" oninput="updateData()">
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end struct-body for point -->
+  </div><!-- end point struct-item -->
+</template>
+
+<script src="js/index.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>
