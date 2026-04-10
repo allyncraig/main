@@ -18,6 +18,10 @@ Currently in progress. This app will have Standard, Scientific, Graphing, Conver
 
 Download [Android APK](downloads/Calculator.apk) - direct install if accessing from an Android device. Current Version: 0.1.9
 
+### PWA
+
+Run as [PWA for iOS devices](pwa/Calculator/).
+
 ---
 
 ## Features
