@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="icon" href="/favicon.ico" sizes="any">
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<meta name="apple-mobile-web-app-title" content="My App">
+	<meta name="theme-color" content="#3367D6">
+  <title>Biblical · Christ-Centered · Worshipful Sermon Preparation Tool</title>
+  <style>
+    :root{--bg:#0b1e3a;--panel:#12294d;--panel2:#173765;--ink:#eef4ff;--muted:#c9d6f0;--gold:#f0c05a;--green:#3fb27f;--red:#d95b66;--blue:#4f8ee8;--shadow:0 10px 30px rgba(0,0,0,.22);--radius:18px}
+    *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:linear-gradient(180deg,#071428,#10254a 35%,#0d1f3d 100%);color:var(--ink)}
+    .wrap{max-width:1400px;margin:0 auto;padding:24px} h1,h2,h3{margin:.2rem 0 .6rem} h1{font-size:2rem} h2{font-size:1.25rem;color:var(--gold)} h3{font-size:1rem;color:#fff}
+    .sub{color:var(--muted);line-height:1.5}.hero,.panel,.card,.rule,.output textarea,.output pre{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .hero{padding:24px;margin-bottom:18px;background:linear-gradient(135deg,#132b53,#0a1a33)} .grid{display:grid;gap:16px}.g2{grid-template-columns:1.15fr .85fr}.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}
+    .panel{padding:18px}.card{padding:14px} label{display:block;font-weight:700;margin:10px 0 6px} input[type=text], textarea, select{width:100%;padding:12px 13px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(7,14,28,.5);color:#fff;font:inherit}
+    textarea{min-height:110px;resize:vertical}.small{min-height:78px}.tiny{min-height:58px}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px} button{border:none;border-radius:999px;padding:11px 16px;font-weight:700;cursor:pointer;background:var(--gold);color:#1e1b10;box-shadow:var(--shadow)}
+    button.alt{background:#dbe8ff;color:#0d2347} button.ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.14)} .stage-title{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .badge{display:inline-block;padding:5px 10px;border-radius:999px;font-size:.82rem;font-weight:800}.obs{background:#2459a9}.int{background:#a66d16}.cor{background:#1e7f52}.app{background:#a52a37}.rule-list{display:grid;gap:10px;margin-top:10px}
+    .rule{padding:12px 13px}.rule strong{color:#fff}.rule span{color:var(--muted)}.muted{color:var(--muted)}.builder{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.full{grid-column:1/-1}.output textarea,.output pre{width:100%;padding:14px;white-space:pre-wrap;line-height:1.45}
+    .tabs{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 10px;position:relative;z-index:5}.tab{appearance:none;-webkit-appearance:none;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.08);cursor:pointer;font-weight:700;color:#fff;border:1px solid rgba(255,255,255,.14);pointer-events:auto}.tab.active{background:var(--gold);color:#1b170d;border-color:transparent}.tabpane{display:none}.tabpane.active{display:block}
+    .mini{font-size:.92rem}.footer-note{margin-top:14px;color:#cfd9ee;font-size:.92rem}.pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.pill{background:rgba(255,255,255,.08);padding:7px 10px;border-radius:999px;font-size:.9rem}
+    .checkline{display:flex;align-items:center;gap:10px;margin:8px 0;color:#eef4ff}.checkline input{transform:scale(1.15)}.kicker{letter-spacing:.12em;text-transform:uppercase;color:#9fc0ff;font-weight:800;font-size:.8rem}.copyhint{font-size:.85rem;color:#b9cae8;margin-top:6px}
+    .diagram-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:14px}.diagram-box{font-family:Consolas,'Courier New',monospace;min-height:280px}.diagram-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.hint-list{margin:8px 0 0 0;padding-left:18px;color:var(--muted);line-height:1.45}
+    .indent-note{font-size:.9rem;color:#d7e3fb;margin-top:8px;line-height:1.45}.suggest-box{margin-top:10px;padding:12px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:var(--muted);line-height:1.45}.suggest-box strong{color:#fff}.inline-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+
+    /* ── Fixed Toolbar ── */
+    #appToolbar{position:fixed;top:0;left:0;right:0;z-index:1000;height:58px;background:rgba(7,14,28,.96);border-bottom:1px solid rgba(255,255,255,.1);backdrop-filter:blur(10px);display:flex;align-items:center;gap:10px;padding:0 14px;box-shadow:0 2px 16px rgba(0,0,0,.4)}
+    #toolbarBackBtn{flex-shrink:0;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#fff;border-radius:999px;padding:8px 14px;font-weight:700;cursor:pointer;font-size:.9rem;white-space:nowrap}
+    #toolbarBackBtn:active{background:rgba(255,255,255,.2)}
+    #toolbarSermonName{flex:1;min-width:0;padding:8px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.07);color:#fff;font:inherit;font-size:.95rem;font-weight:600}
+    #toolbarSermonName:focus{outline:none;border-color:var(--gold)}
+    #toolbarSermonName::placeholder{color:#6a88b8;font-weight:400}
+    #toolbarSaveBtn{flex-shrink:0;background:var(--gold);color:#1e1b10;border:none;border-radius:999px;padding:8px 16px;font-weight:800;cursor:pointer;font-size:.9rem;white-space:nowrap}
+    #toolbarSaveBtn:active{opacity:.85}
+    body{padding-top:58px}
+
+    /* ── Sermon List Screen ── */
+    #sermonListScreen{position:fixed;inset:0;z-index:9999;background:linear-gradient(180deg,#071428,#10254a 40%,#0d1f3d 100%);display:flex;flex-direction:column;overflow:hidden}
+    #sermonListScreen.hidden{display:none}
+    .sl-header{padding:24px 20px 16px;flex-shrink:0}
+    .sl-header .kicker{color:#9fc0ff;margin-bottom:8px}
+    .sl-header h1{font-size:1.6rem;font-weight:800;margin:0 0 4px;color:#eef4ff}
+    .sl-header .sub{font-size:.9rem;color:#c9d6f0;margin:0}
+    .sl-list{flex:1;overflow-y:auto;padding:8px 16px 100px}
+    .sl-empty{text-align:center;padding:60px 20px;color:#7a94be}
+    .sl-empty .sl-empty-icon{font-size:3rem;margin-bottom:14px}
+    .sl-empty p{font-size:.95rem;line-height:1.6}
+    .sl-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:16px 18px;margin-bottom:12px;cursor:pointer;transition:background .15s,border-color .15s;user-select:none;-webkit-user-select:none}
+    .sl-card:active{background:rgba(255,255,255,.11)}
+    .sl-card-name{font-size:1.05rem;font-weight:700;color:#eef4ff;margin-bottom:4px}
+    .sl-card-passage{font-size:.88rem;color:var(--gold);margin-bottom:6px}
+    .sl-card-date{font-size:.78rem;color:#7a94be}
+    /* ── FAB ── */
+    #fabBtn{position:fixed;bottom:28px;right:22px;z-index:10000;width:58px;height:58px;border-radius:50%;background:var(--gold);color:#1e1b10;border:none;font-size:1.8rem;font-weight:700;cursor:pointer;box-shadow:0 6px 24px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;line-height:1}
+    #fabBtn:active{opacity:.85;transform:scale(.96)}
+
+    /* ── New Sermon Dialog ── */
+    #newSermonDialog{position:fixed;inset:0;z-index:10001;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;padding:20px}
+    #newSermonDialog.hidden{display:none}
+    .ns-card{background:#0f2040;border:1px solid rgba(255,255,255,.18);border-radius:22px;box-shadow:0 24px 60px rgba(0,0,0,.6);padding:32px 28px;max-width:500px;width:100%}
+    .ns-card h2{font-size:1.25rem;font-weight:800;color:#eef4ff;margin:0 0 6px}
+    .ns-card .sub{font-size:.88rem;color:#c9d6f0;margin:0 0 20px;line-height:1.5}
+    .ns-label{display:block;font-weight:700;font-size:.85rem;color:#9fc0ff;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+    .ns-input{width:100%;padding:13px 16px;border-radius:12px;border:1.5px solid rgba(255,255,255,.18);background:rgba(7,14,28,.7);color:#fff;font:inherit;font-size:1rem;outline:none;transition:border-color .2s;margin-bottom:18px}
+    .ns-input:focus{border-color:var(--gold)}
+    .ns-input::placeholder{color:#6a88b8}
+    .ns-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+    .ns-chip{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:999px;padding:6px 14px;font-size:.82rem;color:#c9d6f0;cursor:pointer;transition:background .15s}
+    .ns-chip:active,.ns-chip.selected{background:var(--gold);color:#1a1a2e;border-color:transparent}
+    .ns-actions{display:flex;gap:10px}
+    .ns-btn{flex:1;padding:13px;border-radius:12px;border:none;font-weight:800;font-size:.95rem;cursor:pointer;font-family:inherit}
+    .ns-btn.primary{background:var(--gold);color:#1e1b10}
+    .ns-btn.cancel{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.14)}
+
+    /* ── Context Menu ── */
+    #ctxMenu{position:fixed;z-index:10002;background:#0f2040;border:1px solid rgba(255,255,255,.2);border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.5);min-width:170px;overflow:hidden}
+    #ctxMenu.hidden{display:none}
+    .ctx-item{padding:14px 18px;font-size:.95rem;font-weight:600;cursor:pointer;color:#eef4ff;border-bottom:1px solid rgba(255,255,255,.08)}
+    .ctx-item:last-child{border-bottom:none}
+    .ctx-item:active{background:rgba(255,255,255,.1)}
+    .ctx-item.danger{color:var(--red)}
+
+    @media (max-width:1050px){.g2,.g4,.g3,.builder,.diagram-wrap,.diagram-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="manifest" href="manifest.json">
+
+<!-- ── Fixed Toolbar ── -->
+<div id="appToolbar">
+  <button id="toolbarBackBtn">&#8592; Sermons</button>
+  <input id="toolbarSermonName" type="text" placeholder="Sermon name…" autocomplete="off" spellcheck="false" />
+  <button id="toolbarSaveBtn">Save</button>
+</div>
+
+<!-- ── Sermon List Screen ── -->
+<div id="sermonListScreen">
+  <div class="sl-header">
+    <div class="kicker">Sermon Preparation Tool</div>
+    <h1>Biblical · Christ-Centered · Worshipful</h1>
+    <p class="sub">Tap a sermon to continue working, or tap ＋ to start a new one.</p>
+  </div>
+  <div class="sl-list" id="slList">
+    <div class="sl-empty" id="slEmpty">
+      <div class="sl-empty-icon">📖</div>
+      <p>No sermons yet.<br>Tap the ＋ button to prepare your first sermon.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── FAB ── -->
+<button id="fabBtn" title="New Sermon">＋</button>
+
+<!-- ── New Sermon Dialog ── -->
+<div id="newSermonDialog" class="hidden">
+  <div class="ns-card">
+    <h2>New Sermon</h2>
+    <p class="sub">Give your sermon a name, then choose a sample passage to pre-fill the tool.</p>
+    <label class="ns-label" for="nsName">Sermon Name</label>
+    <input class="ns-input" id="nsName" type="text" placeholder="e.g. Holes in the Roof" autocomplete="off" />
+    <label class="ns-label">Sample Passage (pre-fills fields)</label>
+    <div class="ns-chips" id="nsChips">
+      <span class="ns-chip selected" data-ref="Mark 2:1–12">Mark 2:1–12</span>
+      <span class="ns-chip" data-ref="John 3:1–21">John 3:1–21</span>
+      <span class="ns-chip" data-ref="Romans 8:1–17">Romans 8:1–17</span>
+      <span class="ns-chip" data-ref="Psalm 23">Psalm 23</span>
+      <span class="ns-chip" data-ref="Luke 15:11–32">Luke 15:11–32</span>
+      <span class="ns-chip" data-ref="Isaiah 53:1–12">Isaiah 53:1–12</span>
+    </div>
+    <div class="ns-actions">
+      <button class="ns-btn cancel" id="nsCancelBtn">Cancel</button>
+      <button class="ns-btn primary" id="nsCreateBtn">Create Sermon →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Context Menu ── -->
+<div id="ctxMenu" class="hidden">
+  <div class="ctx-item" id="ctxOpen">Open</div>
+  <div class="ctx-item danger" id="ctxDelete">Delete</div>
+</div>
+
+<div class="wrap">
+  <section class="hero">
+    <div class="kicker">Interactive sermon-preparation tool</div>
+    <h1>Biblical + Christ-Centered + Worshipful Exposition Builder</h1>
+    <div class="sub">Prepare a sermon by moving from <strong>Observation</strong> to <strong>Interpretation</strong> to <strong>Correlation</strong> to <strong>Application</strong>, while integrating the 10 hermeneutical rules, Perry’s <strong>biblical</strong>-exegetical structure, Chappell’s <strong>Christ-centered</strong> and FCF emphasis, and Peckham’s <strong>worshipful</strong>-relational focus. Original-language help uses <strong>transliteration in plain language</strong> rather than technical jargon.</div>
+    <div class="pill-row"><div class="pill">Observation: Rules 6, 8, 9, 10</div><div class="pill">Interpretation: Rules 5, 7</div><div class="pill">Correlation: Rules 2, 3, 4</div><div class="pill">Application: Rule 1</div></div>
+
+    <!-- Hidden fields used by loadSample() and buildDraft() -->
+    <div style="margin-top:16px;display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
+      <div style="flex:1;min-width:180px">
+        <label for="passage" style="font-size:.8rem;font-weight:700;color:#9fc0ff;letter-spacing:.07em;text-transform:uppercase;margin-bottom:5px;display:block">Passage / Pericope</label>
+        <input type="text" id="passage" placeholder="e.g. Mark 2:1–12" style="margin:0" />
+      </div>
+    </div>
+    <input type="hidden" id="bigIdea" />
+    <input type="hidden" id="subject" /><input type="hidden" id="theme" />
+    <input type="hidden" id="proposition" /><input type="hidden" id="interrogative" />
+    <input type="hidden" id="keyword" /><input type="hidden" id="transition" />
+    <input type="hidden" id="originalTerm" />
+
+    <!-- Initial Sermon Prompt -->
+    <div style="margin-top:18px;background:rgba(240,192,90,.08);border:1px solid rgba(240,192,90,.28);border-radius:14px;padding:18px 20px;">
+      <div class="kicker" style="color:var(--gold);margin-bottom:6px">&#9654; Initial Sermon Prompt &#8212; Mark 2:1&#8211;12</div>
+      <div style="color:#eef4ff;line-height:1.65;font-size:.97rem;">
+        <strong style="color:var(--gold)">Pericope:</strong> Mark 2:1&#8211;12 &#8212; The Healing of the Paralytic (ESV)<br><br>
+        <strong style="color:var(--gold)">Central Question:</strong> What does this scene reveal about who Jesus is and what He came to do &#8212; and how does that truth address the paralysis of guilt and unbelief that every hearer carries?<br><br>
+        <strong style="color:var(--gold)">Preaching Aim:</strong> Preach Christ as the Son of Man with full authority on earth to forgive sins and restore the whole person &#8212; body and soul &#8212; so that the congregation moves from paralysis to faith, from guilt to forgiveness, and from self-sufficiency to worship.<br><br>
+        <strong style="color:var(--gold)">Key Tensions to Hold:</strong>
+        <ul style="margin:8px 0 0 0;padding-left:20px;color:#c9d6f0;line-height:1.7">
+          <li>The crowd seeks access to Jesus &#8212; the scribes resist His authority. Which group does the congregation more resemble?</li>
+          <li>Jesus addresses the soul before the body. Why does the order matter &#8212; and what does it expose about what we seek from Him?</li>
+          <li>The four friends&#8217; faith is active, persistent, and costly. What does that model for how the church brings the broken to Christ?</li>
+          <li>The scribes are theologically correct (only God forgives sins) but spiritually blind. How does correct doctrine miss the moment when Christ is standing in the room?</li>
+        </ul><br>
+        <strong style="color:var(--gold)">Redemptive-Historical Anchor:</strong> Jesus fulfills the Daniel 7:13&#8211;14 &#8220;Son of Man&#8221; who receives dominion and authority from the Ancient of Days. His word of forgiveness is grounded in His cross (Col 2:13&#8211;14). He is the great Physician who heals what sin has broken at the root.<br><br>
+        <strong style="color:var(--gold)">Worshipful Goal:</strong> The sermon should end not in moral resolution but in doxology &#8212; &#8220;We never saw anything like this!&#8221; (v. 12). The congregation should leave with a fresh, astonished, grateful sense of the authority and tenderness of Jesus.
+      </div>
+    </div>
+  </section>
+
+  <div class="tabs" role="tablist" aria-label="Tool sections">
+    <button type="button" class="tab active" data-tab="textual" aria-controls="textual" aria-selected="true">Textual Analysis</button>
+    <button type="button" class="tab" data-tab="diagramming" aria-controls="diagramming" aria-selected="false">Structural Diagramming</button>
+    <button type="button" class="tab" data-tab="ibs" aria-controls="ibs" aria-selected="false">Inductive Bible Study</button>
+    <button type="button" class="tab" data-tab="perry" aria-controls="perry" aria-selected="false">Biblical Builder</button>
+    <button type="button" class="tab" data-tab="chappell" aria-controls="chappell" aria-selected="false">Christ-Centered Builder</button>
+    <button type="button" class="tab" data-tab="peckham" aria-controls="peckham" aria-selected="false">Worshipful Builder</button>
+    <button type="button" class="tab" data-tab="manuscript" aria-controls="manuscript" aria-selected="false">Draft Output</button>
+  </div>
+
+  <section id="ibs" class="tabpane">
+    <div class="grid g4">
+      <div class="panel"><div class="stage-title"><h2>Observation</h2><span class="badge obs">Rules 6, 8, 9, 10</span></div><div class="sub mini">What does the text say?</div><div class="rule-list"><div class="rule"><strong>6. Contextually</strong><br><span>Study the passage in its immediate setting. What comes before and after? What is the flow of thought?</span></div><div class="rule"><strong>8. Grammatically</strong><br><span>Notice key words, repeated terms, commands, contrasts, and cause-and-effect statements.</span></div><div class="rule"><strong>9. Literally</strong><br><span>Take words as they are intended. If the text uses a picture or figure of speech, explain the picture simply.</span></div><div class="rule"><strong>10. Literarily</strong><br><span>Identify genre: narrative, poetry, prophecy, gospel, epistle, proverb, apocalyptic, or parable.</span></div></div><label for="obsBox">Observation Notes</label><textarea id="obsBox" placeholder="Repeated words, contrasts, structure, setting in the chapter, speaker, audience, commands, questions, images, and genre notes."></textarea></div>
+      <div class="panel"><div class="stage-title"><h2>Interpretation</h2><span class="badge int">Rules 5, 7</span></div><div class="sub mini">What does the text mean?</div><div class="rule-list"><div class="rule"><strong>5. Objectively</strong><br><span>Ask what the author meant, not what we merely prefer the verse to mean.</span></div><div class="rule"><strong>7. Historically</strong><br><span>Bring in setting, customs, geography, covenant moment, and people involved.</span></div></div><label for="intBox">Interpretation Notes</label><textarea id="intBox" placeholder="Author’s purpose, meaning in that setting, historical background, and the central thrust of the passage."></textarea></div>
+      <div class="panel"><div class="stage-title"><h2>Correlation</h2><span class="badge cor">Rules 2, 3, 4</span></div><div class="sub mini">What does Scripture say elsewhere?</div><div class="rule-list"><div class="rule"><strong>2. Progressively</strong><br><span>Trace how this truth unfolds across the Bible.</span></div><div class="rule"><strong>3. Harmoniously</strong><br><span>Compare Scripture with Scripture so texts support rather than compete with each other.</span></div><div class="rule"><strong>4. Evangelically</strong><br><span>Show how the text points to Christ, the gospel, and God’s saving purpose.</span></div></div><label for="corBox">Correlation Notes</label><textarea id="corBox" placeholder="Cross-references, redemptive-historical placement, Christ connection, and gospel fulfillment."></textarea></div>
+      <div class="panel"><div class="stage-title"><h2>Application</h2><span class="badge app">Rule 1</span></div><div class="sub mini">How should I respond?</div><div class="rule-list"><div class="rule"><strong>1. Reverently</strong><br><span>Move from truth to worship, repentance, obedience, trust, love, and hope.</span></div></div><label for="appBox">Application Notes</label><textarea id="appBox" placeholder="Heart-level response, repentance, faith, worship, relationships, habits, mission, and congregational calls to obey."></textarea></div>
+    </div>
+  </section>
+
+  <section id="perry" class="tabpane">
+    <div class="grid g2">
+      <div class="panel">
+        <h2>Biblical Prompts</h2>
+        <div class="kicker" style="margin-bottom:8px;color:#9fc0ff">Perry's Six Elements</div>
+
+        <label for="p_subject">Subject</label>
+        <input id="p_subject" type="text" placeholder="The one-word or short-phrase topic of the sermon (e.g. Devotion)" />
+        <div class="suggest-box" style="margin-top:4px;margin-bottom:10px;padding:8px 12px;font-size:.87rem"><strong>Subject:</strong> the single topic the entire sermon is about — narrow enough to cover in one message.</div>
+
+        <label for="p_theme">Theme</label>
+        <input id="p_theme" type="text" placeholder="Subject + modifier — what you say about the subject (e.g. Christ-centered devotion)" />
+        <div class="suggest-box" style="margin-top:4px;margin-bottom:10px;padding:8px 12px;font-size:.87rem"><strong>Theme:</strong> adds a modifier to the subject. It shapes but does not yet assert — save the full claim for the proposition.</div>
+
+        <label for="p_proposition">Proposition</label>
+        <textarea id="p_proposition" class="tiny" placeholder="One full declarative sentence stating what the sermon proves (e.g. Christ-centered devotion reorders the believer's life around the presence and word of Jesus.)"></textarea>
+        <div class="suggest-box" style="margin-top:4px;margin-bottom:10px;padding:8px 12px;font-size:.87rem"><strong>Proposition:</strong> a complete, present-tense, declarative sentence. Every main point must prove or develop it.</div>
+
+        <div class="builder" style="margin-top:4px">
+          <div>
+            <label for="p_interrogative">Interrogative Adverb</label>
+            <select id="p_interrogative">
+              <option value="">— choose —</option>
+              <option>How</option>
+              <option>Why</option>
+              <option>Where</option>
+              <option>When</option>
+              <option>What</option>
+              <option>Who</option>
+            </select>
+            <div class="suggest-box" style="margin-top:4px;padding:8px 12px;font-size:.87rem"><strong>Interrogative:</strong> the question the proposition raises (e.g. How does Christ-centered devotion reorder life?). The answer supplies the main points.</div>
+          </div>
+          <div>
+            <label for="p_keyword">Keyword</label>
+            <input id="p_keyword" type="text" placeholder="Plural noun naming the points (e.g. responses, marks, reasons)" />
+            <div class="suggest-box" style="margin-top:4px;padding:8px 12px;font-size:.87rem"><strong>Keyword:</strong> a plural noun that categorizes all main points together (e.g. "three <em>responses</em> that show…").</div>
+          </div>
+        </div>
+
+        <label for="p_transition" style="margin-top:12px">Propositional Transition</label>
+        <textarea id="p_transition" class="tiny" placeholder="The sentence that bridges proposition to main points, using the keyword (e.g. The text reveals three responses that show what Christ-centered devotion looks like.)"></textarea>
+        <div class="suggest-box" style="margin-top:4px;margin-bottom:14px;padding:8px 12px;font-size:.87rem"><strong>Transition:</strong> spoken aloud just before Point 1. Format: "There are [number] [keyword] that [interrogative adverb] [proposition]."</div>
+
+        <div class="kicker" style="margin:14px 0 8px;color:#9fc0ff">Self-Check</div>
+        <div class="checkline"><input type="checkbox" id="c1"><span>Is the proposition a full sentence with one clear subject and predicate?</span></div>
+        <div class="checkline"><input type="checkbox" id="c2"><span>Does the interrogative fit the proposition naturally?</span></div>
+        <div class="checkline"><input type="checkbox" id="c3"><span>Does the keyword gather the main points into one category?</span></div>
+        <div class="checkline"><input type="checkbox" id="c4"><span>Do the points rise from the passage rather than from imagination?</span></div>
+        <div class="checkline"><input type="checkbox" id="c5"><span>Can each point be explained, illustrated, and applied?</span></div>
+      </div>
+      <div class="panel">
+        <h2>Biblical: Exegetical Structure</h2>
+        <label for="mp1">Main Point 1</label><input id="mp1" type="text" placeholder="Alliterated movement 1" />
+        <label for="mp2">Main Point 2</label><input id="mp2" type="text" placeholder="Alliterated movement 2" />
+        <label for="mp3">Main Point 3</label><input id="mp3" type="text" placeholder="Alliterated movement 3" />
+        <label for="ptExplain">Exegetical Support in Plain Language</label><textarea id="ptExplain" placeholder="Explain each point from the text with simple wording, not classroom jargon."></textarea>
+        <div class="builder" style="margin-top:12px">
+          <div><label for="exegesis1">Point 1 Exegesis</label><textarea id="exegesis1" class="tiny"></textarea></div><div><label for="cross1">Point 1 Cross-Reference Validation</label><textarea id="cross1" class="tiny"></textarea></div><div><label for="application1">Point 1 Application</label><textarea id="application1" class="tiny"></textarea></div><div><label for="illustration1">Point 1 Illustration</label><textarea id="illustration1" class="tiny"></textarea></div><div class="full"><label for="worship1">Point 1 Call to Worship</label><textarea id="worship1" class="tiny"></textarea></div>
+          <div><label for="exegesis2">Point 2 Exegesis</label><textarea id="exegesis2" class="tiny"></textarea></div><div><label for="cross2">Point 2 Cross-Reference Validation</label><textarea id="cross2" class="tiny"></textarea></div><div><label for="application2">Point 2 Application</label><textarea id="application2" class="tiny"></textarea></div><div><label for="illustration2">Point 2 Illustration</label><textarea id="illustration2" class="tiny"></textarea></div><div class="full"><label for="worship2">Point 2 Call to Worship</label><textarea id="worship2" class="tiny"></textarea></div>
+          <div><label for="exegesis3">Point 3 Exegesis</label><textarea id="exegesis3" class="tiny"></textarea></div><div><label for="cross3">Point 3 Cross-Reference Validation</label><textarea id="cross3" class="tiny"></textarea></div><div><label for="application3">Point 3 Application</label><textarea id="application3" class="tiny"></textarea></div><div><label for="illustration3">Point 3 Illustration</label><textarea id="illustration3" class="tiny"></textarea></div><div class="full"><label for="worship3">Point 3 Call to Worship</label><textarea id="worship3" class="tiny"></textarea></div>
+        </div>
+        <div class="actions"><button id="alliterateBtn">Suggest 3 Alliterated Points</button><button class="alt" id="alliterateFromPassageBtn">Auto-Generate from Passage</button></div>
+        <div class="suggest-box" id="allitExplain"><strong>Alliteration helper:</strong> choose a repeated sound and let the points stay faithful to the passage, not just clever in wording.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="chappell" class="tabpane"><div class="grid g2"><div class="panel"><h2>Christ-Centered: Evangelical Focus</h2><label for="fcf">Fallen Condition Focus (FCF)</label><textarea id="fcf" class="small" placeholder="What human fallenness is being addressed by the passage that Christ redeems?"></textarea><label for="christCenter">Christ Connection</label><textarea id="christCenter" class="small" placeholder="How does this passage lead to Christ’s person, work, mediation, kingdom, cross, resurrection, or ongoing ministry?"></textarea><label for="gospelCall">Gospel Movement</label><textarea id="gospelCall" class="small" placeholder="How does the text move from human need to divine grace in Christ?"></textarea><div class="inline-actions"><button id="fcfDetectBtn">Auto-Detect FCF</button><button class="alt" id="christMoveBtn">Suggest Christ/Gospel Movement</button></div><div class="suggest-box" id="fcfExplain"><strong>FCF helper:</strong> the tool will look for anxiety, fear, pride, unbelief, distraction, suffering, guilt, and other common fallen-condition patterns in your notes.</div></div><div class="panel"><h2>Christ-Centered Prompts</h2><div class="checkline"><input type="checkbox" id="cc1"><span>Have you named the struggle beneath the behavior?</span></div><div class="checkline"><input type="checkbox" id="cc2"><span>Have you shown why the listener needs grace, not just effort?</span></div><div class="checkline"><input type="checkbox" id="cc3"><span>Have you connected the passage to Christ without forcing Him into the text?</span></div><div class="checkline"><input type="checkbox" id="cc4"><span>Does the sermon sound like good news and not bare moralism?</span></div></div></div></section>
+
+  <section id="peckham" class="tabpane"><div class="grid g2"><div class="panel"><h2>Worshipful: Relational Focus</h2><label for="godRevealed">What Does This Text Reveal About God’s Character?</label><textarea id="godRevealed" class="small"></textarea><label for="relResponse">How Does This Truth Invite Relational Response?</label><textarea id="relResponse" class="small"></textarea><label for="doxology">Doxological Turn</label><textarea id="doxology" class="small"></textarea></div><div class="panel"><h2>Worshipful Prompts</h2><div class="checkline"><input type="checkbox" id="pk1"><span>Have you shown not only what God does, but what God is like?</span></div><div class="checkline"><input type="checkbox" id="pk2"><span>Does the sermon invite communion with God, not only information about God?</span></div><div class="checkline"><input type="checkbox" id="pk3"><span>Is worship a fitting response to the truth you explained?</span></div></div></div></section>
+
+  <section id="textual" class="tabpane active">
+    <div class="panel">
+      <h2>Textual Analysis Tool</h2>
+      <div class="sub">Work through the passage with the <strong>Decalogue of Hermeneutics</strong> and then turn those observations into a <strong>structural diagram</strong>. This keeps textual analysis close to sermon development instead of treating it as a separate classroom exercise.</div>
+      <div class="grid g2" style="margin-top:14px">
+        <div class="panel">
+          <h3>Textual Analysis Inputs</h3>
+          <label for="taPassage">Passage / Pericope</label><input id="taPassage" type="text" placeholder="e.g. Luke 10:38–42" />
+          <label for="taStructure">Structural Flow of the Passage</label><textarea id="taStructure" class="small" placeholder="Main line of thought, scenes, movements, commands, questions, or shifts."></textarea>
+          <label for="taKeyTerms">Repeated Words, Key Terms, and Connectors</label><textarea id="taKeyTerms" class="small" placeholder="Repeated words, contrasts, causes, results, time markers, and emphasis words."></textarea>
+          <label for="taGrammar">Grammar and Clause Notes</label><textarea id="taGrammar" class="small" placeholder="Important verbs, subjects, objects, commands, comparisons, reasons, and results in plain language."></textarea>
+          <label for="taContext">Immediate and Broader Context</label><textarea id="taContext" class="small" placeholder="What comes before and after? Where does the paragraph sit in the book?"></textarea>
+          <label for="taHistory">Historical and Cultural Setting</label><textarea id="taHistory" class="small" placeholder="People, place, custom, covenant setting, geography, and background that clarify the text."></textarea>
+          <label for="taGenre">Genre and Literary Shape</label><textarea id="taGenre" class="tiny" placeholder="Narrative, poetry, gospel, prophecy, epistle, proverb, parable, apocalyptic, etc."></textarea>
+        </div>
+        <div class="panel">
+          <h3>Decalogue of Hermeneutics</h3>
+          <div class="rule-list" style="gap:6px">
+            <div class="rule"><strong>1. Reverently</strong> <span style="font-size:.8rem;color:#9fc0ff">(Application)</span><br><textarea id="dec1" class="tiny" style="margin-top:6px">The passage demands that hearers resist the temptation to approach Jesus only for physical or circumstantial relief while withholding the heart. The scribes’ silent resistance is a warning: correct theology can coexist with hardened unbelief. The crowd’s doxology (“We never saw anything like this”) is the fitting response — stunned worship that glorifies God for what only He could do. The sermon must move hearers to lay their moral paralysis before Jesus and receive His authority to forgive as the greatest gift ever spoken.</textarea></div>
+            <div class="rule"><strong>2. Progressively</strong> <span style="font-size:.8rem;color:#9fc0ff">(Correlation)</span><br><textarea id="dec2" class="tiny" style="margin-top:6px">The authority to forgive sins traces a clear redemptive line: God alone forgives in the Torah (Lev 4–5; Exod 34:6–7); the prophets proclaim His sovereign pardon (Isa 43:25; 44:22; Mic 7:18–19); Daniel 7:13–14 grants the Son of Man dominion and glory from the Ancient of Days; Jesus now stands in Capernaum and does what the entire Old Testament reserved for God alone. Mark 2 is the hinge where the promise becomes the Person.</textarea></div>
+            <div class="rule"><strong>3. Harmoniously</strong> <span style="font-size:.8rem;color:#9fc0ff">(Correlation)</span><br><textarea id="dec3" class="tiny" style="margin-top:6px">Parallel accounts: Matt 9:1–8; Luke 5:17–26. Confirming texts: Ps 103:3 (God forgives iniquity AND heals diseases — both in one act here); Col 2:13–14 (forgiveness grounded in the cross); Heb 10:11–14 (one sacrifice for sins forever); John 5:24 (hearing Jesus’ word and passing from death to life). Balancing tension: physical healing is not guaranteed in this age (2 Cor 12:7–9), but forgiveness through Christ is — the permanent healing points to the permanent pardon.</textarea></div>
+            <div class="rule"><strong>4. Evangelically</strong> <span style="font-size:.8rem;color:#9fc0ff">(Correlation)</span><br><textarea id="dec4" class="tiny" style="margin-top:6px">Every element points to Christ as Savior and Lord. The paralytic’s helplessness pictures every sinner who cannot rise by self-effort. The four friends model the church bringing people to Jesus. Jesus’ word of forgiveness is the gospel in miniature: undeserved, authoritative, complete. The healing confirms that His word does what it says. The cross is the ultimate ground of every forgiveness He speaks — He would bear the penalty that makes His declaration legally and morally just (Rom 3:25–26).</textarea></div>
+            <div class="rule"><strong>5. Objectively</strong> <span style="font-size:.8rem;color:#9fc0ff">(Interpretation)</span><br><textarea id="dec5" class="tiny" style="margin-top:6px">Mark’s purpose in this pericope is Christological: to demonstrate that Jesus of Nazareth possesses divine authority to forgive sins — an authority Second Temple Judaism attributed to God alone. The scribes’ charge of blasphemy is not irrational; it is only wrong because their premise (this man is merely human) is false. Mark expects his readers, armed with 1:1 (“the Son of God”), to see what the scribes cannot: the One standing before them is God incarnate, and His word of forgiveness is the word of the Creator-Redeemer.</textarea></div>
+            <div class="rule"><strong>6. Contextually</strong> <span style="font-size:.8rem;color:#9fc0ff">(Observation)</span><br><textarea id="dec6" class="tiny" style="margin-top:6px">Mark 1 establishes Jesus’ authority: over demons (1:27), disease (1:34), leprosy (1:41), and distance (1:45). Mark 2:1–12 opens five consecutive controversy stories (2:1–3:6) escalating in opposition — ending with the Pharisees and Herodians plotting to kill Jesus (3:6). This pericope is the opening salvo: Jesus’ authority to forgive sins is the precise point of conflict. The block shows that His most provocative claim is not miraculous power but divine prerogative over sin.</textarea></div>
+            <div class="rule"><strong>7. Historically</strong> <span style="font-size:.8rem;color:#9fc0ff">(Interpretation)</span><br><textarea id="dec7" class="tiny" style="margin-top:6px">Capernaum: a prosperous fishing town on the NW shore of the Sea of Galilee, Jesus’ operational base (Mark 1:21; 2:1). Palestinian homes: flat roofs of mud plaster, straw, and wooden beams — diggable, repairable, and not unusual to access from outside stairs. Scribes: professional interpreters of Torah, guardians of theological orthodoxy, seated in positions of authority. The illness–sin connection: widespread in 2nd Temple Judaism (cf. John 9:2), making Jesus’ forgiveness-first sequence theologically loaded. Son of Man: a messianic title drawn from Dan 7:13–14, freighted with eschatological authority.</textarea></div>
+            <div class="rule"><strong>8. Grammatically</strong> <span style="font-size:.8rem;color:#9fc0ff">(Observation)</span><br><textarea id="dec8" class="tiny" style="margin-top:6px">“Your sins are forgiven” (v.5): present passive — the sins are being released by divine action, not merely declared forgivable. “Son of Man” (v.10): Jesus’ self-designation invoking Dan 7; used here with “authority on earth” (exousia). “Rise, take up your bed, and walk” (v.11): triple imperative — command, proof, and new commission. “Immediately” (euthys): Mark’s signature word (41x); here it underscores the instant completeness of Jesus’ word. “Questioning in their hearts”: perfect participle — a settled, ongoing inner posture of resistance, contrasted with the active, embodied faith of the four friends.</textarea></div>
+            <div class="rule"><strong>9. Literally</strong> <span style="font-size:.8rem;color:#9fc0ff">(Observation)</span><br><textarea id="dec9" class="tiny" style="margin-top:6px">The passage is direct, vivid narrative prose with no allegory or extended metaphor. The roof-opening is a literal act, not a symbol — though it functions as a powerful picture of faith that refuses every obstacle. “Child” (teknon, v.5): a term of warm, intimate address — Jesus speaks to the man as a father to a son, not as a judge to a defendant. “Blasphemy” (v.7): in Jewish law, usurping divine prerogatives — the scribes use the word with legal precision. The mat the man carries home is a literal object that becomes a walking testimony: what once confined him now follows him.</textarea></div>
+            <div class="rule"><strong>10. Literarily</strong> <span style="font-size:.8rem;color:#9fc0ff">(Observation)</span><br><textarea id="dec10" class="tiny" style="margin-top:6px">Pronouncement narrative: a form common in the Synoptic Gospels in which a vivid scene builds toward a climactic authoritative saying of Jesus. The entire episode — the crowd, the roof, the paralytic, the scribes’ objection — exists to create the context for Jesus’ declaration in vv.10–11. Also functions as a controversy/conflict story (the first of five in 2:1–3:6), a sub-genre in which Jesus’ authority is challenged and vindicated. The genre signals: the healing is not the point — the forgiving word is. Preachers should not allow the miracle to overshadow the theological claim.</textarea></div>
+          </div>
+          <label for="taSynthesis">Textual Analysis Synthesis</label><textarea id="taSynthesis" placeholder="Summarize what the decalogue reveals about the passage's meaning, movement, and sermon direction."></textarea>
+          <div class="actions"><button id="taBuildBtn">Build Textual Analysis Summary</button><button class="alt" id="taSyncBtn">Send to IBS + Diagramming</button></div>
+          <div class="suggest-box" id="taExplain"><strong>Textual analysis helper:</strong> build a plain-language synthesis, then send it into the Inductive Bible Study notes and Structural Diagramming workspace.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="diagramming" class="tabpane">
+    <div class="panel">
+      <h2>Textual Structural Diagramming Tool</h2>
+      <div class="sub">Paste a passage with each clause or phrase on its own line, or paste a paragraph and let the tool break it into thought units. It will create a simple structural diagram in non-technical language, using indentation to show main ideas and supporting ideas.</div>
+      <div class="diagram-wrap" style="margin-top:14px">
+        <div>
+          <label for="diagramInput">Passage for Diagramming</label><textarea id="diagramInput" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="Paste a full passage here, or type one clause per line.
+
+Example:
+Mary sat at Jesus' feet
+and listened to His word.
+But Martha was distracted with much serving,
+and she approached Him..."></textarea>
+          <div class="diagram-grid"><div><label for="diagramStyle">Diagram Style</label><select id="diagramStyle"><option value="classic">Classic indented outline</option><option value="arrows">Indented outline with arrows</option></select></div><div><label for="diagramMode">Clause Splitting</label><select id="diagramMode"><option value="lines">Use my line breaks</option><option value="auto">Auto-split by punctuation and connectors</option></select></div></div>
+          <div class="diagram-grid"><div><label for="diagramSource">Auto-Generate Source</label><select id="diagramSource"><option value="diagramInput">Use diagram input box</option><option value="bigIdea">Use passage/work notes box</option></select></div><div><label>&nbsp;</label><div class="actions" style="margin-top:0"><button id="diagramBtn">Build Structural Diagram</button><button class="alt" id="autoDiagramBtn">Auto-Generate Diagram</button><button class="ghost" id="pasteDiagramBtn">Paste from Clipboard</button><button class="ghost" id="sampleDiagramBtn">Load Diagram Sample</button></div></div></div>
+          <div class="indent-note">Indentation logic: main actions stay farther left; supporting details move inward; contrast words like <strong>but</strong>, reason words like <strong>for/because</strong>, and purpose words like <strong>so that</strong> are tagged so you can see why lines were indented.</div>
+        </div>
+        <div><label for="diagramOut">Structural Diagram Output</label><textarea id="diagramOut" class="diagram-box"></textarea><label for="diagramNotes">Indentation Reasons</label><textarea id="diagramNotes" class="small"></textarea></div>
+      </div>
+      <ul class="hint-list"><li>Left margin usually marks the main line of thought.</li><li>Indented lines usually show explanation, description, reason, result, or contrast.</li><li>This tool is a sermon-prep helper, so you can adjust the output manually after generation.</li></ul>
+    </div>
+  </section>
+
+  <section id="manuscript" class="tabpane"><div class="panel"><h2>Generated Draft</h2>
+    <div style="margin-bottom:14px">
+      <label for="sermonTitle" style="font-weight:600;color:var(--gold)">&#9654; Sermon Title</label>
+      <input id="sermonTitle" type="text" placeholder="Enter a catchy, memorable sermon title…" style="margin-top:6px;font-size:1.1rem;font-weight:600;" />
+      <div style="margin-top:10px;background:rgba(255,255,255,.05);border:1px solid rgba(159,192,255,.2);border-radius:10px;padding:14px 16px;">
+        <div style="font-size:.82rem;font-weight:700;color:#9fc0ff;letter-spacing:.06em;margin-bottom:8px;">TITLE GUIDELINES</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;font-size:.88rem;color:#c9d6f0;line-height:1.55">
+          <div><span style="color:var(--gold)">&#10003;</span> <strong>2–5 words max</strong> — if it needs a comma, it’s too long</div>
+          <div><span style="color:var(--gold)">&#10003;</span> <strong>Concrete image or tension</strong> — put the listener in a scene, not a doctrine</div>
+          <div><span style="color:var(--gold)">&#10003;</span> <strong>Create a question</strong> — the best titles make the hearer ask “What does that mean?”</div>
+          <div><span style="color:var(--gold)">&#10003;</span> <strong>Avoid jargon</strong> — no theological terms a non-churchgoer wouldn’t know</div>
+          <div><span style="color:var(--gold)">&#10003;</span> <strong>Tension or paradox</strong> — e.g. “Holes in the Roof,” “The Friend Who Stays,” “Worth the Fall”</div>
+          <div><span style="color:var(--gold)">&#10003;</span> <strong>Speak to the felt need</strong> — the title should whisper the introduction’s question</div>
+          <div><span style="color:var(--gold)">&#10003;</span> <strong>Avoid alliteration in the title</strong> — save it for the points; titles need punch, not pattern</div>
+          <div><span style="color:var(--gold)">&#10003;</span> <strong>Test it out loud</strong> — say it to a friend; if they lean in, you’re done</div>
+        </div>
+        <div style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(159,192,255,.15);font-size:.85rem;color:#9fc0ff;">
+          <strong>Examples for Mark 2:1–12:</strong> <em>Holes in the Roof</em> &nbsp;·&nbsp; <em>Just Say the Word</em> &nbsp;·&nbsp; <em>The Mat You Carry</em> &nbsp;·&nbsp; <em>Who Can Forgive?</em> &nbsp;·&nbsp; <em>Four Friends and a Roof</em> &nbsp;·&nbsp; <em>Rise</em>
+        </div>
+      </div>
+    </div>
+    <div class="grid g2" style="margin-bottom:14px">
+      <div>
+        <label for="introBox" style="font-weight:600;color:var(--gold)">&#9654; Introduction &#8212; Humorous / Attention-Gaining / Need-Creating</label>
+        <textarea id="introBox" style="min-height:180px;margin-top:6px" placeholder="Write a humorous, attention-gaining introduction that surfaces the felt need this passage meets..."></textarea>
+        <div style="margin-top:10px;background:rgba(255,255,255,.05);border:1px solid rgba(159,192,255,.2);border-radius:10px;padding:14px 16px;">
+          <div style="font-size:.82rem;font-weight:700;color:#9fc0ff;letter-spacing:.06em;margin-bottom:8px;">INTRODUCTION GUIDELINES</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;font-size:.88rem;color:#c9d6f0;line-height:1.55">
+            <div><span style="color:var(--gold)">&#10003;</span> <strong>Hook immediately</strong> &#8212; open with a story, question, or scene, not a commentary on what you&#8217;re about to say</div>
+            <div><span style="color:var(--gold)">&#10003;</span> <strong>Surface the felt need</strong> &#8212; name the real-life struggle the text addresses before the passage is announced</div>
+            <div><span style="color:var(--gold)">&#10003;</span> <strong>Earn the right to preach</strong> &#8212; make the listener feel understood before asking them to listen</div>
+            <div><span style="color:var(--gold)">&#10003;</span> <strong>Move from life to text</strong> &#8212; start in the listener&#8217;s world, then invite them into the biblical world</div>
+            <div><span style="color:var(--gold)">&#10003;</span> <strong>Create tension or a question</strong> &#8212; the introduction should raise a problem the sermon body resolves</div>
+            <div><span style="color:var(--gold)">&#10003;</span> <strong>Keep it under 3 minutes</strong> &#8212; longer introductions drain energy before the text is even opened</div>
+            <div><span style="color:var(--gold)">&#10003;</span> <strong>Avoid throat-clearing</strong> &#8212; no &#8220;good morning,&#8221; no retelling the bulletin, no &#8220;turn in your Bibles to&#8230;&#8221; yet</div>
+            <div><span style="color:var(--gold)">&#10003;</span> <strong>End with the passage</strong> &#8212; land on the biblical text as the answer to the question you just raised</div>
+          </div>
+          <div style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(159,192,255,.15);font-size:.85rem;color:#9fc0ff;">
+            <strong>Structure:</strong> <em>Hook (story/image) &#8594; Felt-need question &#8594; Bridge to text &#8594; Read the passage</em>
+          </div>
+        </div>
+      </div>
+      <div>
+        <label for="conclusionBox" style="font-weight:600;color:var(--gold)">&#9654; Conclusion &#8212; Recap &amp; Powerful Appeal</label>
+        <textarea id="conclusionBox" style="min-height:180px;margin-top:6px" placeholder="Write a conclusion that recaps the main points and closes with a compelling gospel appeal..."></textarea>
+        <div style="margin-top:10px;background:rgba(255,255,255,.05);border:1px solid rgba(159,192,255,.2);border-radius:10px;padding:14px 16px;">
+          <div style="font-size:.82rem;font-weight:700;color:#9fc0ff;letter-spacing:.06em;margin-bottom:8px;">CONCLUSION GUIDELINES</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;font-size:.88rem;color:#c9d6f0;line-height:1.55">
+            <div><span style="color:var(--gold)">&#10003;</span> <strong>Recap all main points</strong> &#8212; briefly restate each movement so the sermon lands as a whole</div>
+            <div><span style="color:var(--gold)">&#10003;</span> <strong>End with Christ, not behavior</strong> &#8212; the final appeal is to trust and worship, not a to-do list</div>
+            <div><span style="color:var(--gold)">&#10003;</span> <strong>One clear call to action</strong> &#8212; name the single most important response the text demands</div>
+            <div><span style="color:var(--gold)">&#10003;</span> <strong>Return to the introduction&#8217;s image</strong> &#8212; closing the loop creates a satisfying, memorable ending</div>
+            <div><span style="color:var(--gold)">&#10003;</span> <strong>Aim for doxology</strong> &#8212; the best conclusions leave the congregation in awe of God, not applauding the preacher</div>
+            <div><span style="color:var(--gold)">&#10003;</span> <strong>Use the FCF</strong> &#8212; address the fallen condition one final time, then point to Christ as the only solution</div>
+            <div><span style="color:var(--gold)">&#10003;</span> <strong>No new content</strong> &#8212; the conclusion is not the place to introduce a fourth point or a new idea</div>
+            <div><span style="color:var(--gold)">&#10003;</span> <strong>End memorably</strong> &#8212; the last sentence should be short, weighty, and worth remembering all week</div>
+          </div>
+          <div style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(159,192,255,.15);font-size:.85rem;color:#9fc0ff;">
+            <strong>Structure:</strong> <em>Recap points &#8594; Restate proposition &#8594; Gospel appeal (FCF &#8594; Christ) &#8594; Doxological close</em>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="actions"><button id="refreshDraftBtn">Refresh Draft</button><button class="alt" id="copyDraftBtn">Copy Draft</button></div>
+    <pre id="draftOut">Press “Generate Sermon Framework” to create a working sermon draft.</pre></div></section>
+</div>
+
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./service-worker.js');
+}
+(() => {
+  const fieldIds = ['taPassage','taStructure','taKeyTerms','taGrammar','taContext','taHistory','taGenre','taSynthesis','p_subject','p_theme','p_proposition','p_interrogative','p_keyword','p_transition','obsBox','intBox','corBox','appBox','mp1','mp2','mp3','ptExplain','exegesis1','cross1','application1','illustration1','worship1','exegesis2','cross2','application2','illustration2','worship2','exegesis3','cross3','application3','illustration3','worship3','fcf','christCenter','gospelCall','godRevealed','relResponse','doxology','diagramInput','diagramOut','diagramNotes','diagramStyle','diagramMode','diagramSource','passage','bigIdea','subject','theme','proposition','interrogative','keyword','transition','originalTerm','dec1','dec2','dec3','dec4','dec5','dec6','dec7','dec8','dec9','dec10','introBox','conclusionBox','sermonTitle'];
+  const $ = id => document.getElementById(id);
+  const val = id => ($(id)?.value || '').trim();
+
+// ── Sermon Storage ──
+  const SERMON_LIST_KEY = 'sermonList';
+  let currentSermonId = null;
+
+  function getSermonList() {
+    try { return JSON.parse(localStorage.getItem(SERMON_LIST_KEY)) || []; } catch { return []; }
+  }
+  function saveSermonList(list) {
+    localStorage.setItem(SERMON_LIST_KEY, JSON.stringify(list));
+  }
+
+  function saveState() {
+    if (!currentSermonId) return;
+    const data = {};
+    fieldIds.forEach(id => { const el = $(id); if (el) data[id] = el.value; });
+    document.querySelectorAll('input[type="checkbox"]').forEach(c => data[c.id] = c.checked);
+    localStorage.setItem('sermon:' + currentSermonId, JSON.stringify(data));
+    // update metadata
+    const list = getSermonList();
+    const meta = list.find(s => s.id === currentSermonId);
+    if (meta) {
+      meta.name    = $('toolbarSermonName').value.trim() || meta.name;
+      meta.passage = val('passage') || meta.passage;
+      meta.updatedAt = Date.now();
+      saveSermonList(list);
+    }
+  }
+
+  function loadState(id) {
+    const raw = localStorage.getItem('sermon:' + id);
+    if (!raw) return;
+    try {
+      const data = JSON.parse(raw);
+      fieldIds.forEach(id => { if ($(id) && data[id] != null) $(id).value = data[id]; });
+      document.querySelectorAll('input[type="checkbox"]').forEach(c => { if (data[c.id] != null) c.checked = data[c.id]; });
+    } catch {}
+  }
+
+  function clearAll() {
+    fieldIds.forEach(id => { if ($(id)) $(id).value = ''; });
+    document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
+    $('draftOut').textContent = 'Press "Generate Sermon Framework" to create a working sermon draft.';
+    currentSermonId = null;
+    showListScreen();
+  }
+
+  // ── Screen switching ──
+  function showListScreen() {
+    renderSermonList();
+    document.getElementById('sermonListScreen').classList.remove('hidden');
+    document.getElementById('appToolbar').style.display = 'none';
+    document.getElementById('fabBtn').style.display = 'flex';
+    document.querySelector('.wrap').style.display = 'none';
+  }
+
+  function showEditorScreen() {
+    document.getElementById('sermonListScreen').classList.add('hidden');
+    document.getElementById('appToolbar').style.display = 'flex';
+    document.getElementById('fabBtn').style.display = 'none';
+    document.querySelector('.wrap').style.display = 'block';
+  }
+
+  // ── Sermon List ──
+  function renderSermonList() {
+    const list = getSermonList().slice().sort((a, b) => b.updatedAt - a.updatedAt);
+    const slList  = document.getElementById('slList');
+    const slEmpty = document.getElementById('slEmpty');
+    // remove old cards
+    slList.querySelectorAll('.sl-card').forEach(c => c.remove());
+    if (list.length === 0) {
+      slEmpty.style.display = '';
+      return;
+    }
+    slEmpty.style.display = 'none';
+    list.forEach(meta => {
+      const card = document.createElement('div');
+      card.className = 'sl-card';
+      card.dataset.id = meta.id;
+      const date = new Date(meta.updatedAt).toLocaleDateString(undefined, {month:'short', day:'numeric', year:'numeric'});
+      card.innerHTML =
+        '<div class="sl-card-name">' + (meta.name || 'Untitled') + '</div>' +
+        '<div class="sl-card-passage">' + (meta.passage || '') + '</div>' +
+        '<div class="sl-card-date">Last edited ' + date + '</div>';
+      // tap to open
+      card.addEventListener('click', function() { openSermon(meta.id); });
+      // long-press for context menu
+      let pressTimer = null;
+      card.addEventListener('pointerdown', function(e) {
+        pressTimer = setTimeout(function() {
+          showCtxMenu(meta.id, e.clientX, e.clientY);
+        }, 500);
+      });
+      card.addEventListener('pointerup',    function() { clearTimeout(pressTimer); });
+      card.addEventListener('pointerleave', function() { clearTimeout(pressTimer); });
+      slList.appendChild(card);
+    });
+  }
+
+  // ── Open / Create / Delete ──
+  function openSermon(id) {
+    currentSermonId = id;
+    loadState(id);
+    const list = getSermonList();
+    const meta = list.find(s => s.id === id);
+    $('toolbarSermonName').value = meta ? meta.name : '';
+    $('draftOut').textContent = buildDraft();
+    if ($('diagramOut')) $('diagramOut').setAttribute('readonly', 'readonly');
+    if ($('diagramNotes')) $('diagramNotes').setAttribute('readonly', 'readonly');
+    showEditorScreen();
+    activateTab('textual');
+  }
+
+  function createSermon(name, sampleRef) {
+    const id   = 'sermon_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
+    const meta = { id: id, name: name || 'Untitled', passage: sampleRef || '', updatedAt: Date.now() };
+    const list = getSermonList();
+    list.push(meta);
+    saveSermonList(list);
+    currentSermonId = id;
+    // clear fields then load sample
+    fieldIds.forEach(fid => { if ($(fid)) $(fid).value = ''; });
+    document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
+    if (sampleRef) {
+      loadSample();
+      $('passage').value = sampleRef;
+      if ($('taPassage')) $('taPassage').value = sampleRef;
+    }
+    $('toolbarSermonName').value = name || 'Untitled';
+    saveState();
+    document.getElementById('newSermonDialog').classList.add('hidden');
+    showEditorScreen();
+    activateTab('textual');
+  }
+
+  function deleteSermon(id) {
+    const list = getSermonList().filter(s => s.id !== id);
+    saveSermonList(list);
+    localStorage.removeItem('sermon:' + id);
+    if (currentSermonId === id) {
+      currentSermonId = null;
+    }
+    renderSermonList();
+  }
+
+  // ── Context Menu ──
+  let ctxTargetId = null;
+  function showCtxMenu(id, x, y) {
+    ctxTargetId = id;
+    const menu = document.getElementById('ctxMenu');
+    menu.classList.remove('hidden');
+    // keep menu inside viewport
+    const mw = 170, mh = 100;
+    menu.style.left = Math.min(x, window.innerWidth  - mw - 8) + 'px';
+    menu.style.top  = Math.min(y, window.innerHeight - mh - 8) + 'px';
+  }
+  document.addEventListener('click', function(e) {
+    const menu = document.getElementById('ctxMenu');
+    if (!menu.classList.contains('hidden') && !menu.contains(e.target)) {
+      menu.classList.add('hidden');
+      ctxTargetId = null;
+    }
+  });
+  document.getElementById('ctxOpen').addEventListener('click', function() {
+    document.getElementById('ctxMenu').classList.add('hidden');
+    if (ctxTargetId) openSermon(ctxTargetId);
+    ctxTargetId = null;
+  });
+  document.getElementById('ctxDelete').addEventListener('click', function() {
+    document.getElementById('ctxMenu').classList.add('hidden');
+    if (ctxTargetId && confirm('Delete this sermon? This cannot be undone.')) {
+      deleteSermon(ctxTargetId);
+    }
+    ctxTargetId = null;
+  });
+
+  // ── Toolbar ──
+  document.getElementById('toolbarBackBtn').addEventListener('click', function() {
+    saveState();
+    showListScreen();
+  });
+  document.getElementById('toolbarSaveBtn').addEventListener('click', function() {
+    saveState();
+  });
+  document.getElementById('toolbarSermonName').addEventListener('input', function() {
+    saveState();
+  });
+
+  // ── FAB & New Sermon Dialog ──
+  document.getElementById('fabBtn').addEventListener('click', function() {
+    $('nsName').value = '';
+    document.querySelectorAll('#nsChips .ns-chip').forEach(function(c) { c.classList.remove('selected'); });
+    document.querySelector('#nsChips .ns-chip').classList.add('selected'); // default first chip
+    document.getElementById('newSermonDialog').classList.remove('hidden');
+    setTimeout(function() { $('nsName').focus(); }, 60);
+  });
+  document.getElementById('nsCancelBtn').addEventListener('click', function() {
+    document.getElementById('newSermonDialog').classList.add('hidden');
+  });
+  document.querySelectorAll('#nsChips .ns-chip').forEach(function(chip) {
+    chip.addEventListener('click', function() {
+      document.querySelectorAll('#nsChips .ns-chip').forEach(function(c) { c.classList.remove('selected'); });
+      chip.classList.add('selected');
+    });
+  });
+  document.getElementById('nsCreateBtn').addEventListener('click', function() {
+    const name = $('nsName').value.trim();
+    const selectedChip = document.querySelector('#nsChips .ns-chip.selected');
+    const sampleRef = selectedChip ? selectedChip.dataset.ref : '';
+    createSermon(name, sampleRef);
+  });
+
+  // migrate away from old key
+  localStorage.removeItem('sermonPrepToolV9');
+
+  function transliterate(str){
+    const map = {'α':'a','ά':'a','ἀ':'a','ἁ':'a','ὰ':'a','ᾶ':'a','Α':'A','Ά':'A','β':'b','Β':'B','γ':'g','Γ':'G','δ':'d','Δ':'D','ε':'e','έ':'e','Ε':'E','Έ':'E','ζ':'z','Ζ':'Z','η':'e','ή':'e','Η':'E','Ή':'E','θ':'th','Θ':'Th','ι':'i','ί':'i','Ι':'I','Ί':'I','κ':'k','Κ':'K','λ':'l','Λ':'L','μ':'m','Μ':'M','ν':'n','Ν':'N','ξ':'x','Ξ':'X','ο':'o','ό':'o','Ο':'O','Ό':'O','π':'p','Π':'P','ρ':'r','Ρ':'R','σ':'s','ς':'s','Σ':'S','τ':'t','Τ':'T','υ':'u','ύ':'u','Υ':'U','Ύ':'U','φ':'ph','Φ':'Ph','χ':'ch','Χ':'Ch','ψ':'ps','Ψ':'Ps','ω':'o','ώ':'o','Ω':'O','Ώ':'O','א':'ʾ','ב':'b','ג':'g','ד':'d','ה':'h','ו':'w','ז':'z','ח':'ch','ט':'t','י':'y','כ':'k','ך':'k','ל':'l','מ':'m','ם':'m','נ':'n','ן':'n','ס':'s','ע':'ʿ','פ':'p','ף':'p','צ':'ts','ץ':'ts','ק':'q','ר':'r','ש':'sh','ת':'t','ָ':'a','ַ':'a','ֶ':'e','ֵ':'e','ִ':'i','ֹ':'o','ֻ':'u','ּ':'','ְ':'','ֲ':'a','ֱ':'e','ֳ':'o','ׁ':'','ׂ':'','־':'-','׳':'','"':'','“':'','”':''};
+    return Array.from(str || '').map(ch => map[ch] !== undefined ? map[ch] : ch).join('').replace(/\s+/g,' ').trim();
+  }
+  function explainTerm(original, translit){
+    const t = translit.toLowerCase();
+    const glosses = [
+      ['logos','Plain language: “word,” “message,” or what is being said and revealed.'],
+      ['agape','Plain language: self-giving love that seeks another’s good.'],
+      ['charis','Plain language: grace—God’s undeserved favor and generous help.'],
+      ['shalom','Plain language: peace, wholeness, well-being, and restored harmony.'],
+      ['hesed','Plain language: loyal love, covenant mercy, steady faithful kindness.'],
+      ['doxa','Plain language: glory—God’s beauty, worth, and honor.'],
+      ['hamartia','Plain language: sin—missing God’s way and falling short of His holiness.'],
+      ['metanoia','Plain language: repentance—a change of mind and direction that turns back to God.']
+    ];
+    let line = 'Plain language: explain what the word is doing in the verse, not only what the dictionary says.';
+    for (const [k,v] of glosses) { if (t.includes(k)) { line = v; break; } }
+    return `Original term: ${original}\nTransliteration: ${translit}\n${line}`;
+  }
+
+  function suggestAlliteration(seed){
+    const s = (seed || '').toLowerCase();
+    const bank = {
+      devotion:['Prioritize','Prize','Practice'],
+      grace:['Receive','Rest','Respond'],
+      worship:['See','Savor','Submit'],
+      faith:['Trust','Treasure','Testify'],
+      holiness:['Renounce','Renew','Reflect'],
+      prayer:['Pause','Petition','Persevere'],
+      suffering:['Endure','Entrust','Exalt']
+    };
+    for (const [k,v] of Object.entries(bank)) if (s.includes(k)) return {letter:v[0][0], points:v};
+    return {letter:'P', points:['Prioritize','Pursue','Proclaim']};
+  }
+  function detectFCF(text){
+    const lower = (text || '').toLowerCase();
+    const found = [];
+    const patterns = [
+      [/anxious|anxiety|worried|troubled|fear|afraid|panic/,'anxiety and fearful self-reliance'],
+      [/distract|busy|burden|overwhelmed|hurry|rushed/,'distraction and overcrowded priorities'],
+      [/pride|self|boast|control|deserve/,'pride and self-centered control'],
+      [/doubt|unbelief|question|hard heart/,'unbelief and resistance to trust'],
+      [/sin|guilt|shame|unclean/,'guilt, shame, and moral need'],
+      [/suffer|pain|grief|weep|loss/,'suffering, grief, and weakness'],
+      [/serve|work|labor/,'the temptation to replace communion with mere activity'],
+      [/listen|hear|word/,'the need to slow down and receive God\'s word']
+    ];
+    patterns.forEach(([re,label]) => { if(re.test(lower)) found.push(label); });
+    if(!found.length) return {short:'People in a fallen world tend to drift from God’s truth and grace.', expanded:'This passage addresses the human tendency to drift from trusting communion with God into self-direction, misplaced desire, or unbelieving response.'};
+    const uniq = [...new Set(found)];
+    return {short:`This text exposes ${uniq.slice(0,2).join(' and ')}.`, expanded:`In plain language, the passage addresses ${uniq.join(', ')}, and shows why hearers need grace rather than mere effort.`};
+  }
+  function suggestChristMovement(text){
+    const lower = (text || '').toLowerCase();
+    let christ = "This passage should be connected to Christ as the One who fulfills God's purpose, supplies grace for the need exposed in the text, and leads the hearer from explanation to worship.";
+    let gospel = 'The sermon can move from human need, to divine provision in Christ, to a trusting and worshipful response.';
+    if(/listen|word|teaching/.test(lower)) {
+      christ = 'Christ is the living Word who not only speaks truth but also welcomes people into His presence. He is not merely the teacher in the passage; He is the saving center toward whom the passage draws the hearer.';
+      gospel = 'The sermon can move from restless distraction, to the gracious voice of Christ, to a settled life that receives His word with faith and worship.';
+    } else if(/fear|anx|troubled/.test(lower)) {
+      christ = 'Christ meets fearful and anxious people with His presence, His promises, and His finished work. He bears what we cannot carry and gives peace we cannot manufacture.';
+      gospel = 'The sermon can move from troubled self-reliance, to the peace secured by Christ, to confident trust and obedience.';
+    }
+    return {christ,gospel};
+  }
+
+
+  function buildTextualAnalysis(){
+    const structure = val('taStructure');
+    const keyTerms = val('taKeyTerms');
+    const grammar = val('taGrammar');
+    const context = val('taContext');
+    const history = val('taHistory');
+    const genre = val('taGenre');
+    const parts = [];
+    parts.push('TEXTUAL ANALYSIS SYNTHESIS');
+    parts.push('');
+    parts.push('Structural flow: ' + (structure || '[Add structural flow observations.]'));
+    parts.push('Key terms and repeated ideas: ' + (keyTerms || '[Add key terms.]'));
+    parts.push('Grammar and wording: ' + (grammar || '[Add grammatical observations.]'));
+    parts.push('Immediate context: ' + (context || '[Add contextual observations.]'));
+    parts.push('Historical setting: ' + (history || '[Add historical observations.]'));
+    parts.push('Genre and literary shape: ' + (genre || '[Add literary observations.]'));
+    parts.push('');
+    parts.push('DECALOGUE OF HERMENEUTICS INTEGRATION');
+    parts.push('6. Contextually — ' + (context || 'Explain what comes before and after the passage and how the thought develops.'));
+    parts.push('8. Grammatically — ' + (grammar || 'Notice key verbs, repeated words, commands, contrasts, and connecting words.'));
+    parts.push('9. Literally — Read the text in its natural sense, while honoring figures of speech as figures of speech.');
+    parts.push('10. Literarily — ' + (genre || 'Identify the genre and let the genre guide expectations.'));
+    parts.push("5. Objectively — Seek the author's intended meaning rather than a preferred devotional idea.");
+    parts.push('7. Historically — ' + (history || 'Place the text in its real-world setting, customs, and covenant moment.'));
+    parts.push('2. Progressively — Trace how later revelation clarifies earlier revelation.');
+    parts.push('3. Harmoniously — Compare Scripture with Scripture without forcing contradictions.');
+    parts.push("4. Evangelically — Move toward Christ and the gospel as the Bible's redemptive center.");
+    parts.push('1. Reverently — Receive the text with humility, obedience, and worship.');
+    return parts.join('\n');
+  }
+
+  function syncTextualAnalysis(){
+    const synthesis = buildTextualAnalysis();
+    $('taSynthesis').value = synthesis;
+    $('obsBox').value = [
+      'Contextually: ' + (val('taContext') || '[add context notes]'),
+      'Grammatically: ' + (val('taGrammar') || '[add grammar notes]'),
+      'Literally: read the text in its natural sense, explaining any figures of speech simply.',
+      'Literarily: ' + (val('taGenre') || '[add genre notes]')
+    ].join(' ');
+    $('intBox').value = [
+      "Objectively: seek the author's intended meaning.",
+      'Historically: ' + (val('taHistory') || '[add historical notes]')
+    ].join(' ');
+    $('corBox').value = [
+      'Progressively: note how the passage develops across redemptive history.',
+      'Harmoniously: compare with related passages.',
+      'Evangelically: show how the passage moves toward Christ and the gospel.'
+    ].join(' ');
+    $('appBox').value = 'Reverently: receive the truth with humble obedience, repentance, faith, and worship.';
+    const diagramSeed = [val('taPassage'), val('taStructure')].filter(Boolean).join('. ');
+    const prepared = autoGenerateDiagramText(diagramSeed);
+    $('diagramInput').value = prepared;
+    const r = buildStructuralDiagram(prepared, 'lines', $('diagramStyle').value || 'classic');
+    $('diagramOut').value = r.diagram || '[No structural diagram generated yet]';
+    $('diagramNotes').value = r.notes || '[No indentation reasons generated yet]';
+  }
+
+  function autoGenerateDiagramText(raw){
+    let text = String(raw || '').replace(/\s+/g,' ').trim();
+    if(!text) return '';
+    text = text.replace(/([.?!;:])/g, '$1\n');
+    text = text.replace(/\b(But|And|For|Because|So that|Therefore|Then|Which|Who|That|When|Where)\b/g, '\n$1');
+    return text.split(/\n+/).map(s => s.trim()).filter(Boolean).join('\n');
+  }
+  function splitClauses(text, mode){
+    if(mode === 'lines') return (text || '').split(/\n+/).map(s => s.trim()).filter(Boolean);
+    return (text || '')
+      .replace(/([,;:?])/g, '$1\n')
+      .replace(/\b(and|but|for|because|so that|therefore|then|which|who|that)\b/gi, '\n$1')
+      .split(/\n+/).map(s => s.trim()).filter(Boolean);
+  }
+  function classifyClause(clause){
+    const lower = clause.trim().toLowerCase();
+    if(/^(but|however|yet)\b/.test(lower)) return {indent:1,note:'Indented as a contrast or turn in the passage.'};
+    if(/^(for|because|since)\b/.test(lower)) return {indent:2,note:'Indented as a reason or explanation.'};
+    if(/^(so that|therefore|then)\b/.test(lower)) return {indent:2,note:'Indented as a result, purpose, or conclusion.'};
+    if(/^(which|who|whom|whose|where|when|that)\b/.test(lower)) return {indent:2,note:'Indented as a supporting description connected to the previous line.'};
+    if(/^and\b/.test(lower)) return {indent:1,note:'Indented as a continuing action that develops the main thought.'};
+    if(/^"/.test(clause) || /said|answered|asked|replied/.test(lower)) return {indent:1,note:'Indented to show reported speech or dialogue.'};
+    return {indent:0,note:'Placed at the left margin as a main action or major thought.'};
+  }
+  function buildStructuralDiagram(text, mode, style){
+    const clauses = splitClauses(text, mode);
+    if(!clauses.length) return {diagram:'', notes:''};
+    const diagram = [], notes = [];
+    clauses.forEach((clause, i) => {
+      const info = classifyClause(clause);
+      const prefix = style === 'arrows' ? (info.indent === 0 ? '• ' : info.indent === 1 ? '→ ' : '↳ ') : '';
+      const indent = '   '.repeat(info.indent);
+      diagram.push(indent + prefix + clause);
+      notes.push(`${i+1}. ${clause} — ${info.note}`);
+    });
+    return {diagram:diagram.join('\n'), notes:notes.join('\n')};
+  }
+
+  function buildDraft(){
+    const passage = val('passage') || '[Passage]';
+    const subject = val('p_subject') || val('subject') || '[Subject]';
+    const theme = val('p_theme') || val('theme') || '[Theme]';
+    const proposition = val('p_proposition') || val('proposition') || '[Proposition]';
+    const interrogative = val('p_interrogative') || val('interrogative') || 'How';
+    const keyword = val('p_keyword') || val('keyword') || '[Keyword]';
+    const transition = val('p_transition') || val('transition') || '[Transition]';
+    const pt = (n) => {
+      const title   = val('mp'+n)           || `[Main Point ${n}]`;
+      const exeg    = val('exegesis'+n)     || '[Exegesis not yet entered]';
+      const cross   = val('cross'+n)        || '[Cross-reference validation not yet entered]';
+      const appl    = val('application'+n)  || '[Application not yet entered]';
+      const illus   = val('illustration'+n) || '[Illustration not yet entered]';
+      const worship = val('worship'+n)      || '[Call to worship not yet entered]';
+      return `MAIN POINT ${n}: ${title}\n\n  Exegesis\n  ${exeg}\n\n  Cross-Reference Validation\n  ${cross}\n\n  Application\n  ${appl}\n\n  Illustration\n  ${illus}\n\n  Call to Worship\n  ${worship}`;
+    };
+    const sermonTitle = val('sermonTitle') || '[Sermon Title Not Yet Set]';
+    const intro      = val('introBox')      || '[Introduction not yet written]';
+    const conclusion = val('conclusionBox') || '[Conclusion not yet written]';
+
+    return `${sermonTitle}\n${passage}\n\n============================================================\nINTRODUCTION\n============================================================\n${intro}\n\n============================================================\nBIBLICAL — EXEGETICAL FRAMEWORK\n============================================================\nSubject:               ${subject}\nTheme:                 ${theme}\nProposition:           ${proposition}\nInterrogative Adverb:  ${interrogative}\nKeyword:               ${keyword}\nPropositional Transition: ${transition}\n\nSERMON OUTLINE\n1. ${val('mp1') || '[Main Point 1]'}\n2. ${val('mp2') || '[Main Point 2]'}\n3. ${val('mp3') || '[Main Point 3]'}\n\n────────────────────────────────────────────────────────────\nNON-TECHNICAL EXEGETICAL EXPLANATION\n────────────────────────────────────────────────────────────\n${val('ptExplain') || '[Explain the text in plain language here.]'}\n\n============================================================\nSERMON BODY — POINT-BY-POINT DEVELOPMENT\n============================================================\n\n${pt(1)}\n\n────────────────────────────────────────────────────────────\n\n${pt(2)}\n\n────────────────────────────────────────────────────────────\n\n${pt(3)}\n\n============================================================\nCONCLUSION\n============================================================\n${conclusion}\n\n============================================================\nINDUCTIVE BIBLE STUDY\n============================================================\nObservation (Rules 6, 8, 9, 10):\n${val('obsBox') || '[Observation notes]'}\n\nInterpretation (Rules 5, 7):\n${val('intBox') || '[Interpretation notes]'}\n\nCorrelation (Rules 2, 3, 4):\n${val('corBox') || '[Correlation notes]'}\n\nApplication (Rule 1):\n${val('appBox') || '[Application notes]'}\n\n============================================================\nCHRIST-CENTERED — EVANGELICAL\n============================================================\nFallen Condition Focus: ${val('fcf') || '[FCF]'}\nChrist Connection:      ${val('christCenter') || '[Christ connection]'}\nGospel Movement:        ${val('gospelCall') || '[Gospel movement]'}\n\n============================================================\nWORSHIPFUL — RELATIONAL\n============================================================\nGod Revealed:        ${val('godRevealed') || '[God revealed]'}\nRelational Response: ${val('relResponse') || '[Relational response]'}\nDoxological Turn:    ${val('doxology') || '[Doxological turn]'}\n\n============================================================\nTEXTUAL STRUCTURAL DIAGRAM\n============================================================\n${val('diagramOut') || '[Structural diagram not yet generated]'}\n\nIndentation Notes:\n${val('diagramNotes') || '[Indentation notes not yet generated]'}\n\n============================================================\nSUGGESTED SERMON MOVEMENT\n============================================================\n${interrogative} does ${proposition.toLowerCase()}? ${transition}.\nThe sermon can move from explanation to grace to worship: text → Christ → response.`;
+  }
+
+  function loadSample(){
+    // ── Mark 2:1–12 — The Healing of the Paralytic ──
+    $('passage').value = 'Mark 2:1\u201312';
+    $('bigIdea').value = 'Jesus returns to Capernaum and heals a paralyzed man lowered through the roof by four friends. He first forgives the man\u2019s sins, exposing the scribes\u2019 unbelief, then heals him bodily to prove His authority to forgive. The crowd glorifies God.';
+
+    const subject = 'Authority';
+    const theme = 'The forgiving authority of the Son of Man';
+    const proposition = 'Jesus possesses full authority to forgive sins and restore the whole person, body and soul.';
+    const interrogative = 'How';
+    const keyword = 'demonstrations';
+    const transition = 'The text shows three demonstrations that prove Jesus has authority to forgive sins and make people whole.';
+
+    $('subject').value = subject; $('theme').value = theme; $('proposition').value = proposition;
+    $('interrogative').value = interrogative; $('keyword').value = keyword; $('transition').value = transition;
+    $('p_subject').value = subject; $('p_theme').value = theme; $('p_proposition').value = proposition;
+    $('p_interrogative').value = interrogative; $('p_keyword').value = keyword; $('p_transition').value = transition;
+
+    $('obsBox').value = 'Contextually: Jesus has just completed a preaching tour and returns to His base in Capernaum; the crowd presses in, showing His growing reputation. Grammatically: "Son of Man" is the key self-designation; "authority" (exousia) is the hinge word; the scribes "question in their hearts" is contrasted with the crowd who "glorify God." Literally: the roof-opening is a vivid, desperate act of faith. Literarily: this is a pronouncement narrative — a dramatic scene building toward a climactic authoritative declaration.';
+    $('intBox').value = 'Objectively: Mark\u2019s purpose is to demonstrate that Jesus is more than a healer — He is the one who forgives sins, which in Jewish thought only God could do. The scribes\u2019 charge of blasphemy is not irrational; it is only wrong because Jesus actually is God. Historically: Second Temple Judaism held that serious illness could be connected to sin (cf. John 9:2), making the forgiveness-first sequence deeply loaded. Capernaum was a fishing town on the Sea of Galilee, Jesus\u2019 operational center in Galilee (Mark 1:21).';
+    $('corBox').value = 'Progressively: the authority to forgive traces from the Levitical priesthood (Lev 4\u20135) through the prophets (Isa 43:25; 44:22) to the Son of Man figure in Daniel 7:13\u201314, who receives dominion and authority. Mark 2 shows that authority now embodied in Jesus. Harmoniously: Luke 5:17\u201326 and Matthew 9:1\u20138 record the same event; Psalm 103:3 celebrates God who "forgives all your iniquity and heals all your diseases" — both of which Jesus does here in one act. Evangelically: Jesus is the great Physician who heals what sin has broken. His cross is the ultimate basis of His authority to declare the guilty forgiven (Col 2:13\u201314; Heb 10:11\u201314).';
+    $('appBox').value = 'Reverently: hearers should repent of the tendency to seek Jesus only for physical or emotional relief while resisting His lordship over sin. The passage calls for wholehearted trust in Jesus\u2019 authority, receiving both His forgiveness and His command to rise and walk — a life of renewed obedience flowing from grace.';
+
+    $('mp1').value = 'Faith Reaches for Him';
+    $('mp2').value = 'Forgiveness Flows from Him';
+    $('mp3').value = 'Full Restoration Glorifies Him';
+    $('ptExplain').value = 'Four men refuse to let the crowd be an obstacle; they tear open a roof to bring their friend to Jesus. Jesus sees their faith and speaks forgiveness before He speaks healing. The religious leaders\u2019 silent protest gives Jesus the occasion to demonstrate that His word of forgiveness is no empty claim — He commands the paralytic to walk, and the man walks home. The crowd\u2019s response is to glorify God, not merely to marvel at the miracle.';
+
+    $('exegesis1').value = 'The four friends\u2019 persistence — carrying the man, climbing the roof, digging through the mud-and-thatch — is the concrete form of faith in this passage. Jesus sees "their faith" (v. 5), indicating that interceding faith on behalf of another is recognized and honored by Christ.';
+    $('cross1').value = 'Hebrews 11:6 — without faith it is impossible to please God; Romans 10:17 — faith comes through hearing the word of Christ.';
+    $('application1').value = 'Believers should bring the spiritually paralyzed — friends, family, neighbors — to Jesus in persistent, expectant intercession and by creating every opportunity for them to hear His word.';
+    $('illustration1').value = 'A search-and-rescue team does not turn back because the terrain is difficult; they push further in because the person they carry matters. These four men are a picture of gospel-driven, obstacle-refusing love for a friend.';
+    $('worship1').value = 'Lord, give us faith that refuses every obstacle and keeps bringing broken people into Your presence.';
+
+    $('exegesis2').value = 'Jesus addresses the man as "child" (teknon) — a term of warm intimacy — and pronounces sins forgiven before healing the body. This sequence is deliberate: the deeper need is addressed first. The scribes\u2019 accusation that only God forgives sins is correct theology; Mark expects the reader to draw the right conclusion about who Jesus is.';
+    $('cross2').value = 'Isaiah 43:25 — God alone blots out transgressions; Colossians 2:13\u201314 — God forgave all trespasses by canceling the record of debt at the cross.';
+    $('application2').value = 'Preachers and counselors must not reduce the gospel to physical or emotional improvement. The heart\u2019s greatest need is the forgiveness that only Christ gives. Lead people to His word before prescribing effort.';
+    $('illustration2').value = 'A doctor who treats symptoms but never attacks the underlying disease may produce temporary relief but not true healing. Jesus goes to the root — sin — and speaks the word that sets the soul free.';
+    $('worship2').value = 'Son of Man, You have authority on earth to forgive sins. Speak that word over us today, and let us receive it with trembling gratitude.';
+
+    $('exegesis3').value = 'The bodily healing is the visible sign that confirms the invisible forgiveness. Jesus uses the easier-to-see miracle to prove the harder-to-see reality. The man takes up his mat and walks — the mat that had defined his helplessness now testifies to his restoration. The crowd\u2019s response is to glorify God (v. 12).';
+    $('cross3').value = 'John 11:4 — the illness of Lazarus is for the glory of God; Revelation 21:4\u20135 — Christ will make all things new; Romans 8:23 — the redemption of the body awaits the fullness of salvation.';
+    $('application3').value = 'The goal of Christ\u2019s ministry is not spiritual uplift that leaves people unchanged, but whole-person restoration — forgiven, risen, walking — that overflows in the glorification of God. Churches should be communities where transformed lives make God\u2019s power visible.';
+    $('illustration3').value = 'When a prisoner is released, he walks out carrying the very chains that bound him — not to be re-bound, but as a testimony to his freedom. The man carries his mat home: a walking proclamation of what Jesus has done.';
+    $('introBox').value = `INTRODUCTION — HUMOROUS / ATTENTION-GAINING / NEED-CREATING\n\nImagine four guys standing on a stranger’s roof with a pickaxe, a paralyzed friend dangling from ropes, and a house full of people staring up at a hole in the ceiling. This is not a scene from a Mediterranean home-renovation show. Nobody planned this. Nobody got a permit. There was no committee meeting, no risk-assessment form, no “let’s pray about it and circle back.” There was just a man who couldn’t walk, and four friends who refused to take “no vacancy” for an answer.\n\nHere’s the uncomfortable question underneath that scene: What’s actually paralyzing you? Because most of us aren’t lying on a mat — we’re sitting in a pew, or a chair, or in front of a screen — and we look perfectly mobile. We drove here. We made coffee. We checked our phones seventeen times before the sermon started. We are ambulatory human beings. And yet… there is something in most of us that cannot get up and walk when it comes to guilt, or shame, or the creeping suspicion that we have done something — or become something — that cannot be undone.\n\nWe have tried everything. We have exercised it away. We have worked harder, apologized more, promised to do better, deleted the app (twice), and journaled about it in a notebook we later burned. And we are still on the mat. The mat of “I’m not sure I’m forgiven.” The mat of “I’m not sure I’m fixable.” The mat of “I know what the Bible says, but I’m not sure it applies to someone who has done what I’ve done.”\n\nToday, Jesus is in the room. And He’s about to say something to you that is either the most offensive statement a human being ever uttered — or the most liberating words in the history of the world. There is no middle ground. Let’s go to Mark 2.`;
+    $('conclusionBox').value = `CONCLUSION — RECAP OF MAIN POINTS WITH POWERFUL APPEAL\n\nWe have seen three movements in this one scene, and they belong together.\n\nFirst, faith reaches for Him. Four friends refused every obstacle — the crowd, the locked door, the roof, the drop — because the person they loved needed Jesus more than they needed to be comfortable or conventional. That is what love for the spiritually paralyzed looks like. It is not tidy. It is not safe. It tears up roofs.\n\nSecond, forgiveness flows from Him. Jesus looked at a man the world defined by his disability and called him “child.” He addressed the deeper wound before the visible one. He said the words no human being has the authority to say — “Your sins are forgiven” — and He said them as the Son of Man, the one prophesied in Daniel 7 to receive all authority from the Ancient of Days. The scribes were right: only God forgives sins. They simply missed who was standing in front of them.\n\nThird, full restoration glorifies Him. The man picked up his mat and walked out in front of everyone. The mat that had been his identity — the thing that defined him, limited him, made others pity him — was now his testimony. He carried it home. And the crowd’s response was not applause for the man. It was “We never saw anything like this” — glory to God.\n\nHere is the appeal. You may have come in here carrying a mat today. A mat of guilt you cannot shake. A mat of shame you have carried so long it feels like part of your body. A mat of sin that has paralyzed your relationship with God, with others, with yourself. Jesus is not asking you to get up first and then come to Him. He is saying to you — right now, in this room, through this word — “Child… your sins are forgiven.”\n\nThe only question is whether you will believe it.\n\nRise. Take up your mat. And walk.`;
+        $('dec1').value = `The passage demands that hearers resist the temptation to approach Jesus only for physical or circumstantial relief while withholding the heart. The scribes’ silent resistance is a warning: correct theology can coexist with hardened unbelief. The crowd’s doxology (“We never saw anything like this”) is the fitting response — stunned worship that glorifies God for what only He could do. The sermon must move hearers to lay their moral paralysis before Jesus and receive His authority to forgive as the greatest gift ever spoken.`;
+    $('dec2').value = `The authority to forgive sins traces a clear redemptive line: God alone forgives in the Torah (Lev 4–5; Exod 34:6–7); the prophets proclaim His sovereign pardon (Isa 43:25; 44:22; Mic 7:18–19); Daniel 7:13–14 grants the Son of Man dominion and glory from the Ancient of Days; Jesus now stands in Capernaum and does what the entire Old Testament reserved for God alone. Mark 2 is the hinge where the promise becomes the Person.`;
+    $('dec3').value = `Parallel accounts: Matt 9:1–8; Luke 5:17–26. Confirming texts: Ps 103:3 (God forgives iniquity AND heals diseases — both in one act here); Col 2:13–14 (forgiveness grounded in the cross); Heb 10:11–14 (one sacrifice for sins forever); John 5:24 (hearing Jesus’ word and passing from death to life). Balancing tension: physical healing is not guaranteed in this age (2 Cor 12:7–9), but forgiveness through Christ is — the permanent healing points to the permanent pardon.`;
+    $('dec4').value = `Every element points to Christ as Savior and Lord. The paralytic’s helplessness pictures every sinner who cannot rise by self-effort. The four friends model the church bringing people to Jesus. Jesus’ word of forgiveness is the gospel in miniature: undeserved, authoritative, complete. The healing confirms that His word does what it says. The cross is the ultimate ground of every forgiveness He speaks — He would bear the penalty that makes His declaration legally and morally just (Rom 3:25–26).`;
+    $('dec5').value = `Mark’s purpose in this pericope is Christological: to demonstrate that Jesus of Nazareth possesses divine authority to forgive sins — an authority Second Temple Judaism attributed to God alone. The scribes’ charge of blasphemy is not irrational; it is only wrong because their premise (this man is merely human) is false. Mark expects his readers, armed with 1:1 (“the Son of God”), to see what the scribes cannot: the One standing before them is God incarnate, and His word of forgiveness is the word of the Creator-Redeemer.`;
+    $('dec6').value = `Mark 1 establishes Jesus’ authority: over demons (1:27), disease (1:34), leprosy (1:41), and distance (1:45). Mark 2:1–12 opens five consecutive controversy stories (2:1–3:6) escalating in opposition — ending with the Pharisees and Herodians plotting to kill Jesus (3:6). This pericope is the opening salvo: Jesus’ authority to forgive sins is the precise point of conflict. The block shows that His most provocative claim is not miraculous power but divine prerogative over sin.`;
+    $('dec7').value = `Capernaum: a prosperous fishing town on the NW shore of the Sea of Galilee, Jesus’ operational base (Mark 1:21; 2:1). Palestinian homes: flat roofs of mud plaster, straw, and wooden beams — diggable, repairable, and not unusual to access from outside stairs. Scribes: professional interpreters of Torah, guardians of theological orthodoxy, seated in positions of authority. The illness–sin connection: widespread in 2nd Temple Judaism (cf. John 9:2), making Jesus’ forgiveness-first sequence theologically loaded. Son of Man: a messianic title drawn from Dan 7:13–14, freighted with eschatological authority.`;
+    $('dec8').value = `“Your sins are forgiven” (v.5): present passive — the sins are being released by divine action, not merely declared forgivable. “Son of Man” (v.10): Jesus’ self-designation invoking Dan 7; used here with “authority on earth” (exousia). “Rise, take up your bed, and walk” (v.11): triple imperative — command, proof, and new commission. “Immediately” (euthys): Mark’s signature word (41x); here it underscores the instant completeness of Jesus’ word. “Questioning in their hearts”: perfect participle — a settled, ongoing inner posture of resistance, contrasted with the active, embodied faith of the four friends.`;
+    $('dec9').value = `The passage is direct, vivid narrative prose with no allegory or extended metaphor. The roof-opening is a literal act, not a symbol — though it functions as a powerful picture of faith that refuses every obstacle. “Child” (teknon, v.5): a term of warm, intimate address — Jesus speaks to the man as a father to a son, not as a judge to a defendant. “Blasphemy” (v.7): in Jewish law, usurping divine prerogatives — the scribes use the word with legal precision. The mat the man carries home is a literal object that becomes a walking testimony: what once confined him now follows him.`;
+    $('dec10').value = `Pronouncement narrative: a form common in the Synoptic Gospels in which a vivid scene builds toward a climactic authoritative saying of Jesus. The entire episode — the crowd, the roof, the paralytic, the scribes’ objection — exists to create the context for Jesus’ declaration in vv.10–11. Also functions as a controversy/conflict story (the first of five in 2:1–3:6), a sub-genre in which Jesus’ authority is challenged and vindicated. The genre signals: the healing is not the point — the forgiving word is. Preachers should not allow the miracle to overshadow the theological claim.`;
+    $('sermonTitle').value = 'Holes in the Roof';
+    $('worship3').value = 'We never saw anything like this! Lord, make Your church a people whose changed lives constantly declare Your glory to a watching world.';
+
+    $('fcf').value = 'We are paralyzed by guilt, moral failure, and the weight of sin. We are also prone to seek physical or circumstantial relief from Jesus while resisting His authority over our hearts and lives.';
+    $('christCenter').value = 'Jesus is the Son of Man (Dan 7:13\u201314) who has received all authority from the Father. He is the one who does what only God does: forgive sins. His cross is the ultimate ground of every word of forgiveness He speaks. He heals the body as a sign pointing to the soul\u2019s deepest healing, secured at Calvary.';
+    $('gospelCall').value = 'The passage moves from paralysis and helplessness, to the stunning word of forgiveness spoken by Jesus, to the risen, walking testimony of grace. Hearers are invited to bring their guilt and brokenness to Jesus, trust His authority to forgive, and rise into newness of life that glorifies God.';
+
+    $('godRevealed').value = 'God in Christ is tenderly personal ("child"), shockingly authoritative (forgiving sins), and comprehensively restorative (healing body and soul). He is not offended by desperate approaches — torn roofs and lowered mats are welcome in His presence.';
+    $('relResponse').value = 'Come to Jesus burdened and broken. Receive His forgiveness as a word spoken with full authority. Rise and walk in the freedom He gives. Bring others to Him with the same persistent, expectant faith.';
+    $('doxology').value = 'Son of Man, You have authority on earth to forgive sins. We lay our paralysis — of guilt, of fear, of unbelief — before You. Speak Your word. Lift us. Make us walk to the glory of God alone.';
+
+    $('taPassage').value = 'Mark 2:1\u201312';
+    $('taStructure').value = 'The scene moves: (1) Jesus teaching in a crowded house \u2192 (2) four men lower a paralytic through the roof \u2192 (3) Jesus forgives sins, provoking the scribes \u2192 (4) Jesus heals the man to prove His authority \u2192 (5) the man walks out and the crowd glorifies God.';
+    $('taKeyTerms').value = 'authority (exousia), Son of Man, forgiven, paralytic, faith, blasphemy, rise (egeire), glorify';
+    $('taGrammar').value = 'Jesus\u2019 declaration "your sins are forgiven" is a present passive — sins are being released by divine action. "Son of Man" invokes Daniel 7. "Rise, take up your mat, and walk" is a triple imperative — command, evidence, and mission. The scribes question "in their hearts" in contrast to the open, embodied faith of the four friends.';
+    $('taContext').value = 'Mark 2:1\u201312 opens a series of five controversy stories (2:1\u20133:6) in which Jesus\u2019 authority is progressively challenged and demonstrated. It follows the cleansing of a leper (1:40\u201345). The block ends with the Pharisees plotting to destroy Him (3:6).';
+    $('taHistory').value = 'Capernaum was a prosperous fishing village on the northwest shore of the Sea of Galilee. Palestinian homes of this period had flat roofs of mud, straw, and wooden beams that could be dug through. The scribes\u2019 charge of blasphemy reflects the Jewish conviction that only God forgives sins (Isa 43:25). "Son of Man" in Daniel 7:13\u201314 is a heavenly figure given dominion — a title loaded with messianic significance.';
+    $('taGenre').value = 'Pronouncement narrative (a scene building toward a climactic word of Jesus). Also functions as the first of five controversy/conflict stories in Mark 2\u20133.';
+    $('taSynthesis').value = buildTextualAnalysis();
+
+    $('diagramInput').value = [
+      'And when He returned to Capernaum after some days,',
+      'it was reported that He was at home.',
+      'And many were gathered together,',
+      'so that there was no more room,',
+      'not even at the door.',
+      'And He was preaching the word to them.',
+      'And they came,',
+      'bringing to Him a paralytic',
+      'carried by four men.',
+      'And when they could not get near Him because of the crowd,',
+      'they removed the roof above Him,',
+      'and when they had made an opening,',
+      'they let down the bed on which the paralytic lay.',
+      'And when Jesus saw their faith,',
+      'He said to the paralytic,',
+      '"Child, your sins are forgiven."',
+      'Now some of the scribes were sitting there,',
+      'questioning in their hearts,',
+      '"Why does this man speak like that?',
+      'He is blaspheming!',
+      'Who can forgive sins but God alone?"',
+      'And immediately Jesus,',
+      'perceiving in His spirit that they questioned within themselves,',
+      'said to them,',
+      '"Why do you question these things in your hearts?',
+      'Which is easier, to say to the paralytic, Your sins are forgiven,',
+      'or to say, Rise, take up your bed and walk?',
+      'But that you may know',
+      'that the Son of Man has authority on earth to forgive sins"',
+      'He said to the paralytic,',
+      '"I say to you, rise, pick up your bed, and go home."',
+      'And he rose',
+      'and immediately picked up his bed',
+      'and went out before them all,',
+      'so that they were all amazed',
+      'and glorified God,',
+      'saying, "We never saw anything like this!"'
+    ].join('\n');
+
+    const result = buildStructuralDiagram($('diagramInput').value, 'lines', 'classic');
+    $('diagramOut').value = result.diagram;
+    $('diagramNotes').value = result.notes;
+    $('draftOut').textContent = buildDraft();
+    saveState();
+  }
+
+  function on(id, evt, fn){ const el = $(id); if (el) el.addEventListener(evt, fn); }
+
+    async function pasteIntoDiagram(){
+    const box = $('diagramInput');
+    if(!box) return;
+    try {
+      const text = await navigator.clipboard.readText();
+      if(text && text.trim()) {
+        box.value = text.replace(/\r?\n/g, '\n');
+        box.focus();
+        box.selectionStart = box.selectionEnd = box.value.length;
+        saveState();
+      } else {
+        alert('Your clipboard appears to be empty.');
+      }
+    } catch(e) {
+      box.focus();
+      alert('Clipboard paste was blocked by the browser. Click inside the passage box and use Ctrl+V or Cmd+V.');
+    }
+  }
+
+  document.querySelectorAll('input, textarea, select').forEach(el => {
+    el.addEventListener('input', saveState); el.addEventListener('change', saveState);
+  });
+  on('sampleBtn','click', loadSample);
+  on('generateBtn','click', () => { $('draftOut').textContent = buildDraft(); saveState(); });
+  on('refreshDraftBtn','click', () => { $('draftOut').textContent = buildDraft(); saveState(); });
+//  on('saveBtn','click', saveState); on('clearBtn','click', clearAll);
+  on('translitBtn','click', () => { const tr = transliterate(val('originalTerm')); $('translitOut').value = explainTerm(val('originalTerm'), tr); saveState(); });
+  on('alliterateBtn','click', () => { const s = suggestAlliteration(`${val('keyword')} ${val('subject')} ${val('theme')}`); $('mp1').value ||= s.points[0]; $('mp2').value ||= s.points[1]; $('mp3').value ||= s.points[2]; $('allitExplain').innerHTML = `<strong>Alliteration helper:</strong> suggested letter <strong>${s.letter}</strong>. Keep the points text-driven before making them memorable.`; saveState(); });
+  on('alliterateFromPassageBtn','click', () => { const s = suggestAlliteration(`${val('keyword')} ${val('subject')} ${val('theme')} ${val('bigIdea')} ${val('obsBox')} ${val('intBox')}`); $('mp1').value = `${s.points[0]} the Text`; $('mp2').value = `${s.points[1]} Christ`; $('mp3').value = `${s.points[2]} in Worship`; $('allitExplain').innerHTML = `<strong>Auto-generated alliteration:</strong> the tool selected the letter <strong>${s.letter}</strong> and built three sermon movements that can be refined to fit your passage more tightly.`; saveState(); });
+  on('fcfDetectBtn','click', () => { const r = detectFCF([val('bigIdea'),val('obsBox'),val('intBox'),val('appBox'),val('diagramInput')].join(' ')); $('fcf').value = r.short; $('fcfExplain').innerHTML = `<strong>Detected FCF:</strong> ${r.expanded}`; saveState(); });
+  on('christMoveBtn','click', () => { const r = suggestChristMovement([val('bigIdea'),val('corBox'),val('fcf')].join(' ')); if(!val('christCenter')) $('christCenter').value = r.christ; if(!val('gospelCall')) $('gospelCall').value = r.gospel; $('fcfExplain').innerHTML = '<strong>Christ/Gospel suggestion:</strong> the tool drafted a Christ connection and gospel movement in plain language.'; saveState(); });
+  on('diagramBtn','click', () => { const r = buildStructuralDiagram(val('diagramInput'), $('diagramMode').value, $('diagramStyle').value); $('diagramOut').value = r.diagram || '[No structural diagram generated yet]'; $('diagramNotes').value = r.notes || '[No indentation reasons generated yet]'; saveState(); });
+  on('autoDiagramBtn','click', () => { const sourceId = $('diagramSource').value; const prepared = autoGenerateDiagramText($(sourceId).value || val('bigIdea')); $('diagramInput').value = prepared; const r = buildStructuralDiagram(prepared, 'lines', $('diagramStyle').value); $('diagramOut').value = r.diagram || '[No structural diagram generated yet]'; $('diagramNotes').value = r.notes || '[No indentation reasons generated yet]'; saveState(); });
+  on('sampleDiagramBtn','click', () => { loadSample(); document.querySelector('[data-tab="diagramming"]').click(); $('diagramInput').focus(); });
+  on('pasteDiagramBtn','click', pasteIntoDiagram);
+  on('taBuildBtn','click', () => { $('taSynthesis').value = buildTextualAnalysis(); $('taExplain').innerHTML = '<strong>Textual analysis summary built:</strong> the tool combined your structural, contextual, grammatical, historical, and literary notes with the decalogue of hermeneutics.'; saveState(); });
+  on('taSyncBtn','click', () => { syncTextualAnalysis(); $('taExplain').innerHTML = '<strong>Synced:</strong> the tool sent your textual analysis into the IBS notes and structural diagramming workspace.'; saveState(); });
+  on('copyDraftBtn','click', async () => { try { await navigator.clipboard.writeText($('draftOut').textContent); alert('Draft copied to clipboard.'); } catch { alert('Clipboard access was blocked by the browser.'); } });
+
+  function activateTab(name){
+    document.querySelectorAll('.tab').forEach(t => {
+      const active = t.dataset.tab === name;
+      t.classList.toggle('active', active);
+      t.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    document.querySelectorAll('.tabpane').forEach(p => p.classList.toggle('active', p.id === name));
+    if(name === 'diagramming' && $('diagramInput')) setTimeout(() => $('diagramInput').focus(), 30);
+  }
+
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      activateTab(tab.dataset.tab);
+    });
+    tab.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        activateTab(tab.dataset.tab);
+      }
+    });
+  });
+
+  showListScreen();
+  activateTab('textual');
+  if ($('diagramOut')) $('diagramOut').setAttribute('readonly','readonly');
+  if ($('diagramNotes')) $('diagramNotes').setAttribute('readonly','readonly');
+})();
+</script>
+</body>
+</html>
