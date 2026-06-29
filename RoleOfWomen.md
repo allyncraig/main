@@ -2,6 +2,13 @@
 
 [Projects Page](index.md)
 
+A note to the reader: In the material presented here, I do not claim to be right. What I do claim is that I have gone to great lengths to ensure that what I have written is entirely *Sola Scriptura*. What I ask of you is the following:
+
+1. Please read diligently, and with understanding so that
+2. You may verify if I really have supported all arguments entirely from the Bible - no extra-biblical support can be applied;
+3. That if I have failed to rely entirely on Scripture alone for supporting the reasoning presented here, you may point out to me where in my arguments I have failed, or where in Scripture there is a counter-argument - I will gladly retract all of what I say below if it can be shown that it fails the *Sola Scriptura* litmus test;
+4. But if I have made an entirely *Sola Scriptura* argument, then consider prayerfully what this means for us, as Protestant Christians, who claim to mold our beliefs and practices with the Bible. Do we not claim, in our Fundamental Belief no. 1 that we follow the Bible, the Whole Bible and Nothing but the Bible?
+
 ## Is This a Matter of Sin?
 
 This discussion examines the role of women in the church using a *Sola Scriptura* approach. Too often, arguments on this topic rely on cultural assumptions or extra-biblical reasoning. Instead, this paper seeks to determine what conclusions—if any—can be drawn **solely from Scripture**, particularly from:
@@ -45,7 +52,7 @@ From the text itself, several conclusions follow:
 * Disregard for them carries **church-** and **salvation-level consequences**.
 * Their grounding in creation places them **prior to sin**, not within a cultural moment.
 
-If breaking God’s law constitutes sin (1 John 3:4), and sin leads to death (Rom 6:23), then Scripture itself frames this issue as spiritually significant and affecting eternal salvation!
+If breaking God’s law constitutes sin (1 John 3:4), and sin leads to death (Rom 6:23), then doesn't Scripture itself frame this issue as spiritually significant and affecting eternal salvation?
 
 ---
 
@@ -61,7 +68,7 @@ Notably, no biblical text overturns Paul’s declaration that these instructions
 
 ## What Do These Verses Mean?
 
-The passages do not explicitly mention “pastors” or “elders.” To understand their application, Scripture must interpret Scripture.
+Historically, the Adventist Church (and many other denominations) have interpreted these verses as applying restrictions on women filling the roles of pastor and elder. However, it can be correctly noted that the passages do not explicitly mention “pastors” or “elders.” So, to understand their application, Scripture must interpret Scripture. And in this case, context is key.
 
 The broader context of 1 Corinthians 14 (and indeed chapters 12–14) is **spiritual gifts**, particularly those involving public speaking and authority within the congregation. Any interpretation of verses 33–38 that ignores this context fails the *Sola Scriptura* test (and must, therefore, be incompatible with SDA Fundamental Belief #1).
 
@@ -103,17 +110,18 @@ Scripture repeatedly shows that “small” acts of disobedience carry great con
 * Cain’s improper offering
 * Moses striking the rock
 * Achan’s hidden garment
+* Saul's failure to destroy the Amalekites
 * Adam and Eve’s forbidden fruit
 
 In each case, the issue was not the act itself, but obedience.
 
-Jesus Himself taught that faithfulness in small things reveals faithfulness in great ones.
+Jesus Himself taught that faithfulness in small things reveals faithfulness in great ones.[^5]
 
 ---
 
 ## Conclusion
 
-The question is not whether this command is difficult to obey, but whether obedience matters. Scripture consistently teaches that it does.
+The question is not whether this command is difficult to obey, but whether obedience matters. Scripture consistently teaches that it does.[^6]
 
 If God has clearly spoken, and if His command concerns church order, symbolism, and obedience, then the choice before us mirrors that faced throughout biblical history:
 
@@ -144,3 +152,11 @@ An example of these two meanings can be seen in Mark 5:35 where both forms occur
 The first instance of speak refers to the fact that Jesus was teaching, or preaching to a group of people in public but doesn’t specify what was said. The second refers to a private, personal message being brought directly to the ruler of the synagogue, and includes the speaker’s words.
 
 Not only does the word refer to public speaking/preaching/teaching, but Strong also points out an even stronger meaning: “... the primary meaning of λαλεῖν, to utter oneself, enables us easily to understand its very frequent use in the sacred writers to denote the utterances by which GOD indicates or gives proof of his mind and will, whether immediately or through the instrumentality of his messengers and heralds.”
+
+[^5] The primary passage where Jesus explicitly teaches about faithfulness in small matters is **Luke 16:10**, "Whoever is faithful with very little will also be faithful with much, and whoever is dishonest with very little will also be dishonest with much." This verse appears within the context of the **Parable of the Shrewd Manager** (Luke 16:1–13), where Jesus emphasizes that integrity in managing earthly resources ("unrighteous mammon") demonstrates readiness for spiritual stewardship. 
+
+Jesus reinforces this principle in the **Parable of the Talents** found in **Matthew 25:14–30**, particularly in verses 21 and 23, where the master praises his servants by saying, "Well done, good and faithful servant; you were faithful over a few things, I will make you ruler over many things." Additionally, **Matthew 25:34–40** illustrates this concept through the judgment of the nations, where acts of kindness toward "the least of these" (such as feeding the hungry or visiting the sick) are regarded as service to Christ Himself, highlighting that **small, seemingly insignificant acts carry eternal weight**.
+
+[^6] Scriptural texts emphasize obedience to Jesus and His law primarily as an expression of love and a requirement for abiding in His love.  Key passages include **John 14:15**, where Jesus states, "If you love me, keep my commandments," and **John 14:21**, which declares that "Whoever has my commands and keeps them is the one who loves me." 
+
+Further emphasizing the necessity of obedience, **Luke 6:46** asks, "Why do you call me ‘Lord, Lord,’ and not do what I say?" while **1 John 2:3-5** asserts that "Whoever keeps his word, truly the love of God is perfected in him." Additionally, **Matthew 28:20** commands disciples regarding converts: "teaching them to observe all that I commanded you," reinforcing that **obedience to Christ's instructions is central to the Christian faith**.
