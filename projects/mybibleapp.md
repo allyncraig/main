@@ -16,18 +16,18 @@ This Bible App provides fast access to Scripture with a clean, distraction-free 
 
 ### Mobile App
 
-Download [Android APK](MyBibleApp.apk) - direct install if accessing from an Android device. Current Version: 0.7.65.
+Download [Android APK](downloads/MyBibleApp.apk) - direct install if accessing from an Android device. Current Version: 0.7.65.
 
 <!-- Download [Android DEBUG APK](MyBibleApp-debug.apk) - direct install if accessing from an Android device. -->
 
 ### Progressive Web App
 
-<a class="action-link" href="./pwa/" target="_blank" rel="noopener">PWA</a> : Progressive Web App - Installable in supported browsers
+<a class="action-link" href="./pwa/MyBibleApp/" target="_blank" rel="noopener">PWA</a> : Progressive Web App - Installable in supported browsers
 
 To install a Progressive Web App (PWA) on an iOS device, you must use the Safari browser, as iOS only supports PWA installation through Safari. The process is straightforward and involves the following steps:
 
 - Open the Safari browser on your iPhone or iPad.
-- Navigate to the <a class="action-link" href="./pwa/" target="_blank" rel="noopener">PWA Website</a>.
+- Navigate to the <a class="action-link" href="./pwa/MyBibleApp/" target="_blank" rel="noopener">PWA Website</a>.
 - Tap the share icon (a square with an upward arrow) located at the bottom of the screen.
 - From the share menu, select "Add to Home Screen".
   - Optionally, you can rename the app shortcut to a preferred name before adding it.
