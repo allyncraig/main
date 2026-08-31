@@ -2,12 +2,13 @@
 
 [Projects Page](index.md)
 
-A note to the reader: In the material presented here, I do not claim to be right. What I do claim is that I have gone to great lengths to ensure that what I have written is entirely *Sola Scriptura*. What I ask of you is the following:
+A note to the reader: In the material presented here, I do not claim to be right. What I do claim is that I have gone to great lengths to ensure that what I have written is entirely *Sola Scriptura*.
 
-1. Please read diligently, and with understanding so that
-2. You may verify if I really have supported all arguments entirely from the Bible - no extra-biblical support can be applied;
-3. That if I have failed to rely entirely on Scripture alone for supporting the reasoning presented here, you may point out to me where in my arguments I have failed, or where in Scripture there is a counter-argument - I will gladly retract all of what I say below if it can be shown that it fails the *Sola Scriptura* litmus test;
-4. But if I have made an entirely *Sola Scriptura* argument, then consider prayerfully what this means for us, as Protestant Christians, who claim to mold our beliefs and practices with the Bible. Do we not claim, in our Fundamental Belief no. 1 that we follow the Bible, the Whole Bible and Nothing but the Bible?
+What I ask of you is the following:
+
+1. Is what I present below truly *Sola Scriptura*? If you find that (a) I used non-biblical arguments; or (b) that I did not rely on all relevant biblical texts, then please point these out to me. I will gladly update what I have written to ensure strict *Sola Scriptura* compliance.
+2. If you disagree with what I have written, and wish to provide counter-arguments, please review your arguments to ensure that they are entirely *Sola Scriptura* - do they reference "The Bible, The whole Bible and nothing but the Bible"? If your disagreement is based on non-scriptural evidence, then I respectfully request that you re-examine what you believe. In the topic discussed below, I have run into far too many arguments that are not scriptural. But aren't such arguments irrelevant in the face of plain scripture?
+3. On the other hand: if I have made an entirely *Sola Scriptura* argument, then consider prayerfully what this means for us, as Protestant Christians, who claim to mold our beliefs and practices with the Bible. Do we not claim, in our Fundamental Belief no. 1 that we follow the Bible, the Whole Bible and Nothing but the Bible? If so, then how should we respond?
 
 ## Is This a Matter of Sin?
 
