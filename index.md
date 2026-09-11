@@ -13,7 +13,7 @@
 - Multiplication Practice Tool : For practicing simple multiplication facts
 - FlashCards app
 
-## **Songs **
+## **Songs**
 
 - [Suno-generated Songs](songs/index.md)
 
