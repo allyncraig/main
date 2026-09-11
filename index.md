@@ -13,6 +13,10 @@
 - Multiplication Practice Tool : For practicing simple multiplication facts
 - FlashCards app
 
+## **Songs **
+
+- [Suno-generated Songs](songs/index.md)
+
 ## **Documents**
 
 - Notes regarding [The Role of Women in the Church](RoleOfWomen.md) and 1 Cor 14:34,35
