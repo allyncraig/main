@@ -33,9 +33,13 @@ These questions must be addressed carefully and biblically.
 
 Scripture teaches that *“the wages of sin is death”* (Rom 6:23), and that *“sin is the transgression of the law”* (1 John 3:4). If disobedience to God’s law results in sin, then determining whether these passages constitute “law” is critical.
 
-If you only read verses 34 and 35 of 1 Corinthians chapter 14, then you will miss important context for these verses.
+If you only read verses 34 and 35 of 1 Corinthians chapter 14, then you will miss important context for these verses. Let's get a bigger context:
 
-But when reading the full context, 1 Corinthians 14:33-38, we find that Paul explicitly grounds his instruction in “the Law.” The surrounding context strengthens this claim:
+> “33 ... As in all the churches of the saints, 34 the women should keep silent in the churches. For they are not permitted to speak, but should be in submission, just as the Law also says. 35 If there is anything they desire to learn, let them ask their husbands at home. For it is shameful for a woman to speak in church. 36 Or was it from you that the word of God came? Or are you the only ones it has reached? 37 If anyone thinks that he is a prophet, or spiritual, he should recognize that the things I am writing to you are a commandment of the Lord. 38 If anyone ignores this, he is to be ignored.”
+
+> “11 Let a woman learn quietly with all submissiveness. 12 I do not permit a woman to teach or to exercise authority over a man; rather, she is to remain quiet. 13 For Adam was formed first, then Eve;”
+
+Notice when reading the full context, we find that Paul explicitly grounds his instruction in “the Law.” The surrounding context strengthens this claim:
 
 > *“As in all the churches of the saints…”* (v. 33)  
 > *“just as the law also says.”* (v. 34)  
@@ -69,7 +73,7 @@ Notably, no biblical text overturns Paul’s declaration that these instructions
 
 ## What Do These Verses Mean?
 
-Historically, the Adventist Church (and many other denominations) have interpreted these verses as applying restrictions on women filling the roles of pastor and elder. However, it can be correctly noted that the passages do not explicitly mention “pastors” or “elders.” So, to understand their application, Scripture must interpret Scripture. And in this case, context is key.
+Historically, the Adventist Church (and many other denominations) have interpreted these verses as applying restrictions on women filling the roles of pastor and elder. However, it can be correctly noted that the passages do not explicitly mention “pastors” or “elders.” So, to understand their application, Scripture must interpret Scripture. And again, context is key.
 
 The broader context of 1 Corinthians 14 (and indeed chapters 12–14) is **spiritual gifts**, particularly those involving public speaking and authority within the congregation. Any interpretation of verses 33–38 that ignores this context fails the *Sola Scriptura* test (and must, therefore, be incompatible with SDA Fundamental Belief #1).
 
@@ -78,9 +82,9 @@ Two specific restrictions appear:
 1. **Speaking** (1 Cor 14:34)
 2. **Teaching and exercising authority** (1 Tim 2:12)
 
-The Greek term translated here as “speak” consistently refers to **public proclamation or preaching**, not casual conversation.[^4] Within a chapter devoted to regulating the use of *Spiritual Gifts* in *public worship*, the most reasonable conclusion is that Paul is restricting **authoritative, public speaking Spiritual Gift roles**.
+The Greek term translated here as “speak” consistently refers to **public proclamation or preaching**, not casual conversation.[^4] Within a chapter devoted to regulating the use of *Spiritual Gifts* in *public worship*, the most reasonable conclusion is that **authoritative, public speaking Spiritual Gift roles** are affected.
 
-Pastors and elders, as described in Ephesians 4:11 and Romans 12:8, are spiritual gifts roles associated with preaching and authority. Therefore, restricting these roles to men aligns naturally with Paul’s instructions. No alternative modern practice satisfies all the biblical constraints simultaneously.
+Pastors and elders, as described in Ephesians 4:11 and Romans 12:8, are spiritual gifts roles associated with preaching and authority. Therefore, restricting these roles to men aligns naturally with Paul’s instructions. Please note: **No alternative modern practice satisfies all the biblical constraints simultaneously.**
 
 ---
 
@@ -90,7 +94,7 @@ If pastoral and elder roles are spiritual gifts involving preaching and authorit
 
 By biblical definition, disobedience to God’s law is sin.
 
-**Could we not, therefore, reasonably conclude that allowing women to be pastors and elders is a sin?**
+**Could we not, therefore, conclude that allowing women to be pastors and elders is a sin?**
 
 ---
 
@@ -114,7 +118,7 @@ Scripture repeatedly shows that “small” acts of disobedience carry great con
 * Saul's failure to destroy the Amalekites
 * Adam and Eve’s forbidden fruit
 
-In each case, the issue was not the act itself, but obedience.
+None of these actions were violations of the Ten Commandments. Yet, in each case, the issue was not the act itself, but obeying God's instructions.
 
 Jesus Himself taught that faithfulness in small things reveals faithfulness in great ones.[^5]
 
@@ -138,8 +142,7 @@ According to Scripture, the stakes are not small.
 > 34 *Let the women keep silent in the churches, for they are not permitted to speak, but must be in submission, just as the Law also says.* 35 *If they want to learn anything, let them ask their own husbands at home, for it is shameful for a woman to speak in church.* (1 Cor 14:34,35)
 
 [^2] Full Quote:  
-> *11 A woman should learn in quietness and full submission. 12 I do not permit a woman to teach or to assume authority over a man; she must be quiet, 13 **because Adam was created first, then Eve**.* (1 Tim 2:11-13)
-
+> *11 A woman should learn in quietness and full submission. 12 I do not permit a woman to teach or to assume authority over a man; she must be quiet, 13 because Adam was created first, then Eve.* (1 Tim 2:11-13)
 
 [^3] Full Quote (with emphasis added):  
 > 33 *For God is not a God of confusion but of peace, **as in all the churches of the saints**.* 34 *Let the women keep silent in the churches, for they are not permitted to speak, but must be in submission, **just as the Law also says**.* 35 *If they want to learn anything, let them ask their own husbands at home, for it is shameful for a woman to speak in church.* 36 *Or was it from you that the word of God came? Or are you the only ones it has reached?* 37 *If anyone thinks that he is a prophet or spiritual, let him recognize that **the things I am writing to you are a commandment of the Lord**.* 38 *But **if anyone ignores this, he is to be ignored**.* (1 Cor 14:33-38)
@@ -152,7 +155,7 @@ An example of these two meanings can be seen in Mark 5:35 where both forms occur
 
 The first instance of speak refers to the fact that Jesus was teaching, or preaching to a group of people in public but doesn’t specify what was said. The second refers to a private, personal message being brought directly to the ruler of the synagogue, and includes the speaker’s words.
 
-Not only does the word refer to public speaking/preaching/teaching, but Strong also points out an even stronger meaning: “... the primary meaning of λαλεῖν, to utter oneself, enables us easily to understand its very frequent use in the sacred writers to denote the utterances by which GOD indicates or gives proof of his mind and will, whether immediately or through the instrumentality of his messengers and heralds.”
+Not only does *λαλεῖν* refer to public speaking/preaching/teaching, but Strong also points out an even stronger meaning: “... the primary meaning of λαλεῖν, to utter oneself, enables us easily to understand its very frequent use in the sacred writers to denote the utterances by which GOD indicates or gives proof of his mind and will, whether immediately or through the instrumentality of his messengers and heralds.”
 
 [^5] The primary passage where Jesus explicitly teaches about faithfulness in small matters is **Luke 16:10**, "Whoever is faithful with very little will also be faithful with much, and whoever is dishonest with very little will also be dishonest with much." This verse appears within the context of the **Parable of the Shrewd Manager** (Luke 16:1–13), where Jesus emphasizes that integrity in managing earthly resources ("unrighteous mammon") demonstrates readiness for spiritual stewardship. 
 
